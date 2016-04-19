@@ -197,7 +197,7 @@ int Loader::load(Game*& game, const std::string filename)
       /*Check for valid field*/
       Field *fptr = 0;
       //Check ob das Feld die richtige größe hat
-      for(int i = 0; i < field_height; i++)
+      for(int i = 0; i < field_height-1; i++)
       {
         Row = loaded_board_.at(i);
         //std::cout << Row.size() << std::endl;
@@ -219,7 +219,7 @@ int Loader::load(Game*& game, const std::string filename)
           std::cout << "db: ERR invalid field" << std::endl;
         }
       }
-      for(int k = 1; k < field_height-1; k++)
+      for(int k = 1; k < field_height-2; k++)
       {
         Row = loaded_board_.at(k);
         fptr = Row.front();
@@ -234,13 +234,14 @@ int Loader::load(Game*& game, const std::string filename)
           break;
         }
       }
-      Row = loaded_board_.at(field_height-1);
-      for(int k = 0; k < field_length; k++)
+      //std::cout << "db: size of loaded board: " << loaded_board_.size() << std::endl;
+      Row = loaded_board_.at(field_height-2);
+      for(int k = 0; k <= field_length; k++)
       {
         fptr = Row.at(k);
         if(fptr->getFieldSymbol() != "#")
         {
-          std::cout << "db: ERR invalid field1  " << field_height <<std::endl;
+          std::cout << "db: ERR invalid field 1  " << field_height <<std::endl;
           break;
         }
       }
