@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Filehandler.hpp
+// Filehandler.h
 //
 // Group: Group 13717, study assistant Pascal Nasahl
 //
@@ -23,9 +23,13 @@ class Filehandler
   private:
     Filehandler(const Filehandler &);
   
+  protected:
+    std::string filename_;
+    
+    
   public:
-    Filehandler();
-    const bool filenameIsValid(const std::string FILENAME) const;
+    Filehandler(std::string filename);
+    const bool filenameIsValid() const;
     
 };
 

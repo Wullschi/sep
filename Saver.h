@@ -17,7 +17,7 @@
 #include "Filehandler.h"
 
 class Game;
-class Saver : public Filehandler
+class Saver: public Filehandler
 {
   
   private:
@@ -27,8 +27,10 @@ class Saver : public Filehandler
     Saver(const Saver &);
   
   public:
-    Saver();
-    int save(const Game& CURRENT_GAME, const std::string FILENAME);
+    Saver(const std::string filename);
+    ~Saver();
+    
+    int save(const Game& current_game);
     static void enableAutosave(std::string filename);
     static bool isAutosaveActive();
     static std::vector<std::string> getAutosaveParams();

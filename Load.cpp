@@ -33,9 +33,16 @@ int Load::execute(Game*& board, std::vector<std::string>& params)
     return 1;
   }
   
-  Game* new_board;
-  Loader gameloader;
-  int load_error = gameloader.load(new_board, params.front());
+  Game* new_board = 0;
+  Loader gameloader(params.front());
+  
+  if (!gameloader.filenameIsValid())
+  {
+    std::cout << "Wrong parameter.\n" << std::endl;
+    return 2;
+  }
+  
+  int load_error = gameloader.load(new_board);
   
   if (!load_error)
   {

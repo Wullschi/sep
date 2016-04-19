@@ -32,14 +32,21 @@ int Save::execute(Game*& board, std::vector<std::string>& params)
     return 1;
   }
   
+  Saver gamesaver(params.front());
+  
+  if (!gamesaver.filenameIsValid())
+  {
+    std::cout << "Wrong parameter.\n" << std::endl;
+    return 2;
+  }
+  
   if (!board)
   {
     std::cout << "No maze loaded.\n" << std::endl;
     return 3;
   }
   
-  Saver gamesaver;
-  int save_error = gamesaver.save(*board, params.front());
+  int save_error = gamesaver.save(*board);
   
   return save_error;
   

@@ -7,16 +7,11 @@
 //
 
 
-#ifndef LOADER_HPP
-#define LOADER_HPP
+#ifndef LOADER_H_INCLUDED
+#define LOADER_H_INCLUDED
 
 
 #include <iostream>
-#include <fstream>
-#include <vector>
-#include <sstream>
-#include <iostream>
-#include <string>
 #include <fstream>
 #include <vector>
 #include <sstream>
@@ -26,30 +21,20 @@
 
 
 class Field;
-class Bonus;
-class Teleport;
-class Ice;
-class Wall;
-class Path;
-class Oneway;
-class Start;
-class Finish;
 class Game;
-class Field;
-class Coordinates;
-class Loader
+class Loader : public Filehandler
 {
   
-private:
-  std::vector< std::vector< Field* > > loaded_board_;
-  
-public:
-  Loader();
-  ~Loader();
-  
-  int load(Game*& game, const std::string filename);
-  
-  
+  private:
+    std::vector< std::vector< Field* > > loaded_board_;
+    
+  public:
+    Loader(const std::string filename);
+    ~Loader();
+    
+    int load(Game*& game);
+    
+    
 };
 
 #endif

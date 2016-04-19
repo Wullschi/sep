@@ -21,18 +21,24 @@
 bool Saver::autosave_enabled_ = false;
 std::string Saver::autosave_filename_ = "";
 
-Saver::Saver()
+Saver::Saver(const std::string filename) : Filehandler(filename)
 {
   
 }
 
 
-int Saver::save(const Game& CURRENT_GAME, const std::string FILENAME)
+Saver::~Saver()
+{
+  
+}
+
+
+int Saver::save(const Game& current_game)
 {
   
   
   
-  const char* SAVEFILE = FILENAME.c_str();
+  const char* SAVEFILE = filename_.c_str();
   
   std::ofstream file(SAVEFILE);
   if (!file.is_open())
@@ -42,10 +48,10 @@ int Saver::save(const Game& CURRENT_GAME, const std::string FILENAME)
   else
   {
     
-    file << CURRENT_GAME.getFinishedTurns() << "\n";
-    file << CURRENT_GAME.getMaxTurns() << "\n";
+    file << current_game.getFinishedTurns() << "\n";
+    file << current_game.getMaxTurns() << "\n";
     
-    const std::vector<std::vector<Field*> > board = CURRENT_GAME.getBoard();
+    const std::vector<std::vector<Field*> > board = current_game.getBoard();
     
     for (unsigned int y = 0; y < board.size(); y++)
     {
@@ -54,10 +60,8 @@ int Saver::save(const Game& CURRENT_GAME, const std::string FILENAME)
         
         file << board[y][x]->getFieldSymbol();
       }
-      if(y != board.size() - 1)
-      {
-        file << "\n";
-      }
+
+      file << "\n";
     }
     
     

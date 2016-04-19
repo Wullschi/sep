@@ -20,7 +20,7 @@
 #include "Finish.h"
 #include "Game.h"
 
-Loader::Loader()
+Loader::Loader(const std::string filename) : Filehandler(filename)
 {
   
 }
@@ -32,9 +32,9 @@ Loader::~Loader()
 
 
 /*Loading function*/
-int Loader::load(Game*& game, const std::string filename)
+int Loader::load(Game*& game)
 {
-  const char* LOADFILE = filename.c_str();
+  const char* LOADFILE = filename_.c_str();
   Coordinates* start_point = 0;
   /*Initialisierungen*/
   std::ifstream cur_file;
@@ -78,7 +78,9 @@ int Loader::load(Game*& game, const std::string filename)
     //   return 1
     // }
     
-    total_turns = std::stoi(total_turns_string);
+    std::stringstream total_turns_stream;
+    total_turns_stream.str(total_turns_string);
+    total_turns_stream >> total_turns;
     checking_board = true;
     
     // WENN FASTMOVE STRING UND TOTAL_TURNS_STRING VALIDVALID, DANN FELD EINLESEN
@@ -281,7 +283,7 @@ int Loader::load(Game*& game, const std::string filename)
     }
   }else
   {
-    std::cout << "db: can't find "<< filename << std::endl;
+    std::cout << "db: can't find "<< filename_ << std::endl;
     return 4;
   }
   
