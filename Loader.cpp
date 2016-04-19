@@ -49,6 +49,12 @@ int Loader::load(Game*& game, const std::string filename)
   bool field_length_switch = false;
   cur_file.open(LOADFILE);
   std::vector<char> teleportList;
+  
+  std::string turns_string = "";
+  std::string total_turns_string = "";
+
+  unsigned int total_turns = 10;
+  
   if(cur_file.is_open())
   {
     //std::cout << "db: opened loadfile" << std::endl;
@@ -177,6 +183,17 @@ int Loader::load(Game*& game, const std::string filename)
           j = 0;
           Row.push_back(new Wall(i,j));
           checking_board = true;
+        }else
+        {
+          
+          getline(cur_file, total_turns_string);
+          std::stringstream total_turns_sstream;
+          total_turns_sstream << cur_char << total_turns_string;
+          total_turns_sstream >> total_turns;
+          /*Fastmove Code here*/
+          getline(cur_file, turns_string);
+          std::cout << "db: total_turns: " << total_turns << std::endl;
+          //game = new Game(loaded_board, turns_string, total_turns);
         }
       }
       
@@ -274,7 +291,7 @@ int Loader::load(Game*& game, const std::string filename)
     return 4;
   }
   
-  game = new Game(loaded_board_, "", 10, start_point);
+  game = new Game(loaded_board_, "", total_turns, start_point);
   
   return 0;
 }
