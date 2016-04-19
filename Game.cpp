@@ -83,7 +83,7 @@ int Game::singleMove(Coordinates& tmp_pos, Coordinates& go_to,
 {
   int enter_code = 0;
   bool turn_is_over = false;
-  if((finished_ == true) || (remaining_turns_ <= 0))
+  if((finished_ == true ) || (remaining_turns_ <= 0))
   {
     std::cout << "invalid move" << std::endl;
     return -1; //invalid move
@@ -192,7 +192,6 @@ int Game::fastMove(string all_moves_str)
   Coordinates tmp_pos = *pos_now_;
   Coordinates go_to = tmp_pos;
   string go_to_str;
-  
   do
   {
     bonus = 0;
