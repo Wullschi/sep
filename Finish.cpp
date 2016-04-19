@@ -16,7 +16,7 @@
 Finish::Finish(int x, int y) : Field(x, y)
 {
   field_symbol_ = "x";
-  can_leave_to_ = "";
+  can_leave_to_ = "lrud";
 }
 
 Finish::~Finish()

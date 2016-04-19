@@ -49,6 +49,13 @@ int Loader::load(Game*& game, const std::string filename)
   bool field_length_switch = false;
   cur_file.open(LOADFILE);
   std::vector<char> teleportList;
+  
+  std::string turns_string = "";
+  std::string total_turns_string = "";
+  std::string fastmove_string = "";
+
+  unsigned int total_turns = 0;
+  
   if(cur_file.is_open())
   {
     //std::cout << "db: opened loadfile" << std::endl;
@@ -57,9 +64,26 @@ int Loader::load(Game*& game, const std::string filename)
     int i = 0;
     int j = 0;
     
+    getline(cur_file, fastmove_string);
+    // TODO CHECK VALIDITY OF FASTMOVE STRING
+    // if( fasmovestring is not  valid)
+    // {
+    //   return 1
+    // }
+    
+    getline(cur_file, total_turns_string);
+    //TODO MAKE SURE IT IS A VALID NUMBER
+    // if( total_turns_string is not a number)
+    // {
+    //   return 1
+    // }
+    
+    total_turns = std::stoi(total_turns_string);
+    checking_board = true;
+    
+    // WENN FASTMOVE STRING UND TOTAL_TURNS_STRING VALIDVALID, DANN FELD EINLESEN
     while(!cur_file.eof())
     {
-      //cur_char = '\t';
       cur_file.get(cur_char);
       
       if(cur_file.eof())
@@ -167,19 +191,6 @@ int Loader::load(Game*& game, const std::string filename)
         }
         i++; //counter horizontal.
       }
-      else
-      /*Noch nicht im Feld, Schritte und bisheriger Pfad*/
-      {
-        /* Bisheriger Pfad + mögliche schritte hierher */
-        if(cur_char == '#')
-        {
-          i = 0;
-          j = 0;
-          Row.push_back(new Wall(i,j));
-          checking_board = true;
-        }
-      }
-      
     }
     if(cur_file.eof())
     {
@@ -197,12 +208,12 @@ int Loader::load(Game*& game, const std::string filename)
       /*Check for valid field*/
       Field *fptr = 0;
       //Check ob das Feld die richtige größe hat
-      for(int i = 0; i < field_height; i++)
+      for(int i = 0; i < field_height-1; i++)
       {
         Row = loaded_board_.at(i);
         //std::cout << Row.size() << std::endl;
         //std::cout << fptr->getFieldSymbol() << std::endl;
-        if( Row.size() != field_length+1)
+        if( Row.size() != field_length)
         {
           std::cout << "db: illigeal input. Field is to short or long." << std::endl;
           //exception hierher
@@ -211,36 +222,37 @@ int Loader::load(Game*& game, const std::string filename)
       }
       /*Check ob alle Symbole gültig sind*/
       Row = loaded_board_.at(0);
-      for(int k = 0; k <= field_length; k++)
+      for(int k = 0; k < field_length; k++)
       {
         fptr = Row.at(k);
         if(fptr->getFieldSymbol() != "#")
         {
-          std::cout << "db: ERR invalid field" << std::endl;
+          std::cout << "db: ERR invalid field 1" << std::endl;
         }
       }
-      for(int k = 1; k < field_height-1; k++)
+      for(int k = 1; k < field_height-2; k++)
       {
         Row = loaded_board_.at(k);
         fptr = Row.front();
         if(fptr->getFieldSymbol() != "#")
         {
-          std::cout << "db: ERR invalid field" << std::endl;
+          std::cout << "db: ERR invalid field 2" << std::endl;
         }
         fptr = Row.back();
         if(fptr->getFieldSymbol() != "#")
         {
-          std::cout << "db: ERR invalid field" << std::endl;
+          std::cout << "db: ERR invalid field 3" << std::endl;
           break;
         }
       }
+      //std::cout << "db: size of loaded board: " << loaded_board_.size() << std::endl;
       Row = loaded_board_.at(field_height-1);
       for(int k = 0; k < field_length; k++)
       {
         fptr = Row.at(k);
         if(fptr->getFieldSymbol() != "#")
         {
-          std::cout << "db: ERR invalid field1  " << field_height <<std::endl;
+          std::cout << "db: ERR invalid field 4" << field_height <<std::endl;
           break;
         }
       }
@@ -273,7 +285,7 @@ int Loader::load(Game*& game, const std::string filename)
     return 4;
   }
   
-  game = new Game(loaded_board_, "", 10, start_point);
+  game = new Game(loaded_board_, "", total_turns, start_point);
   
   return 0;
 }

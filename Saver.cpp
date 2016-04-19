@@ -54,8 +54,10 @@ int Saver::save(const Game& CURRENT_GAME, const std::string FILENAME)
         
         file << board[y][x]->getFieldSymbol();
       }
-
-      file << "\n";
+      if(y != board.size() - 1)
+      {
+        file << "\n";
+      }
     }
     
     
