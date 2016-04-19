@@ -1,6 +1,6 @@
 //------------------------------------------------------------------------------
-// Filename: Load.cpp
-// Description: Class representing a general command
+// Filename: Reset.cpp
+// Description: Class representing a Reset command
 // Authors: Tutors
 // Tutor: Tutors
 // Group: ??
@@ -8,47 +8,47 @@
 // Last change: 02.09.2011
 //------------------------------------------------------------------------------
 
-#include "Load.h"
+#include "Reset.h"
+
 #include "Game.h"
-#include "Loader.h"
+#include "Saver.h"
+#include "Save.h"
+
 
 //------------------------------------------------------------------------------
-Load::Load(std::string name) : Command(name)
+Reset::Reset(std::string name) : Command(name)
 {
 }
 //------------------------------------------------------------------------------
-Load::~Load()
+Reset::~Reset()
 {
 }
 //------------------------------------------------------------------------------
 
-
-int Load::execute(Game*& board, std::vector<std::string>& params)
+int Reset::execute(Game*& board, std::vector<std::string>& params)
 {
   
-  if (params.size() != 1)
+  if (params.size())
   {
     std::cout << "Wrong parameter count.\n" << std::endl;
     return 1;
   }
   
-  Game* new_board;
-  Loader gameloader;
-  int load_error = gameloader.load(new_board, params.front());
+  if (!board)
+  {
+    std::cout << "No maze loaded.\n" << std::endl;
+    return 3;
+  }
   
-  if (!load_error)
+  board->reset();
+  
+  if (Saver::isAutosaveActive())
   {
-    if (board != 0)
-    {
-      delete board;
-    }
-    
-    board = new_board;
-    return 0;
+    std::vector<std::string> autosave_params = Saver::getAutosaveParams();
+    Save autosave("autosave");
+    autosave.execute(board, autosave_params);
   }
-  else
-  {
-    return load_error;
-  }
+  
+  return 0;
   
 }

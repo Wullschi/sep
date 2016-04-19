@@ -1,46 +1,46 @@
 //------------------------------------------------------------------------------
-// Filename: Move.h
-// Description: Class representing a move command
+// Filename: Reset.h
+// Description: Class representing a Reset command
 // Authors: Tutors
 // Tutor: Tutors
 // Group: ??
 // Created: 08.08.2011
 // Last change: 02.09.2011
 //------------------------------------------------------------------------------
-#ifndef MOVE_H_INCLUDED
-#define MOVE_H_INCLUDED
+#ifndef RESET_H
+#define RESET_H
 
 #include "Command.h"
 
 
 class Game;
-class Move : public Command
+class Reset : public Command
 {
   private:
     //--------------------------------------------------------------------------
     // Private copy constructor
-    Move(const Move& original);
+    Reset(const Reset& original);
     //--------------------------------------------------------------------------
     // Private assignment operator
-    Move& operator=(const Move& original);
+    Reset& operator=(const Reset& original);
     //--------------------------------------------------------------------------
     
   public:
-  //--------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
     // Constructor
-    Move(std::string name);
+    Reset(std::string name);
     //--------------------------------------------------------------------------
     // Destructor
-    virtual ~Move();
+    virtual ~Reset();
     //--------------------------------------------------------------------------
+    
     // Executes the command.
     // @param board The board where action should be performed on
     // @param params Possible parameters neede for the execution
     // @return Integer representing the success of the action
     virtual int execute(Game*& board, std::vector<std::string>& params);
     //--------------------------------------------------------------------------
-
+    
 };
 
-  #endif
-  
+#endif

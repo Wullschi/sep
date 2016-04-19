@@ -1,46 +1,46 @@
 //------------------------------------------------------------------------------
-// Filename: Move.h
-// Description: Class representing a move command
+// Filename: Save.h
+// Description: Class representing a Save  command
 // Authors: Tutors
 // Tutor: Tutors
 // Group: ??
 // Created: 08.08.2011
 // Last change: 02.09.2011
 //------------------------------------------------------------------------------
-#ifndef MOVE_H_INCLUDED
-#define MOVE_H_INCLUDED
+#ifndef SAVE_H
+#define SAVE_H
 
 #include "Command.h"
 
 
 class Game;
-class Move : public Command
+class Save : public Command
 {
   private:
     //--------------------------------------------------------------------------
     // Private copy constructor
-    Move(const Move& original);
+    Save(const Save& original);
     //--------------------------------------------------------------------------
     // Private assignment operator
-    Move& operator=(const Move& original);
+    Save& operator=(const Save& original);
     //--------------------------------------------------------------------------
     
   public:
-  //--------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
     // Constructor
-    Move(std::string name);
+    Save(std::string name);
     //--------------------------------------------------------------------------
     // Destructor
-    virtual ~Move();
+    virtual ~Save();
     //--------------------------------------------------------------------------
+    
     // Executes the command.
     // @param board The board where action should be performed on
     // @param params Possible parameters neede for the execution
     // @return Integer representing the success of the action
     virtual int execute(Game*& board, std::vector<std::string>& params);
     //--------------------------------------------------------------------------
-
+    
 };
 
-  #endif
-  
+#endif

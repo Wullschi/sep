@@ -12,7 +12,11 @@
 #include "Game.h"
 #include "Saver.h"
 #include "Load.h"
+#include "Save.h"
 #include "Move.h"
+#include "Fastmove.h"
+#include "Reset.h"
+#include "Show.h"
 
 
 
@@ -21,12 +25,13 @@ using std::cout;
 using std::endl;
 
 const string UserInput::QUIT_MESSAGE_ = "Bye!\n";
-string UserInput::entered_command;
-std::vector<std::string> UserInput::entered_arguments;
 const string UserInput::PROMPT_ = "sep>";
 
+string UserInput::entered_command_ = "";
+std::vector<std::string> UserInput::entered_arguments_;
 
-int UserInput::checkCommandLineOptions(int argc, const char* argv[], Game* current_game)
+
+int UserInput::checkCommandLineOptions(int argc, const char* argv[], Game*& current_game)
 {
   
   if ( (argc == 2) || (argc == 4) || (argc > 5) )
@@ -79,7 +84,7 @@ void UserInput::parseUserInput(std::string user_input)
     {
       if (!end_of_command)
       {
-        entered_command += tolower(user_input[character_position]);
+        entered_command_ += tolower(user_input[character_position]);
       }
       else
       {
@@ -90,7 +95,7 @@ void UserInput::parseUserInput(std::string user_input)
     {
       if (end_of_command)
       {
-        entered_arguments.push_back(argument);
+        entered_arguments_.push_back(argument);
         argument = "";
       }
       else
@@ -105,7 +110,7 @@ void UserInput::parseUserInput(std::string user_input)
   
   if (argument != "")
   {
-    entered_arguments.push_back(argument);
+    entered_arguments_.push_back(argument);
     argument = "";
   }
 
@@ -124,8 +129,8 @@ void UserInput::commandLine(Game*& current_game)
   do
   {
     
-    entered_command = "";
-    entered_arguments.clear();
+    entered_command_ = "";
+    entered_arguments_.clear();
     
     
     std::cout << PROMPT_ << " ";
@@ -133,44 +138,48 @@ void UserInput::commandLine(Game*& current_game)
     
     parseUserInput(user_input);
     
-    if (entered_command == "load")
+    if (entered_command_ == "load")
     {
       Load load("load");
-      load.execute(current_game, entered_arguments);
+      load.execute(current_game, entered_arguments_);
     }
     
-    else if (entered_command == "save")
+    else if (entered_command_ == "save")
     {
-      
+      Save save("save");
+      save.execute(current_game, entered_arguments_);
     }
         
-    else if (entered_command == "move")
+    else if (entered_command_ == "move")
     {
       Move move("move");
-      move.execute(current_game, entered_arguments);
+      move.execute(current_game, entered_arguments_);
     }
     
-    else if (entered_command == "fastmove")
+    else if (entered_command_ == "fastmove")
     {
-      
+      Fastmove fastmove("fastmove");
+      fastmove.execute(current_game, entered_arguments_);
     }
         
-    else if (entered_command == "reset")
+    else if (entered_command_ == "reset")
     {
-      
+      Reset reset("reset");
+      reset.execute(current_game, entered_arguments_);
     }
         
-    else if (entered_command == "show")
+    else if (entered_command_ == "show")
     {
-      
+      Show show("show");
+      show.execute(current_game, entered_arguments_);
     }
         
-    else if (entered_command == "quit")
+    else if (entered_command_ == "quit")
     {
       std::cout << QUIT_MESSAGE_ << std::endl;
     }
     
-    else if (entered_command == "")
+    else if (entered_command_ == "")
     {
       
     }
@@ -180,7 +189,7 @@ void UserInput::commandLine(Game*& current_game)
       cout << "Wrong command!" << endl;
     }
     
-  } while (entered_command != "quit");
+  } while (entered_command_ != "quit");
      
      
       

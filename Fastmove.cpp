@@ -1,35 +1,30 @@
 //------------------------------------------------------------------------------
-// Filename: Move.cpp
-// Description: Class representing a move command
+// Filename: Fastmove.cpp
+// Description: Class representing a Fastmove command
 // Authors: Tutors
 // Tutor: Tutors
 // Group: ??
 // Created: 02.09.2011
 // Last change: 02.09.2011
 //------------------------------------------------------------------------------
-
-
-#include "Move.h"
+#include "Fastmove.h"
 
 #include "Game.h"
 #include "Save.h"
 #include "Saver.h"
 
-
 //------------------------------------------------------------------------------
-Move::Move(std::string name) : Command(name)
+Fastmove::Fastmove(std::string name) : Command(name)
 {
 }
-
 //------------------------------------------------------------------------------
-
-Move::~Move()
+Fastmove::~Fastmove()
 {
 }
-
 //------------------------------------------------------------------------------
 
-int Move::execute(Game*& board, std::vector<std::string>& params)
+
+int Fastmove::execute(Game*& board, std::vector<std::string>& params)
 {
   
   if (params.size() != 1)
@@ -38,20 +33,25 @@ int Move::execute(Game*& board, std::vector<std::string>& params)
     return 1;
   }
   
-  if ( (params.front() != "up") && (params.front() != "down")
-    && (params.front() != "left") && (params.front() != "right") )
+  std::string move_sequence = params.front();
+  char move_character = '\0';
+  for (int character_position = 0; character_position < move_sequence.size(); character_position++)
   {
-    std::cout << "Wrong parameter.\n" << std::endl;
-    return 2;
+    move_character = move_sequence[character_position];
+    if ( (move_character != 'u') && (move_character != 'd') && (move_character != 'l') && (move_character != 'r') )
+    {
+      std::cout << "Wrong parameter.\n" << std::endl;
+      return 2;
+    }
   }
   
   if (board == 0)
   {
-    std::cout << "No maze loaded.\n" << std::endl;
+    std::cout << "No maze oaded.\n" << std::endl;
     return 3;
   }
   
-  int error_code = board->move(params.front());
+  int error_code = board->fastMove(move_sequence);
   
   if ( (!error_code) && (Saver::isAutosaveActive()) )
   {

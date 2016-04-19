@@ -3,8 +3,9 @@
 //
 // Group: Group 13717, study assistant Pascal Nasahl
 //
-// Authors: Christopher Kopel 0730613
-// Benjamin Wullschleger 0773092
+// Authors: <Name> <Matriculum Number>
+// <Name> <Matriculum Number>
+// <Add one row for every additional group member>
 //------------------------------------------------------------------------------
 //
 
@@ -17,8 +18,9 @@
 #include "Field.h"
 
 
-bool Saver::autosave_enabled_;
-std::string Saver::autosave_filename_;
+bool Saver::autosave_enabled_ = false;
+std::string Saver::autosave_filename_ = "";
+
 Saver::Saver()
 {
   
@@ -72,3 +74,14 @@ void Saver::enableAutosave(std::string filename)
   
 }
 
+bool Saver::isAutosaveActive()
+{
+  return Saver::autosave_enabled_;
+}
+
+std::vector<std::string> Saver::getAutosaveParams()
+{
+  std::vector<std::string> autosave_params;
+  autosave_params.push_back(Saver::autosave_filename_);
+  return autosave_params;
+}

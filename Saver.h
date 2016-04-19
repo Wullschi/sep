@@ -3,7 +3,9 @@
 //
 // Group: Group 13717, study assistant Pascal Nasahl
 //
-// Authors: Christopher Kopel 0730613
+// Authors: <Name> <Matriculum Number>
+// <Name> <Matriculum Number>
+// <Add one row for every additional group member>
 //------------------------------------------------------------------------------
 //
 
@@ -28,6 +30,8 @@ class Saver : public Filehandler
     Saver();
     int save(const Game& CURRENT_GAME, const std::string FILENAME);
     static void enableAutosave(std::string filename);
+    static bool isAutosaveActive();
+    static std::vector<std::string> getAutosaveParams();
     
 };
 

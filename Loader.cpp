@@ -35,19 +35,19 @@ Loader::~Loader()
 int Loader::load(Game*& game, const std::string filename)
 {
   const char* LOADFILE = filename.c_str();
-  Coordinates* start_point;
+  Coordinates* start_point = 0;
   /*Initialisierungen*/
   std::ifstream cur_file;
-  char cur_char;
+  char cur_char = '\0';
   bool valid_char;
-  std::string str;
+  std::string str = "";
   bool found_start = false;
   bool found_end = false;
   bool checking_board = false;
   int field_length = 0;
   int field_height = 0;
   bool field_length_switch = false;
-  cur_file.open(filename);
+  cur_file.open(LOADFILE);
   std::vector<char> teleportList;
   if(cur_file.is_open())
   {
@@ -111,6 +111,7 @@ int Loader::load(Game*& game, const std::string filename)
           }else
           {
             std::cout << "db: ERR found second start tile." << std::endl;
+            return 5;
           }
           
         }
@@ -194,7 +195,7 @@ int Loader::load(Game*& game, const std::string filename)
       //std::cout << "db: Found start and end tile." << std::endl;
       
       /*Check for valid field*/
-      Field *fptr;
+      Field *fptr = 0;
       //Check ob das Feld die richtige größe hat
       for(int i = 0; i < field_height; i++)
       {
@@ -269,9 +270,10 @@ int Loader::load(Game*& game, const std::string filename)
   }else
   {
     std::cout << "db: can't find "<< filename << std::endl;
+    return 4;
   }
   
-  game = new Game(loaded_board_,"",40, start_point);
+  game = new Game(loaded_board_, "", 10, start_point);
   
   return 0;
 }

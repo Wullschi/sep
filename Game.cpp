@@ -27,8 +27,10 @@ using std::vector;
 Game::Game(vector<vector<Field* > > new_board, string turns_string,
     int total_turns, Coordinates* start_point) : board_(new_board),
     finished_turns_(turns_string), max_turns_(total_turns),
-    pos_now_(start_point), remaining_turns_(total_turns), finished_(false)
-{}
+    origin_(start_point), remaining_turns_(total_turns), finished_(false)
+{
+  pos_now_ = new Coordinates(*start_point);
+}
 
 
 //------------------------------------------------------------------------------
@@ -47,6 +49,8 @@ Game::~Game(){
       delete board_[y][x];
     }
   }
+  
+  delete origin_;
 }
 
 
@@ -79,7 +83,7 @@ int Game::singleMove(Coordinates& tmp_pos, Coordinates& go_to,
 {
   int enter_code = 0;
   bool turn_is_over = false;
-  if(finished_ == true)
+  if((finished_ == true) || (remaining_turns_ <= 0))
   {
     std::cout << "invalid move" << std::endl;
     return -1; //invalid move
@@ -196,12 +200,16 @@ int Game::fastMove(string all_moves_str)
     move_validity = singleMove(tmp_pos, go_to, go_to_str, bonus);
     char_iterator = char_iterator + 1;
     remaining_turns_ = remaining_turns_ + bonus - 1;
+    if (remaining_turns_ < 0)
+    {
+      remaining_turns_ = 0;
+    }
   }
   while ((char_iterator < nr_moves) && (move_validity == 0));
   
   
   
-  if (move_validity == 0)
+  if (move_validity == 0) // if move is valid
   {
     finished_turns_ = finished_turns_ + all_moves_str;
     *pos_now_ = tmp_pos;
@@ -212,7 +220,6 @@ int Game::fastMove(string all_moves_str)
   {
     remaining_turns_ = remaining_turns_backup;
     std::cout << "X: "<< pos_now_->getX() << "   Y: " << pos_now_->getY() << "   Turns remaining: " <<remaining_turns_ << "    " << finished_turns_ << std::endl;
-    setGameIsFinished();
   }
   
   return 0;
@@ -434,4 +441,13 @@ void Game::show(bool more) const
 vector< std::vector<Field*> > Game::getBoard() const
 {
   return board_;
+}
+
+
+void Game::reset()
+{
+  finished_ = false;
+  remaining_turns_ = getMaxTurns();
+  setFinishedTurns("");
+  *pos_now_ = *origin_;
 }

@@ -1,37 +1,39 @@
 //------------------------------------------------------------------------------
-// Filename: Move.h
-// Description: Class representing a move command
+// Filename: Fastmove.h
+// Description: Class representing a fastmove command
 // Authors: Tutors
 // Tutor: Tutors
 // Group: ??
 // Created: 08.08.2011
 // Last change: 02.09.2011
 //------------------------------------------------------------------------------
-#ifndef MOVE_H_INCLUDED
-#define MOVE_H_INCLUDED
+
+
+#ifndef FASTMOVE_H
+#define FASTMOVE_H
 
 #include "Command.h"
 
 
 class Game;
-class Move : public Command
+class Fastmove : public Command
 {
   private:
     //--------------------------------------------------------------------------
     // Private copy constructor
-    Move(const Move& original);
+    Fastmove(const Fastmove& original);
     //--------------------------------------------------------------------------
     // Private assignment operator
-    Move& operator=(const Move& original);
+    Fastmove& operator=(const Fastmove& original);
     //--------------------------------------------------------------------------
     
   public:
-  //--------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
     // Constructor
-    Move(std::string name);
+    Fastmove(std::string name);
     //--------------------------------------------------------------------------
     // Destructor
-    virtual ~Move();
+    virtual ~Fastmove();
     //--------------------------------------------------------------------------
     // Executes the command.
     // @param board The board where action should be performed on
@@ -39,7 +41,7 @@ class Move : public Command
     // @return Integer representing the success of the action
     virtual int execute(Game*& board, std::vector<std::string>& params);
     //--------------------------------------------------------------------------
-
+  
 };
 
   #endif

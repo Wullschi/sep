@@ -1,6 +1,6 @@
 //------------------------------------------------------------------------------
-// Filename: Load.cpp
-// Description: Class representing a general command
+// Filename: Save.cpp
+// Description: Class representing a Save  command
 // Authors: Tutors
 // Tutor: Tutors
 // Group: ??
@@ -8,22 +8,22 @@
 // Last change: 02.09.2011
 //------------------------------------------------------------------------------
 
-#include "Load.h"
+#include "Save.h"
 #include "Game.h"
-#include "Loader.h"
+#include "Saver.h"
 
 //------------------------------------------------------------------------------
-Load::Load(std::string name) : Command(name)
+Save::Save(std::string name) : Command(name)
 {
 }
 //------------------------------------------------------------------------------
-Load::~Load()
+Save::~Save()
 {
 }
 //------------------------------------------------------------------------------
 
 
-int Load::execute(Game*& board, std::vector<std::string>& params)
+int Save::execute(Game*& board, std::vector<std::string>& params)
 {
   
   if (params.size() != 1)
@@ -32,23 +32,15 @@ int Load::execute(Game*& board, std::vector<std::string>& params)
     return 1;
   }
   
-  Game* new_board;
-  Loader gameloader;
-  int load_error = gameloader.load(new_board, params.front());
+  if (!board)
+  {
+    std::cout << "No maze loaded.\n" << std::endl;
+    return 3;
+  }
   
-  if (!load_error)
-  {
-    if (board != 0)
-    {
-      delete board;
-    }
-    
-    board = new_board;
-    return 0;
-  }
-  else
-  {
-    return load_error;
-  }
+  Saver gamesaver;
+  int save_error = gamesaver.save(*board, params.front());
+  
+  return save_error;
   
 }
