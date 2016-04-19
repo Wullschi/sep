@@ -12,6 +12,8 @@
 #include "Game.h"
 #include "Save.h"
 #include "Saver.h"
+#include "Show.h"
+
 
 //------------------------------------------------------------------------------
 Fastmove::Fastmove(std::string name) : Command(name)
@@ -53,11 +55,20 @@ int Fastmove::execute(Game*& board, std::vector<std::string>& params)
   
   int error_code = board->fastMove(move_sequence);
   
-  if ( (!error_code) && (Saver::isAutosaveActive()) )
+  if (!error_code)
   {
-    std::vector<std::string> autosave_params = Saver::getAutosaveParams();
-    Save autosave("autosave");
-    autosave.execute(board, autosave_params);
+    
+    if (Saver::isAutosaveActive())
+    {
+      std::vector<std::string> autosave_params = Saver::getAutosaveParams();
+      Save autosave("autosave");
+      autosave.execute(board, autosave_params);
+    }
+    
+    Show implicit_show("implicit_show");
+    std::vector<std::string> show_params;
+    implicit_show.execute(board, show_params);
+    
   }
   
   return error_code;

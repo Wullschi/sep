@@ -11,6 +11,7 @@
 #include "Load.h"
 #include "Game.h"
 #include "Loader.h"
+#include "Show.h"
 
 //------------------------------------------------------------------------------
 Load::Load(std::string name) : Command(name)
@@ -44,11 +45,13 @@ int Load::execute(Game*& board, std::vector<std::string>& params)
     }
     
     board = new_board;
-    return 0;
+    
+    Show implicit_show("implicit_show");
+    std::vector<std::string> show_params;
+    implicit_show.execute(board, show_params);
+    
   }
-  else
-  {
-    return load_error;
-  }
+  
+  return load_error;
   
 }
