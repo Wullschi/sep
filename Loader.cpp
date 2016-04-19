@@ -52,8 +52,9 @@ int Loader::load(Game*& game, const std::string filename)
   
   std::string turns_string = "";
   std::string total_turns_string = "";
+  std::string fastmove_string = "";
 
-  unsigned int total_turns = 10;
+  unsigned int total_turns = 0;
   
   if(cur_file.is_open())
   {
@@ -63,9 +64,26 @@ int Loader::load(Game*& game, const std::string filename)
     int i = 0;
     int j = 0;
     
+    getline(cur_file, fastmove_string);
+    // TODO CHECK VALIDITY OF FASTMOVE STRING
+    // if( fasmovestring is not  valid)
+    // {
+    //   return 1
+    // }
+    
+    getline(cur_file, total_turns_string);
+    //TODO MAKE SURE IT IS A VALID NUMBER
+    // if( total_turns_string is not a number)
+    // {
+    //   return 1
+    // }
+    
+    total_turns = std::stoi(total_turns_string);
+    checking_board = true;
+    
+    // WENN FASTMOVE STRING UND TOTAL_TURNS_STRING VALIDVALID, DANN FELD EINLESEN
     while(!cur_file.eof())
     {
-      //cur_char = '\t';
       cur_file.get(cur_char);
       
       if(cur_file.eof())
@@ -173,30 +191,6 @@ int Loader::load(Game*& game, const std::string filename)
         }
         i++; //counter horizontal.
       }
-      else
-      /*Noch nicht im Feld, Schritte und bisheriger Pfad*/
-      {
-        /* Bisheriger Pfad + mögliche schritte hierher */
-        if(cur_char == '#')
-        {
-          i = 0;
-          j = 0;
-          Row.push_back(new Wall(i,j));
-          checking_board = true;
-        }else
-        {
-          
-          getline(cur_file, total_turns_string);
-          std::stringstream total_turns_sstream;
-          total_turns_sstream << cur_char << total_turns_string;
-          total_turns_sstream >> total_turns;
-          /*Fastmove Code here*/
-          getline(cur_file, turns_string);
-          std::cout << "db: total_turns: " << total_turns << std::endl;
-          //game = new Game(loaded_board, turns_string, total_turns);
-        }
-      }
-      
     }
     if(cur_file.eof())
     {
@@ -219,7 +213,7 @@ int Loader::load(Game*& game, const std::string filename)
         Row = loaded_board_.at(i);
         //std::cout << Row.size() << std::endl;
         //std::cout << fptr->getFieldSymbol() << std::endl;
-        if( Row.size() != field_length+1)
+        if( Row.size() != field_length)
         {
           std::cout << "db: illigeal input. Field is to short or long." << std::endl;
           //exception hierher
@@ -228,12 +222,12 @@ int Loader::load(Game*& game, const std::string filename)
       }
       /*Check ob alle Symbole gültig sind*/
       Row = loaded_board_.at(0);
-      for(int k = 0; k <= field_length; k++)
+      for(int k = 0; k < field_length; k++)
       {
         fptr = Row.at(k);
         if(fptr->getFieldSymbol() != "#")
         {
-          std::cout << "db: ERR invalid field" << std::endl;
+          std::cout << "db: ERR invalid field 1" << std::endl;
         }
       }
       for(int k = 1; k < field_height-2; k++)
@@ -242,23 +236,23 @@ int Loader::load(Game*& game, const std::string filename)
         fptr = Row.front();
         if(fptr->getFieldSymbol() != "#")
         {
-          std::cout << "db: ERR invalid field" << std::endl;
+          std::cout << "db: ERR invalid field 2" << std::endl;
         }
         fptr = Row.back();
         if(fptr->getFieldSymbol() != "#")
         {
-          std::cout << "db: ERR invalid field" << std::endl;
+          std::cout << "db: ERR invalid field 3" << std::endl;
           break;
         }
       }
       //std::cout << "db: size of loaded board: " << loaded_board_.size() << std::endl;
-      Row = loaded_board_.at(field_height-2);
-      for(int k = 0; k <= field_length; k++)
+      Row = loaded_board_.at(field_height-1);
+      for(int k = 0; k < field_length; k++)
       {
         fptr = Row.at(k);
         if(fptr->getFieldSymbol() != "#")
         {
-          std::cout << "db: ERR invalid field 1  " << field_height <<std::endl;
+          std::cout << "db: ERR invalid field 4" << field_height <<std::endl;
           break;
         }
       }
