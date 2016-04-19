@@ -347,6 +347,15 @@ void Game::longToShortMoveString(string& long_string)
   }
 }
 
+//------------------------------------------------------------------------------
+// This method finds the 2nd teleport field that belongs to the teleport
+// fied the player is about to enter a string from the move notation to
+// the fastmove notation for example "up" to "u" or "left" to "l"
+//
+// @param teleport_letter the letter of the teleport field
+// @param position the position of the teleport field the player is about to enter
+// @param teleport_exit the position where the player appears after entering the teleport field
+//
 void Game::findTeleportLocation(const string teleport_letter,
     const Coordinates& position, Coordinates& teleport_exit)
 {
@@ -387,6 +396,41 @@ void Game::findTeleportLocation(const string teleport_letter,
   
 }
 
+
+
+//------------------------------------------------------------------------------
+// This method prints the game board to the console
+//
+// @param more true when remaining turns and finished moves should also be displayed
+//
+void Game::show(bool more) const
+{
+  if (more == true)
+  {
+    std::cout << "Remaining Steps: " << remaining_turns_ << std::endl;
+    std::cout << "Moved Steps: " << finished_turns_ << std::endl;
+  }
+
+  for (unsigned int y = 0; y < board_.size(); y++)
+  {
+    for (unsigned int x = 0; x < board_[y].size(); x++)
+    {
+      if ((x != pos_now_->getX()) || (y != pos_now_->getY()))
+      {
+        std::cout << board_[y][x]->getFieldSymbol();
+      }
+      else
+      {
+        std::cout << "*";
+      }
+    }
+    std::cout << "\n";
+  }
+}
+
+//------------------------------------------------------------------------------
+// Returns a game board of the current game
+//
 vector< std::vector<Field*> > Game::getBoard() const
 {
   return board_;

@@ -34,6 +34,7 @@ class Game
     void longToShortMoveString(string &move_string);
     void findTeleportLocation(const string teleport_letter,
         const Coordinates& position, Coordinates& teleport_exit);
+   void show(bool more) const;
   
   public:
     Game(vector<vector<Field* > > new_board, string turns_string,
