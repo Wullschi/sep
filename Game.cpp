@@ -261,42 +261,9 @@ int Game::calculateNextField(Coordinates& position, Coordinates &go_to, string l
   
   if(isupper(leaving_to[0]) && isalpha(leaving_to[0]))
   {
-    std::string portal_letter="";
-    int portal_x=0, portal_y=0, portal_counter=0;
-    for (int y = 0; y < board_.size(); y++)
-    {
-      for (int x = 0; x < board_[y].size(); x++)
-      {
-        if ((x != position.getX()) || (y != position.getY()))
-        {
-          
-          // **************************************************
-          // TODO: zuviele Verschachtelungen!!!!!!!!!!!!!!!!!
-          // **************************************************
-          
-          string symbol = board_[y][x]->getFieldSymbol();
-          if (symbol == leaving_to)
-          {
-            portal_x = x;
-            portal_y = y;
-            portal_counter++;
-            portal_letter = "";
-          }
-        }
-      }
-    }
-    
-    if (portal_counter == 1)
-    {
-      go_to.setX(portal_x);
-      go_to.setY(portal_y);
-      return 1; //1 heisst: Funktion regulär beendet. Nächstes Feld ist ein Portal.
-      //Es kann nun versucht werden den Zug zu starten.
-    }
-    else
-    {
-      return -2; //-2 heisst: gibt kein 2. Teleportfeld welches regulär benutzt werden könnte.
-    }
+    findTeleportLocation(leaving_to, position, go_to);
+    return 1; // the field we are about to enter is
+              // a teleport field
   }
   return 0;
 }
@@ -333,89 +300,6 @@ void Game::setFinishedTurns(std::string turns_string)
   finished_turns_ = turns_string;
 }
 
-
-
-//
-//
-// **
-// **
-// **
-// **
-// **
-// **
-// **
-// **
-// **
-// **
-// **
-// **
-// **
-// **
-// **
-// **
-// **
-// **
-// **
-// EVENTUELL LÖSCHEN
-
-/*int Game::save(std::string file_name)
-{
-  //TODO: hier die Überprüfung des Dateinamens noch implementieren.
-  bool name_is_valid = true;
-  if(name_is_valid == true)
-  {
-    
-    std::ofstream file(file_name);
-    if (!file.is_open())
-    {
-      std::cout << "[ERR] File could not be written.\n";
-    } else
-    {
-      
-      file << finished_turns_<<"\n";
-      file << max_turns_<<"\n";
-      
-      
-      for (int y = 0; y < board_.size(); y++)
-      {
-        for (int x = 0; x < board_[y].size(); x++)
-        {
-          file << board_[y][x]->getFieldSymbol();
-        }
-        file << "\n";
-      }
-      file.close();
-    }
-  }
-  else
-  {
-    std::cout << "[ERR] Wrong parameter.\n";
-  }
-  return 0;
-}
-*/
-// EVENTUELL LÖSCHEN
-// **
-// **
-// **
-// **
-// **
-// **
-// **
-// **
-// **
-// **
-// **
-// **
-// **
-// **
-// **
-// **
-// **
-// **
-// **
-//
-//
 
 
 
@@ -463,7 +347,45 @@ void Game::longToShortMoveString(string& long_string)
   }
 }
 
-
+void Game::findTeleportLocation(const string teleport_letter,
+    const Coordinates& position, Coordinates& teleport_exit)
+{
+  int portal_x=0, portal_y=0; //, portal_counter=0;
+  for (int y = 0; y < board_.size(); y++)
+  {
+    for (int x = 0; x < board_[y].size(); x++)
+    {
+      string symbol = board_[y][x]->getFieldSymbol();
+      
+      // If this field is not the one the player wants to enter and if
+      // it has the same portal letter as the one he wants to enter
+      // it must be the corresponding portal of that field.
+      if (((x != position.getX()) || (y != position.getY()))
+          && symbol == teleport_letter)
+      {
+        
+        portal_x = x;
+        portal_y = y;
+        //portal_counter++;
+        //portal_letter = "";
+        
+      }
+    }
+  }
+  
+  //if (portal_counter == 1)
+  //{
+  teleport_exit.setX(portal_x);
+  teleport_exit.setY(portal_y);
+  //return 1; //1 heisst: Funktion regulär beendet. Nächstes Feld ist ein Portal.
+  //Es kann nun versucht werden den Zug zu starten.
+  //}
+  //else
+  //{
+  //  return -2; //-2 heisst: gibt kein 2. Teleportfeld welches regulär benutzt werden könnte.
+  //}
+  
+}
 
 vector< std::vector<Field*> > Game::getBoard() const
 {
