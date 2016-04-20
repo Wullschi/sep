@@ -79,7 +79,10 @@ int Loader::load(Game*& game)
       deleteBoard();
       return 1;
     }
-    total_turns = std::stoi(total_turns_string);
+    
+    std::istringstream total_turns_stream;
+    total_turns_stream.str(total_turns_string);
+    total_turns_stream >> total_turns;
     
     
     // start reading the board if fastmove string and max turns are valid
