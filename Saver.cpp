@@ -91,3 +91,4 @@ std::vector<std::string> Saver::getAutosaveParams()
   autosave_params.push_back(Saver::autosave_filename_);
   return autosave_params;
 }
+

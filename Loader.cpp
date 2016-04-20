@@ -20,6 +20,10 @@
 #include "Finish.h"
 #include "Game.h"
 
+using std::vector;
+using std::string;
+using std::ifstream;
+
 Loader::Loader(const std::string filename) : Filehandler(filename)
 {
   
@@ -31,6 +35,7 @@ Loader::~Loader()
 }
 
 
+
 /*Loading function*/
 int Loader::load(Game*& game)
 {
@@ -38,32 +43,26 @@ int Loader::load(Game*& game)
   Coordinates* start_point = 0;
   /*Initialisierungen*/
   std::ifstream cur_file;
-  char cur_char = '\0';
-  bool valid_char;
-  std::string str = "";
   bool found_start = false;
   bool found_end = false;
-  bool checking_board = false;
-  int field_length = 0;
-  int field_height = 0;
-  bool field_length_switch = false;
+  int row_count = 0;
   cur_file.open(LOADFILE);
-  std::vector<char> teleportList;
   
+  std::vector<char> teleport_list;
   std::string turns_string = "";
   std::string total_turns_string = "";
   std::string fastmove_string = "";
 
   unsigned int total_turns = 0;
   
+
   if(cur_file.is_open())
   {
     //std::cout << "db: opened loadfile" << std::endl;
     /*Reading the file*/
-    std::vector<Field*> Row;
-    int i = 0;
-    int j = 0;
+    std::vector<Field*> row;
     
+    // read fastmove string and check if it is valid
     getline(cur_file, fastmove_string);
     if(fastmove_string.find_first_not_of("ldru")!=std::string::npos)
     {
@@ -71,6 +70,7 @@ int Loader::load(Game*& game)
       return 1;
     }
     
+    // read max amount of turns and check if it is a valid number
     getline(cur_file, total_turns_string);
     if(total_turns_string.find_first_not_of("0123456789")!=std::string::npos)
     {
@@ -79,217 +79,304 @@ int Loader::load(Game*& game)
     }
     total_turns = std::stoi(total_turns_string);
     
-    checking_board = true;
     
-    // WENN FASTMOVE STRING UND TOTAL_TURNS_STRING VALIDVALID, DANN FELD EINLESEN
+    // start reading the board if fastmove string and max turns are valid
     while(!cur_file.eof())
     {
-      cur_file.get(cur_char);
-      
+
       if(cur_file.eof())
       {
         break;
       }
       
-      if(checking_board == true)
+      bool correct_row = readOneRow(cur_file, teleport_list, found_start, found_end, row_count, start_point);
+      
+      if (correct_row == false)
       {
-        valid_char = false;
-        /*New line found*/
-        if(cur_char == '\n')
-        {
-          //end of line
-          j++;
-          //std::cout << "db: found new line" << std::endl;
-          if(field_length_switch == false)
-          {
-            field_length = i;
-            field_length_switch = true;
-          }
-          //std::cout << "db: value of i: " << i << std::endl;
-          i = -1; //to avoid one off error
-          loaded_board_.push_back(Row);
-          valid_char = true;
-          Row.clear();
-        }
-        /*Generating the Field*/
-        if(cur_char == '#')
-        {
-          Row.push_back(new Wall(i,j));
-          valid_char = true;
-          //std::cout << "db: # at (" << i << "," << j << ")" <<std::endl;
-        }
-        if(cur_char == ' ')
-        {
-          Row.push_back(new Path(i,j));
-          valid_char = true;
-          //std::cout << "db: ' ' at (" << i << "," << j << ")" <<std::endl;
-        }
-        if(cur_char == 'o')
-        {
-          if(found_start == false)
-          {
-            Row.push_back(new Start(i,j));
-            start_point = new Coordinates(i,j);
-            valid_char = true;
-            found_start = true;
-            //std::cout << "db: o at (" << i << "," << j << ")" <<std::endl;
-          }else
-          {
-            std::cout << "db: ERR found second start tile." << std::endl;
-            return 5;
-          }
-          
-        }
-        if(cur_char == '+')
-        {
-          Row.push_back(new Ice(i,j));
-          valid_char = true;
-          //std::cout << "db: + at (" << i << "," << j << ")" <<std::endl;
-        }
-        if(cur_char == 'x')
-        {
-          if(found_end == false)
-          {
-            Row.push_back(new Finish(i,j));
-            valid_char = true;
-            found_end = true;
-            //std::cout << "db: x at (" << i << "," << j << ")" <<std::endl;
-          }else
-          {
-            std::cout << "db: ERR found second end tile" << std::endl;
-          }
-          
-        }
-        if((cur_char >= 65 ) && (cur_char <= 90))
-        {
-          str.push_back(cur_char);
-          Row.push_back(new Teleport(i,j,str));
-          teleportList.push_back(cur_char);
-          valid_char = true;
-          //std::cout << "db: "<< str <<" at (" << i << "," << j << ")" <<std::endl;
-          str.clear();
-        }
-        if((cur_char == '<')||(cur_char == '>')||(cur_char == 'v')
-           ||(cur_char == '^'))
-        {
-          str.push_back(cur_char);
-          Row.push_back(new OneWay(i,j,str));
-          valid_char = true;
-          //std::cout << "db: "<< str <<" at (" << i << "," << j << ")" <<std::endl;
-          str.clear();
-        }
-        if((cur_char >= 97 ) && (cur_char <= 106))
-        {
-          str.push_back(cur_char);
-          Row.push_back(new Bonus(i,j,str));
-          valid_char = true;
-          //std::cout << "db: "<< str <<" at (" << i << "," << j << ")" <<std::endl;
-          str.clear();
-        }
-        if(valid_char == false)
-        {
-          std::cout << "db: illigal input." << std::endl;
-        }
-        i++; //counter horizontal.
+        return 1;
       }
+
+      row.clear();
+      row_count = row_count + 1;
     }
-    if(cur_file.eof())
+
+    //check board validity
+    bool start_and_finish = checkStartAndFinish(found_start, found_end);
+    bool shape = checkShape();
+    bool wall = checkWall();
+    bool teleport = checkTeleport(&teleport_list);
+    
+    // if any error has been detected, stop loading
+    if ((start_and_finish == false) || (shape == false) || (wall == false) || (teleport == false))
     {
-      loaded_board_.push_back(Row);
+      return 1;
     }
     
-    /*Start und End tile existieren*/
-    if((found_start)&&(found_end))
+    game = new Game(loaded_board_, "", total_turns, start_point);
+    if(fastmove_string != "")
     {
-      field_height = j-1;
-      //std::cout << "db: i: " << field_length << " j: " << field_height << std::endl;
-      //std::cout << "db: Found start and end tile." << std::endl;
-      
-      /*Check for valid field*/
-      Field *fptr = 0;
-      //Check ob das Feld die richtige größe hat
-      for(int i = 0; i < field_height+1; i++)
-      {
-        Row = loaded_board_.at(i);
-        //std::cout << Row.size() << std::endl;
-        //std::cout << fptr->getFieldSymbol() << std::endl;
-        if( Row.size() != field_length)
-        {
-          std::cout << "db: illigeal input. Field is to short or long." << std::endl;
-          //exception hierher
-          break;
-        }
-      }
-      /*Check ob alle Symbole gültig sind*/
-      Row = loaded_board_.at(0);
-      for(int k = 0; k < field_length; k++)
-      {
-        fptr = Row.at(k);
-        if(fptr->getFieldSymbol() != "#")
-        {
-          std::cout << "db: ERR invalid field 1" << std::endl;
-        }
-      }
-      for(int k = 1; k < field_height; k++)
-      {
-        Row = loaded_board_.at(k);
-        fptr = Row.front();
-        if(fptr->getFieldSymbol() != "#")
-        {
-          std::cout << "db: ERR invalid field 2" << std::endl;
-        }
-        fptr = Row.back();
-        if(fptr->getFieldSymbol() != "#")
-        {
-          std::cout << "db: ERR invalid field 3" << std::endl;
-          break;
-        }
-      }
-      //std::cout << "db: size of loaded board: " << loaded_board_.size() << std::endl;
-      Row = loaded_board_.at(field_height);
-      for(int k = 0; k < field_length; k++)
-      {
-        fptr = Row.at(k);
-        if(fptr->getFieldSymbol() != "#")
-        {
-          std::cout << "db: ERR invalid field 4" <<std::endl;
-          break;
-        }
-      }
-      /*Check for valid Teleporter*/
-      //std::cout << "db: teleportList.size() = " << teleportList.size() << std::endl;
-      int teleport_amount;
-      for(int l = 65; l <= 90; l++)
-      {
-        teleport_amount = 0;
-        for(int k = 0; k < teleportList.size(); k++)
-        {
-          if(teleportList.at(k) == l)
-          {
-            teleport_amount++;
-          }
-        }
-        if(!((teleport_amount == 0) || (teleport_amount == 2)))
-        {
-          std::cout << "db: invalid teleport." << std::endl;
-        }
-      }
-    }else
-    {
-      /*Start und End tile existieren nicht*/
-      std::cout << "db: ERR no valid start or end tile." << std::endl;
+      game->fastMove(fastmove_string);
     }
+    
   }else
   {
     std::cout << "db: can't find "<< filename_ << std::endl;
     return 4;
   }
-  game = new Game(loaded_board_, "", total_turns, start_point);
-  if(fastmove_string != "")
-  {
-  game->fastMove(fastmove_string);
-  }
+
 
   
   return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+bool Loader::checkStartAndFinish(bool start, bool finish)
+{
+  if ((start == true) && (finish == true))
+  {
+    return true;
+  }
+  else
+  {
+    /*Start und End tile existieren nicht*/
+    std::cout << "db: ERR no valid start or end tile." << std::endl;
+    return false;
+  }
+}
+
+bool Loader::checkShape()
+{
+  unsigned long int field_height = loaded_board_.size();
+  unsigned long int field_length = loaded_board_.at(0).size();
+  for(int i = 0; i < field_height; i++)
+  {
+    unsigned long int row_length = loaded_board_.at(i).size();
+    //std::cout << Row.size() << std::endl;
+    //std::cout << fptr->getFieldSymbol() << std::endl;
+    if(row_length != field_length)
+    {
+      std::cout << "db: illigeal input. Field is not a rectangle." << std::endl;
+      //exception hierher
+      return false;
+    }
+  }
+  return true;
+}
+
+bool Loader::checkWall()
+{
+  std::vector<Field*> Row;
+  unsigned long int field_height = loaded_board_.size();
+  unsigned long int field_length = loaded_board_.at(0).size();
+  
+  /*Check if all fields in first line are walls*/
+  for(int k = 0; k < field_length; k++)
+  {
+    string field_symbol = loaded_board_.at(0).at(k)->getFieldSymbol();
+    if(field_symbol != "#")
+    {
+      std::cout << "db: ERR invalid field in first row" << std::endl;
+      return false;
+    }
+  }
+  
+  /*Check if all fields at left and right side are walls*/
+  for(int k = 1; k < field_height-1; k++)
+  {
+    Row = loaded_board_.at(k);
+    string field_symbol = loaded_board_.at(k).front()->getFieldSymbol();
+    if(field_symbol != "#")
+    {
+      std::cout << "db: ERR invalid field on left wall" << std::endl;
+      return false;
+    }
+    field_symbol = loaded_board_.at(k).back()->getFieldSymbol();
+    if(field_symbol != "#")
+    {
+      std::cout << "db: ERR invalid field on wall" << std::endl;
+      return false;
+    }
+  }
+  
+  /*Check if all fields in last line are walls*/
+  for(int k = 0; k < field_length; k++)
+  {
+    string field_symbol = loaded_board_.at(field_height-1).at(k)->getFieldSymbol();
+    if(field_symbol != "#")
+    {
+      std::cout << "db: ERR invalid field in last row" << std::endl;
+      return false;
+    }
+  }
+  
+  return true;
+}
+
+bool Loader::checkTeleport(vector<char>* teleport_list)
+{
+  /*Check for valid Teleporter*/
+  int teleport_amount;
+  for(int asci = 65; asci <= 90; asci++)
+  {
+    teleport_amount = 0;
+    for(int k = 0; k < teleport_list->size(); k++)
+    {
+      if(teleport_list->at(k) == asci)
+      {
+        teleport_amount++;
+      }
+    }
+    
+    // if 0 or 2 teleport fields for every letter exist, teleporters are valid
+    if(!((teleport_amount == 0) || (teleport_amount == 2)))
+    {
+      std::cout << "db: invalid teleport." << std::endl;
+      return false;
+    }
+  }
+  return true;
+}
+
+
+
+
+
+
+
+
+
+
+bool Loader::readOneRow(ifstream& cur_file, vector<char>& teleport_list,
+                        bool& found_start, bool& found_end, int row_count, Coordinates*& start_point)
+{
+  int y = row_count;
+  vector<Field*> row;
+  string row_string = "";
+  unsigned long int nr_of_fields;
+  
+  getline(cur_file, row_string);
+  nr_of_fields = row_string.size();
+  for (int x = 0; x < nr_of_fields; x++)
+  {
+    bool valid_char = false;
+    char symbol = row_string[x];
+    
+    
+    /*Generating the Field*/
+    if(symbol == '#')
+    {
+      row.push_back(new Wall(x, y));
+      valid_char = true;
+    }
+    
+    if(symbol == ' ')
+    {
+      row.push_back(new Path(x,y));
+      valid_char = true;
+    }
+    
+    if((symbol == 'o') && (found_start == false))
+    {
+      row.push_back(new Start(x,y));
+      start_point = new Coordinates(x,y);
+      valid_char = true;
+      found_start = true;
+    }
+    else if ((symbol == 'o') && (found_start == true))
+    {
+      std::cout << "db: ERR found second start tile." << std::endl;
+      return false;
+    }
+    
+    if(symbol == '+')
+    {
+      row.push_back(new Ice(x,y));
+      valid_char = true;
+      //std::cout << "db: + at (" << i << "," << j << ")" <<std::endl;
+    }
+    
+    if((symbol == 'x') && (found_end == false))
+    {
+      
+      row.push_back(new Finish(x,y));
+      valid_char = true;
+      found_end = true;
+      //std::cout << "db: x at (" << i << "," << j << ")" <<std::endl;
+    }
+    else if((symbol == 'x') && (found_end == true))
+    {
+      std::cout << "db: ERR found second end tile" << std::endl;
+      return false;
+    }
+
+    if((symbol >= 65 ) && (symbol <= 90))
+    {
+      string str;
+      str.push_back(symbol);
+      row.push_back(new Teleport(x, y, str));
+      teleport_list.push_back(symbol);
+      valid_char = true;
+      str.clear();
+    }
+    
+    if((symbol == '<') || (symbol == '>') || (symbol == 'v')
+       ||(symbol == '^'))
+    {
+      string str;
+      str.push_back(symbol);
+      row.push_back(new OneWay(x,y,str));
+      valid_char = true;
+      str.clear();
+    }
+    
+    if((symbol >= 97 ) && (symbol <= 106))
+    {
+      string str;
+      str.push_back(symbol);
+      row.push_back(new Bonus(x, y, str));
+      valid_char = true;
+      str.clear();
+    }
+    
+    if(valid_char == false)
+    {
+      std::cout << "db: illigal input." << std::endl;
+      return false;
+    }
+  }
+  loaded_board_.push_back(row);
+  return true;
+}
+
+

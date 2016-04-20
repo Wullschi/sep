@@ -62,3 +62,4 @@ int Load::execute(Game*& board, std::vector<std::string>& params)
   return load_error;
   
 }
+
