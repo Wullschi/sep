@@ -40,19 +40,19 @@ int UserInput::checkCommandLineOptions(int argc, const char* argv[], Game*& curr
     return 2;
   }
   
-  std::string argument_string;
+  std::string argument_string = "";
 
   for (int argument_no = 1; argument_no < argc - 1; argument_no += 2)
   {  
     argument_string = static_cast<std::string>(argv[argument_no]);
-    if (argument_string.compare("-m") == 0)
+    if ( (argument_string == "-m") || (argument_string == "-M") )
     {
       Load initial_load("initial");
       std::vector<std::string> filenames;
       filenames.push_back( argv[argument_no + 1] );
       initial_load.execute(current_game, filenames);
     }
-    else if (argument_string.compare("-s") == 0)
+    else if ( (argument_string == "-s") || (argument_string == "-S") )
     {
       Saver::enableAutosave(argv[argument_no + 1]);
     }
