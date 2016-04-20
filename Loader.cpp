@@ -65,22 +65,20 @@ int Loader::load(Game*& game)
     int j = 0;
     
     getline(cur_file, fastmove_string);
-    // TODO CHECK VALIDITY OF FASTMOVE STRING
-    // if( fasmovestring is not  valid)
-    // {
-    //   return 1
-    // }
+    if(fastmove_string.find_first_not_of("ldru")!=std::string::npos)
+    {
+      std::cout << "db: ERR invalid fastmove" << std::endl;
+      return 1;
+    }
     
     getline(cur_file, total_turns_string);
-    //TODO MAKE SURE IT IS A VALID NUMBER
-    // if( total_turns_string is not a number)
-    // {
-    //   return 1
-    // }
+    if(total_turns_string.find_first_not_of("0123456789")!=std::string::npos)
+    {
+      std::cout << "db: ERR invalid turns" << std::endl;
+      return 1;
+    }
+    total_turns = std::stoi(total_turns_string);
     
-    std::stringstream total_turns_stream;
-    total_turns_stream.str(total_turns_string);
-    total_turns_stream >> total_turns;
     checking_board = true;
     
     // WENN FASTMOVE STRING UND TOTAL_TURNS_STRING VALIDVALID, DANN FELD EINLESEN
@@ -286,8 +284,12 @@ int Loader::load(Game*& game)
     std::cout << "db: can't find "<< filename_ << std::endl;
     return 4;
   }
-  
   game = new Game(loaded_board_, "", total_turns, start_point);
+  if(fastmove_string != "")
+  {
+  game->fastMove(fastmove_string);
+  }
+
   
   return 0;
 }
