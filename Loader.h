@@ -40,6 +40,7 @@ class Loader : public Filehandler
     bool readOneRow(ifstream& cur_file, vector<char>& teleport_list,
         bool& found_start, bool& found_end, int row_count,
         Coordinates*& start_point);
+    void deleteBoard();
 
   
   public:

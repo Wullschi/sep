@@ -67,6 +67,7 @@ int Loader::load(Game*& game)
     if(fastmove_string.find_first_not_of("ldru")!=std::string::npos)
     {
       std::cout << "db: ERR invalid fastmove" << std::endl;
+      deleteBoard();
       return 1;
     }
     
@@ -75,6 +76,7 @@ int Loader::load(Game*& game)
     if(total_turns_string.find_first_not_of("0123456789")!=std::string::npos)
     {
       std::cout << "db: ERR invalid turns" << std::endl;
+      deleteBoard();
       return 1;
     }
     total_turns = std::stoi(total_turns_string);
@@ -93,6 +95,7 @@ int Loader::load(Game*& game)
       
       if (correct_row == false)
       {
+        deleteBoard();
         return 1;
       }
 
@@ -109,6 +112,7 @@ int Loader::load(Game*& game)
     // if any error has been detected, stop loading
     if ((start_and_finish == false) || (shape == false) || (wall == false) || (teleport == false))
     {
+      deleteBoard();
       return 1;
     }
     
@@ -121,11 +125,12 @@ int Loader::load(Game*& game)
   }else
   {
     std::cout << "db: can't find "<< filename_ << std::endl;
+    deleteBoard();
     return 4;
   }
 
 
-  
+  deleteBoard();
   return 0;
 }
 
@@ -371,7 +376,7 @@ bool Loader::readOneRow(ifstream& cur_file, vector<char>& teleport_list,
     
     if(valid_char == false)
     {
-      std::cout << "db: illigal input." << std::endl;
+      std::cout << "db: illegal input." << std::endl;
       return false;
     }
   }
@@ -379,4 +384,14 @@ bool Loader::readOneRow(ifstream& cur_file, vector<char>& teleport_list,
   return true;
 }
 
+void Loader::deleteBoard()
+{
+  for (int y = 0; y < loaded_board_.size(); ++y)
+  {
+    for (int x = 0; x < loaded_board_.at(y).size(); ++x)
+    {
+      delete loaded_board_[y][x];
+    }
+  }
+}
 

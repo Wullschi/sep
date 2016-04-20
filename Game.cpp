@@ -44,7 +44,7 @@ Game::~Game(){
   // Copied and slightly adapted from a Stackoverflow discussion about 2D Vectors
   for (int y = 0; y < board_.size(); ++y)
   {
-    for (int x = 0; x < board_.size(); ++x)
+    for (int x = 0; x < board_.at(y).size(); ++x)
     {
       delete board_[y][x];
     }
