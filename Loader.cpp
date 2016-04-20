@@ -101,6 +101,7 @@ int Loader::load(Game*& game)
         {
           //end of line
           j++;
+          //std::cout << "db: found new line" << std::endl;
           if(field_length_switch == false)
           {
             field_length = i;
@@ -196,21 +197,20 @@ int Loader::load(Game*& game)
     }
     if(cur_file.eof())
     {
-      j++;
       loaded_board_.push_back(Row);
     }
     
     /*Start und End tile existieren*/
     if((found_start)&&(found_end))
     {
-      field_height = j;
+      field_height = j-1;
       //std::cout << "db: i: " << field_length << " j: " << field_height << std::endl;
       //std::cout << "db: Found start and end tile." << std::endl;
       
       /*Check for valid field*/
       Field *fptr = 0;
       //Check ob das Feld die richtige größe hat
-      for(int i = 0; i < field_height-1; i++)
+      for(int i = 0; i < field_height+1; i++)
       {
         Row = loaded_board_.at(i);
         //std::cout << Row.size() << std::endl;
@@ -232,7 +232,7 @@ int Loader::load(Game*& game)
           std::cout << "db: ERR invalid field 1" << std::endl;
         }
       }
-      for(int k = 1; k < field_height-2; k++)
+      for(int k = 1; k < field_height; k++)
       {
         Row = loaded_board_.at(k);
         fptr = Row.front();
@@ -248,13 +248,13 @@ int Loader::load(Game*& game)
         }
       }
       //std::cout << "db: size of loaded board: " << loaded_board_.size() << std::endl;
-      Row = loaded_board_.at(field_height-1);
+      Row = loaded_board_.at(field_height);
       for(int k = 0; k < field_length; k++)
       {
         fptr = Row.at(k);
         if(fptr->getFieldSymbol() != "#")
         {
-          std::cout << "db: ERR invalid field 4" << field_height <<std::endl;
+          std::cout << "db: ERR invalid field 4" <<std::endl;
           break;
         }
       }
