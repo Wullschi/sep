@@ -31,6 +31,16 @@ class Game
     bool finished_;
   
     //--------------------------------------------------------------------------
+    // Private standard constructor
+  
+    Game();
+  
+    //--------------------------------------------------------------------------
+    // Private copy constructor
+  
+    Game(const Game&);
+  
+    //--------------------------------------------------------------------------
     // This private Method executes a single move and is a helper method for
     // the move AND the fastmove command.
     //

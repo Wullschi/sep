@@ -13,6 +13,17 @@
 #include "Field.h"
 class Teleport: public Field
 {
+  private:
+    //--------------------------------------------------------------------------
+    // Private standard constructor
+  
+    Teleport();
+  
+    //--------------------------------------------------------------------------
+    // Private copy constructor
+  
+    Teleport(const Teleport&);
+  
   public:
     Teleport(int x, int y, std::string symbol_letter);
     ~Teleport();

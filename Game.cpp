@@ -30,9 +30,7 @@ Game::Game(vector<vector<Field* > >* new_board, string turns_string,
 
 //------------------------------------------------------------------------------
 Game::~Game(){
-  std::cout << "Deleting this game" << std::endl;
   delete pos_now_;
-  
   deleteFields();
   delete board_;
   delete origin_;
@@ -59,7 +57,6 @@ int Game::singleMove(Coordinates& tmp_pos, Coordinates& go_to,
   // if game already finished or no more turns left => invalid move
   if((finished_ == true ) || (remaining_turns_ <= 0))
   {
-    std::cout << "invalid move" << std::endl;
     return -1; //invalid move
   }
   
@@ -77,8 +74,6 @@ int Game::singleMove(Coordinates& tmp_pos, Coordinates& go_to,
       bool can_leave = board_->at(y_tmp).at(x_tmp)->isAbleToLeave(&go_to);
       if (can_leave == false)
       {
-        std::cout << "not able to leave this field in this direction"
-            << std::endl;
         return -1; //invalid move
       }
       
@@ -92,8 +87,6 @@ int Game::singleMove(Coordinates& tmp_pos, Coordinates& go_to,
           entering_from);
       if ((can_enter == false) && (enter_code != 1))
       {
-        std::cout << "not able to enter new field from this direction"
-            << std::endl;
         return -1; //invalid move
       }
       
@@ -146,9 +139,11 @@ int Game::move(string go_to_str)
     finished_turns_ = finished_turns_ + go_to_str; // update finished turns
     remaining_turns_ = remaining_turns_ + bonus - 1;
     *pos_now_ = tmp_pos; // update player position
-    std::cout << "X: " << pos_now_->getX() << "   Y: " << pos_now_->getY() <<
-        "   Turns remaining: " <<remaining_turns_ << "    " << finished_turns_
-        << std::endl;
+    
+    if (remaining_turns_ < 0)
+    {
+      remaining_turns_ = 0;
+    }
     
     // check if player is on finish field
     setGameIsFinished();
@@ -157,6 +152,7 @@ int Game::move(string go_to_str)
   }
   else
   {
+    std::cout << "[ERR] Invalid move.\n";
     return 1;
   }
 }
@@ -198,18 +194,13 @@ int Game::fastMove(string all_turns_str)
   {
     finished_turns_ = finished_turns_ + all_turns_str; // update finished turns
     *pos_now_ = tmp_pos; // update player position
-    std::cout << "X: "<< pos_now_->getX() << "   Y: " << pos_now_->getY() <<
-        "   Turns remaining: " <<remaining_turns_ << "    " <<
-        finished_turns_ << std::endl;
     setGameIsFinished(); // check if player is on finish field
     return 0; // All OK
   }
   else
   {
     remaining_turns_ = remaining_turns_backup;
-    std::cout << "X: "<< pos_now_->getX() << "   Y: " << pos_now_->getY() <<
-        "   Turns remaining: " <<remaining_turns_
-        << "    " << finished_turns_ << std::endl;
+    std::cout << "[ERR] Invalid move.\n";
     return 1; // invalid series of turns
   }
 }

@@ -16,7 +16,17 @@ class Ice: public Field
 {
   private:
     std::string slipping_to_;
-    
+  
+    //--------------------------------------------------------------------------
+    // Private standard constructor
+  
+    Ice();
+  
+    //--------------------------------------------------------------------------
+    // Private copy constructor
+  
+    Ice(const Ice&);
+  
   public:
     Ice(int x, int y);
     ~Ice();

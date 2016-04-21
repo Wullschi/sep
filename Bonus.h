@@ -12,11 +12,23 @@
 #define BONUS_H_INCLUDED
 #include "Field.h"
 
+// The bonus Class includes a negative bonus, which means it includes the
+// Quicksand field.
 class Bonus: public Field
 {
   private:
-    int bonus_count_; //nur in Quicksand/Bonusfeld
-    
+    int bonus_count_;
+  
+    //--------------------------------------------------------------------------
+    // Private standard constructor
+  
+    Bonus();
+  
+    //--------------------------------------------------------------------------
+    // Private copy constructor
+  
+    Bonus(const Bonus&);
+  
   public:
     Bonus(int x, int y,  std::string symbolLetter);
     ~Bonus();

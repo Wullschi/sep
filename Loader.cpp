@@ -124,6 +124,7 @@ int Loader::load(Game*& game)
     }
     
     game = new Game(loaded_board_, "", total_turns, start_point);
+    
     if(fastmove_string != "")
     {
       int error_code = game->fastMove(fastmove_string);

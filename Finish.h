@@ -13,6 +13,17 @@
 
 class Finish: public Field
 {
+  private:
+    //--------------------------------------------------------------------------
+    // Private standard constructor
+  
+    Finish();
+  
+    //--------------------------------------------------------------------------
+    // Private copy constructor
+  
+    Finish(const Finish&);
+  
   public:
     Finish(int x, int y);
     ~Finish();

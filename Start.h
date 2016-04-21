@@ -13,6 +13,17 @@
 
 class Start: public Field
 {
+  private:
+    //--------------------------------------------------------------------------
+    // Private standard constructor
+  
+    Start();
+  
+    //--------------------------------------------------------------------------
+    // Private copy constructor
+  
+    Start(const Start&);
+  
   public:
     Start(int x, int y);
     ~Start();

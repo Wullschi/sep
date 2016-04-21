@@ -13,6 +13,17 @@
 
 class Path: public Field
 {
+  private:
+    //--------------------------------------------------------------------------
+    // Private standard constructor
+  
+    Path();
+  
+    //--------------------------------------------------------------------------
+    // Private copy constructor
+  
+    Path(const Path&);
+  
   public:
     Path(int x, int y);
     ~Path();

@@ -14,8 +14,19 @@
 
 class OneWay: public Field
 {
+  private:
+    //--------------------------------------------------------------------------
+    // Private standard constructor
+  
+    OneWay();
+  
+    //--------------------------------------------------------------------------
+    // Private copy constructor
+  
+    OneWay(const OneWay&);
+  
     
-public:
+  public:
     OneWay(int x, int y, std::string symbolLetter);
     ~OneWay();
     

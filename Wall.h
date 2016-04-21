@@ -13,6 +13,17 @@
 
 class Wall: public Field
 {
+  private:
+    //--------------------------------------------------------------------------
+    // Private standard constructor
+  
+    Wall();
+  
+    //--------------------------------------------------------------------------
+    // Private copy constructor
+  
+    Wall(const Wall&);
+  
   public:
     Wall(int x, int y);
     ~Wall();

@@ -17,6 +17,18 @@ using std::string;
 
 class Field
 {
+  private:
+  
+  //--------------------------------------------------------------------------
+  // Private standard constructor
+  
+  Field();
+  
+  //--------------------------------------------------------------------------
+  // Private copy constructor
+  
+  Field(const Field&);
+  
   protected:
     int x_var_;
     int y_var_;
