@@ -1,10 +1,12 @@
+//------------------------------------------------------------------------------
+// Loader.cpp
 //
-//  load.cpp
-//  sep_basis
+// Group: Group 13717, study assistant: Pascal Nasahl
 //
-//  Created by Stefan Maier on 05.04.16.
-//  Copyright (c) 2016 Stefan Maier. All rights reserved.
-//
+// Authors:
+// Stefan Maier 1014203
+//------------------------------------------------------------------------------
+
 
 
 #include "Loader.h"

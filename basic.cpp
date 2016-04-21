@@ -5,10 +5,8 @@
 //
 // Authors:
 // Christopher Kopel 0730613
-// Stefan Maier 1014203
-// Benjamin Wullschleger 0773092
 //------------------------------------------------------------------------------
-//
+
 
 
 #include "Game.h"
@@ -31,7 +29,6 @@ int main(int argc, const char* argv[])
   
   UserInput::commandLine(current_game);
   
-  std::cout << "tschautschu" << std::endl;
   delete current_game;
   return 0;
   
