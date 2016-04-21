@@ -30,7 +30,7 @@ class Loader : public Filehandler
 {
   
   private:
-    std::vector< std::vector< Field* > > loaded_board_;
+    std::vector< std::vector< Field* > >* loaded_board_;
     //--------------------------------------------------------------------------
     // Private methods
     bool checkStartAndFinish(bool start, bool finish);

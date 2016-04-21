@@ -28,7 +28,7 @@ using std::ifstream;
 
 Loader::Loader(const std::string filename) : Filehandler(filename)
 {
-  
+  loaded_board_ = new std::vector< std::vector< Field* > >;
 }
 
 Loader::~Loader()
@@ -68,8 +68,8 @@ int Loader::load(Game*& game)
     getline(cur_file, fastmove_string);
     if ( (fastmove_string != "") && (fastmove_string.find_first_not_of("ldru") != std::string::npos) )
     {
-      std::cout << "db: ERR invalid fastmove" << std::endl;
-      // deleteBoard();
+      std::cout << "[ERR] Invalid file.\n";
+      deleteBoard(start_point);
       return 1;
     }
     
@@ -77,8 +77,8 @@ int Loader::load(Game*& game)
     getline(cur_file, total_turns_string);
     if(total_turns_string.find_first_not_of("0123456789")!=std::string::npos)
     {
-      std::cout << "db: ERR invalid turns" << std::endl;
-      // deleteBoard();
+      std::cout << "[ERR] Invalid file.\n";
+      deleteBoard(start_point);
       return 1;
     }
     
@@ -126,12 +126,18 @@ int Loader::load(Game*& game)
     game = new Game(loaded_board_, "", total_turns, start_point);
     if(fastmove_string != "")
     {
-      game->fastMove(fastmove_string);
+      int error_code = game->fastMove(fastmove_string);
+      if (error_code == 1)
+      {
+        std::cout << "[ERR] Invalid path.\n";
+        deleteBoard(start_point);
+        return 1;
+      }
     }
     
   }else
   {
-    std::cout << "db: can't find "<< filename_ << std::endl;
+    std::cout << "[ERR] File could not be opened.\n";
     deleteBoard(start_point);
     return 4;
   }
@@ -181,23 +187,23 @@ bool Loader::checkStartAndFinish(bool start, bool finish)
   else
   {
     /*Start und End tile existieren nicht*/
-    std::cout << "db: ERR no valid start or end tile." << std::endl;
+    std::cout << "[ERR] Invalid file.\n";
     return false;
   }
 }
 
 bool Loader::checkShape()
 {
-  unsigned long int field_height = loaded_board_.size();
-  unsigned long int field_length = loaded_board_.at(0).size();
+  unsigned long int field_height = loaded_board_->size();
+  unsigned long int field_length = loaded_board_->at(0).size();
   for(int i = 0; i < field_height; i++)
   {
-    unsigned long int row_length = loaded_board_.at(i).size();
+    unsigned long int row_length = loaded_board_->at(i).size();
     //std::cout << Row.size() << std::endl;
     //std::cout << fptr->getFieldSymbol() << std::endl;
     if(row_length != field_length)
     {
-      std::cout << "db: illigeal input. Field is not a rectangle." << std::endl;
+      std::cout << "[ERR] Invalid file.\n";
       //exception hierher
       return false;
     }
@@ -208,16 +214,16 @@ bool Loader::checkShape()
 bool Loader::checkWall()
 {
   std::vector<Field*> Row;
-  unsigned long int field_height = loaded_board_.size();
-  unsigned long int field_length = loaded_board_.at(0).size();
+  unsigned long int field_height = loaded_board_->size();
+  unsigned long int field_length = loaded_board_->at(0).size();
   
   /*Check if all fields in first line are walls*/
   for(int k = 0; k < field_length; k++)
   {
-    string field_symbol = loaded_board_.at(0).at(k)->getFieldSymbol();
+    string field_symbol = loaded_board_->at(0).at(k)->getFieldSymbol();
     if(field_symbol != "#")
     {
-      std::cout << "db: ERR invalid field in first row" << std::endl;
+      std::cout << "[ERR] Invalid file.\n";
       return false;
     }
   }
@@ -225,17 +231,17 @@ bool Loader::checkWall()
   /*Check if all fields at left and right side are walls*/
   for(int k = 1; k < field_height-1; k++)
   {
-    Row = loaded_board_.at(k);
-    string field_symbol = loaded_board_.at(k).front()->getFieldSymbol();
+    Row = loaded_board_->at(k);
+    string field_symbol = loaded_board_->at(k).front()->getFieldSymbol();
     if(field_symbol != "#")
     {
-      std::cout << "db: ERR invalid field on left wall" << std::endl;
+      std::cout << "[ERR] Invalid file.\n";
       return false;
     }
-    field_symbol = loaded_board_.at(k).back()->getFieldSymbol();
+    field_symbol = loaded_board_->at(k).back()->getFieldSymbol();
     if(field_symbol != "#")
     {
-      std::cout << "db: ERR invalid field on wall" << std::endl;
+      std::cout << "[ERR] Invalid file.\n";
       return false;
     }
   }
@@ -243,10 +249,11 @@ bool Loader::checkWall()
   /*Check if all fields in last line are walls*/
   for(int k = 0; k < field_length; k++)
   {
-    string field_symbol = loaded_board_.at(field_height-1).at(k)->getFieldSymbol();
+    string field_symbol = loaded_board_->at(field_height-1).at(k)->getFieldSymbol();
     if(field_symbol != "#")
     {
-      std::cout << "db: ERR invalid field in last row" << std::endl;
+      std::cout << "[ERR] Invalid file.\n";
+      
       return false;
     }
   }
@@ -272,7 +279,7 @@ bool Loader::checkTeleport(vector<char>* teleport_list)
     // if 0 or 2 teleport fields for every letter exist, teleporters are valid
     if(!((teleport_amount == 0) || (teleport_amount == 2)))
     {
-      std::cout << "db: invalid teleport." << std::endl;
+      std::cout << "[ERR] Invalid file.\n";
       return false;
     }
   }
@@ -311,14 +318,14 @@ bool Loader::readOneRow(ifstream& cur_file, vector<char>& teleport_list,
   // reached the end of a file, thats a fault
   else if((!cur_file.eof()) && (nr_of_fields == 0))
   {
-    std::cout << "db: ERR found empty line in maze." << std::endl;
+    std::cout << "[ERR] Invalid file.\n";
     return false;
   }
   // If we read input and reach the EOF, thats a fault
   // because there must be a line break befre EOF.
   else if((cur_file.eof()) && (nr_of_fields != 0))
   {
-    std::cout << "db: ERR there has to be a line break at end of maze." << std::endl;
+    std::cout << "[ERR] Invalid file.\n";
     return false;
   }
   
@@ -354,7 +361,7 @@ bool Loader::readOneRow(ifstream& cur_file, vector<char>& teleport_list,
     }
     else if ((symbol == 'o') && (found_start == true))
     {
-      std::cout << "db: ERR found second start tile." << std::endl;
+      std::cout << "[ERR] Invalid file.\n";
       return false;
     }
     
@@ -375,7 +382,7 @@ bool Loader::readOneRow(ifstream& cur_file, vector<char>& teleport_list,
     }
     else if((symbol == 'x') && (found_end == true))
     {
-      std::cout << "db: ERR found second end tile" << std::endl;
+      std::cout << "[ERR] Invalid file.\n";
       return false;
     }
 
@@ -410,26 +417,26 @@ bool Loader::readOneRow(ifstream& cur_file, vector<char>& teleport_list,
     
     if(valid_char == false)
     {
-      std::cout << "db: illegal input." << std::endl;
+      std::cout << "[ERR] Invalid file.\n";
       return false;
     }
   }
 
-  loaded_board_.push_back(row);
+  loaded_board_->push_back(row);
   return true;
 }
 
 void Loader::deleteBoard(Coordinates* start_point)
 {
-  for (int y = 0; y < loaded_board_.size(); ++y)
+  for (int y = 0; y < loaded_board_->size(); ++y)
   {
-    for (int x = 0; x < loaded_board_.at(y).size(); ++x)
+    for (int x = 0; x < loaded_board_->at(y).size(); ++x)
     {
-      delete loaded_board_[y][x];
-      loaded_board_[y][x] = 0;
+      delete loaded_board_->at(y).at(x);
+      loaded_board_->at(y).at(x) = 0;
     }
   }
-  loaded_board_.clear();
+  loaded_board_->clear();
   delete start_point;
   start_point = 0;
 }

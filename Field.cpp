@@ -21,7 +21,7 @@ Field::Field(int x, int y) : x_var_(x), y_var_(y){
 
 Field::~Field( )
 {
-  std::cout << "Field x: " << x_var_ << "   y:  " << y_var_ << " has been deleted" <<std::endl;
+  //std::cout << "Field x: " << x_var_ << "   y:  " << y_var_ << " has been deleted" <<std::endl;
 }
 
 

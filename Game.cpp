@@ -18,7 +18,7 @@ using std::vector;
 
 
 //------------------------------------------------------------------------------
-Game::Game(vector<vector<Field* > > new_board, string turns_string,
+Game::Game(vector<vector<Field* > >* new_board, string turns_string,
     int total_turns, Coordinates* start_point) : board_(new_board),
     finished_turns_(turns_string), max_turns_(total_turns),
     origin_(start_point), remaining_turns_(total_turns), finished_(false)
@@ -33,25 +33,17 @@ Game::~Game(){
   std::cout << "Deleting this game" << std::endl;
   delete pos_now_;
   
-  // This Loop is used to delete all the Fields in the 2D Board Vector. Copied
-  // and slightly adapted from a Stackoverflow discussion about 2D Vectors.
-  for (int y = 0; y < board_.size(); ++y)
-  {
-    for (int x = 0; x < board_.at(y).size(); ++x)
-    {
-      delete board_[y][x];
-      board_[y][x] = 0;
-    }
-  }
-  board_.clear();
+  deleteFields();
+  delete board_;
   delete origin_;
 }
 
 
 
 //------------------------------------------------------------------------------
-void Game::setBoard(std::vector< std::vector<Field*> > new_board)
+void Game::setBoard(std::vector< std::vector<Field*> >* new_board)
 {
+  deleteFields();
   board_ = new_board;
 }
 
@@ -82,7 +74,7 @@ int Game::singleMove(Coordinates& tmp_pos, Coordinates& go_to,
       int y_tmp = tmp_pos.getY();
       
       // check if we can leave the field in the desired direction
-      bool can_leave = board_[y_tmp][x_tmp]->isAbleToLeave(&go_to);
+      bool can_leave = board_->at(y_tmp).at(x_tmp)->isAbleToLeave(&go_to);
       if (can_leave == false)
       {
         std::cout << "not able to leave this field in this direction"
@@ -91,12 +83,12 @@ int Game::singleMove(Coordinates& tmp_pos, Coordinates& go_to,
       }
       
       string entering_from;
-      string symbol_now = board_[y_tmp][x_tmp]->getFieldSymbol();
+      string symbol_now = board_->at(y_tmp).at(x_tmp)->getFieldSymbol();
       int go_x = go_to.getX();
       int go_y = go_to.getY();
       
       // check if we can enter the next field in the desired direction
-      bool can_enter = board_[go_y][go_x]->isAbleToEnter(&tmp_pos,
+      bool can_enter = board_->at(go_y).at(go_x)->isAbleToEnter(&tmp_pos,
           entering_from);
       if ((can_enter == false) && (enter_code != 1))
       {
@@ -115,8 +107,8 @@ int Game::singleMove(Coordinates& tmp_pos, Coordinates& go_to,
         go_to = tmp_pos;
       }
       
-      enter_code = board_[go_y][go_x]->enter(entering_from, bonus);
-      turn_is_over = board_[go_y][go_x]->isTurnOver(go_to_str);
+      enter_code = board_->at(go_y).at(go_x)->enter(entering_from, bonus);
+      turn_is_over = board_->at(go_y).at(go_x)->isTurnOver(go_to_str);
     }
     
     // if next field is a teleport field
@@ -290,7 +282,7 @@ void Game::setGameIsFinished()
 {
   int x = pos_now_->getX();
   int y = pos_now_->getY();
-  string field_symbol = board_[y][x]->getFieldSymbol();
+  string field_symbol = board_->at(y).at(x)->getFieldSymbol();
   if (field_symbol == "x")
   {
     finished_ = true;
@@ -328,11 +320,11 @@ void Game::findTeleportLocation(const string teleport_letter,
     const Coordinates& position, Coordinates& teleport_exit)
 {
   int portal_x=0, portal_y=0;
-  for (int y = 0; y < board_.size(); y++)
+  for (int y = 0; y < board_->size(); y++)
   {
-    for (int x = 0; x < board_[y].size(); x++)
+    for (int x = 0; x < board_->at(y).size(); x++)
     {
-      string symbol = board_[y][x]->getFieldSymbol();
+      string symbol = board_->at(y).at(x)->getFieldSymbol();
       
       // If the momentary field in this loop is not the one the player wants to
       // enter and if it has the same portal letter as the one he wants to enter
@@ -361,13 +353,13 @@ void Game::show(bool more) const
     std::cout << "Moved Steps: " << finished_turns_ << std::endl;
   }
 
-  for (unsigned int y = 0; y < board_.size(); y++)
+  for (unsigned int y = 0; y < board_->size(); y++)
   {
-    for (unsigned int x = 0; x < board_[y].size(); x++)
+    for (unsigned int x = 0; x < board_->at(y).size(); x++)
     {
       if ((x != pos_now_->getX()) || (y != pos_now_->getY()))
       {
-        std::cout << board_[y][x]->getFieldSymbol();
+        std::cout << board_->at(y).at(x)->getFieldSymbol();
       }
       else
       {
@@ -381,7 +373,7 @@ void Game::show(bool more) const
 
 
 //------------------------------------------------------------------------------
-vector< std::vector<Field*> > Game::getBoard() const
+vector< std::vector<Field*> >* Game::getBoard() const
 {
   return board_;
 }
@@ -395,4 +387,22 @@ void Game::reset()
   remaining_turns_ = getMaxTurns();
   setFinishedTurns("");
   *pos_now_ = *origin_;
+}
+
+
+
+//------------------------------------------------------------------------------
+void Game::deleteFields()
+{
+  // This Loop is used to delete all the Fields in the 2D Board Vector. Copied
+  // and slightly adapted from a Stackoverflow discussion about 2D Vectors.
+  for (int y = 0; y < board_->size(); ++y)
+  {
+    for (int x = 0; x < board_->at(y).size(); ++x)
+    {
+      delete board_->at(y).at(x);
+      board_->at(y).at(x) = 0;
+    }
+  }
+  board_->clear();
 }

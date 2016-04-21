@@ -22,7 +22,7 @@ class Game
 {
   private:
 
-    vector<vector<Field* > > board_;
+    vector<vector<Field* > >* board_;
     Coordinates* origin_;
     Coordinates* pos_now_; //x and y coordinates of player
     int remaining_turns_;
@@ -91,6 +91,11 @@ class Game
     void findTeleportLocation(const string teleport_letter,
         const Coordinates& position, Coordinates& teleport_exit);
   
+    //--------------------------------------------------------------------------
+    // This method deletes all fields of the game board.
+
+    void deleteFields();
+  
   public:
     //--------------------------------------------------------------------------
     // This is the Costructor of the Game class.
@@ -101,7 +106,7 @@ class Game
     // @param total_turns maximum number of turns in the game
     // @param start_point the position of the start field
   
-    Game(vector<vector<Field* > > new_board, string turns_string,
+    Game(vector<vector<Field* > >* new_board, string turns_string,
         int total_turns, Coordinates* start_point);
   
     //--------------------------------------------------------------------------
@@ -116,7 +121,7 @@ class Game
     // @param new_board the game board which is passed to the corresponding
     //        member variable
 
-    void setBoard(vector<vector<Field*> > new_board);
+    void setBoard(vector<vector<Field*> >* new_board);
 
     //--------------------------------------------------------------------------
     // Setter: sets/updates the all the turns that were already executed
@@ -138,7 +143,7 @@ class Game
     //
     // @return vector <vector<Field*> > the returned board
   
-    vector <vector<Field*> > getBoard() const;
+    vector <vector<Field*> >* getBoard() const;
   
     //--------------------------------------------------------------------------
     // Getter: returns a string of commands that were already executed in this

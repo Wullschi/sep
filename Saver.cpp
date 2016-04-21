@@ -51,14 +51,14 @@ int Saver::save(const Game& current_game)
     file << current_game.getFinishedTurns() << "\n";
     file << current_game.getMaxTurns() << "\n";
     
-    const std::vector<std::vector<Field*> > board = current_game.getBoard();
+    const std::vector<std::vector<Field*> >* board = current_game.getBoard();
     
-    for (unsigned int y = 0; y < board.size(); y++)
+    for (unsigned int y = 0; y < board->size(); y++)
     {
       for (unsigned int x = 0; x < board[y].size(); x++)
       {
         
-        file << board[y][x]->getFieldSymbol();
+        file << board->at(y).at(x)->getFieldSymbol();
       }
 
       file << "\n";

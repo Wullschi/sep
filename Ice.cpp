@@ -18,7 +18,7 @@ Ice::Ice(int x, int y) : Field(x, y)
 }
 
 Ice::~Ice( ){
-  std::cout << "Ice x: " << x_var_ << "   y:  " << y_var_ << " has been deleted" <<std::endl;
+  //std::cout << "Ice x: " << x_var_ << "   y:  " << y_var_ << " has been deleted" <<std::endl;
 }
 
 /****************************************************************************

@@ -20,7 +20,7 @@ Start::Start(int x, int y) : Field(x, y)
 
 Start::~Start()
 {
-  std::cout << "Start x: " << x_var_ << "   y:  " << y_var_ << " has been deleted" <<std::endl;
+  //std::cout << "Start x: " << x_var_ << "   y:  " << y_var_ << " has been deleted" <<std::endl;
 }
 
 /****************************************************************************
