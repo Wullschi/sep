@@ -64,10 +64,10 @@ int Loader::load(Game*& game)
     
     // read fastmove string and check if it is valid
     getline(cur_file, fastmove_string);
-    if(fastmove_string.find_first_not_of("ldru")!=std::string::npos)
+    if ( (fastmove_string != "") && (fastmove_string.find_first_not_of("ldru") != std::string::npos) )
     {
       std::cout << "db: ERR invalid fastmove" << std::endl;
-      deleteBoard();
+      // deleteBoard();
       return 1;
     }
     
@@ -76,7 +76,7 @@ int Loader::load(Game*& game)
     if(total_turns_string.find_first_not_of("0123456789")!=std::string::npos)
     {
       std::cout << "db: ERR invalid turns" << std::endl;
-      deleteBoard();
+      // deleteBoard();
       return 1;
     }
     
@@ -133,7 +133,6 @@ int Loader::load(Game*& game)
   }
 
 
-  deleteBoard();
   return 0;
 }
 
