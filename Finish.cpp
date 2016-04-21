@@ -21,7 +21,7 @@ Finish::Finish(int x, int y) : Field(x, y)
 
 Finish::~Finish()
 {
-  std::cout << "Field x: " << x_var_ << "   y:  " << y_var_ << " has been deleted" <<std::endl;
+  std::cout << "Finish x: " << x_var_ << "   y:  " << y_var_ << " has been deleted" <<std::endl;
 }
 
 /****************************************************************************

@@ -20,7 +20,7 @@ Teleport::Teleport(int x, int y, std::string symbol_letter) : Field(x, y)
 
 Teleport::~Teleport()
 {
-  std::cout << "Field x: " << x_var_ << "   y:  " << y_var_ << " has been deleted" <<std::endl;
+  std::cout << "Teleport x: " << x_var_ << "   y:  " << y_var_ << " has been deleted" <<std::endl;
 }
 
 /****************************************************************************

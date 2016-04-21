@@ -20,7 +20,7 @@ Path::Path(int x, int y) : Field(x, y)
 
 Path::~Path()
 {
-  std::cout << "Field x: " << x_var_ << "   y:  " << y_var_ << " has been deleted" <<std::endl;
+  std::cout << "Path x: " << x_var_ << "   y:  " << y_var_ << " has been deleted" <<std::endl;
 }
 
 /****************************************************************************

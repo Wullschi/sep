@@ -47,9 +47,10 @@ Game::~Game(){
     for (int x = 0; x < board_.at(y).size(); ++x)
     {
       delete board_[y][x];
+      board_[y][x] = 0;
     }
   }
-  
+  board_.clear();
   delete origin_;
 }
 

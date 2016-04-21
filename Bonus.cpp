@@ -29,7 +29,7 @@ Bonus::Bonus(int x, int y, std::string symbol_letter) : Field(x, y)
 
 Bonus::~Bonus()
 {
-  std::cout << "Field x: " << x_var_ << "   y:  " << y_var_ << " has been deleted" <<std::endl;
+  std::cout << "Bonus x: " << x_var_ << "   y:  " << y_var_ << " has been deleted" <<std::endl;
 }
 
 /****************************************************************************

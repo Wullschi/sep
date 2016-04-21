@@ -37,7 +37,7 @@ OneWay::OneWay(int x, int y, std::string symbolLetter) : Field(x, y)
 
 OneWay::~OneWay( )
 {
-  std::cout << "Field x: " << x_var_ << "   y:  " << y_var_ << " has been deleted" <<std::endl;
+  std::cout << "Oneway x: " << x_var_ << "   y:  " << y_var_ << " has been deleted" <<std::endl;
 }
 
 

@@ -88,17 +88,19 @@ int Loader::load(Game*& game)
     // start reading the board if fastmove string and max turns are valid
     while(!cur_file.eof())
     {
-
       if(cur_file.eof())
       {
         break;
       }
+     
       
       bool correct_row = readOneRow(cur_file, teleport_list, found_start, found_end, row_count, start_point);
       
+
+      
       if (correct_row == false)
       {
-        deleteBoard();
+        deleteBoard(start_point);
         return 1;
       }
 
@@ -115,7 +117,7 @@ int Loader::load(Game*& game)
     // if any error has been detected, stop loading
     if ((start_and_finish == false) || (shape == false) || (wall == false) || (teleport == false))
     {
-      deleteBoard();
+      deleteBoard(start_point);
       return 1;
     }
     
@@ -128,7 +130,7 @@ int Loader::load(Game*& game)
   }else
   {
     std::cout << "db: can't find "<< filename_ << std::endl;
-    deleteBoard();
+    deleteBoard(start_point);
     return 4;
   }
 
@@ -294,6 +296,34 @@ bool Loader::readOneRow(ifstream& cur_file, vector<char>& teleport_list,
   
   getline(cur_file, row_string);
   nr_of_fields = row_string.size();
+  
+  
+  
+  // Check if we are reading the last line break
+  // that ends the maze
+  if((cur_file.eof()) && (nr_of_fields == 0))
+  {
+    return true;
+  }
+  // If we don't read any input in a row and we haven't
+  // reached the end of a file, thats a fault
+  else if((!cur_file.eof()) && (nr_of_fields == 0))
+  {
+    std::cout << "db: ERR found empty line in maze." << std::endl;
+    return false;
+  }
+  // If we read input and reach the EOF, thats a fault
+  // because there must be a line break befre EOF.
+  else if((cur_file.eof()) && (nr_of_fields != 0))
+  {
+    std::cout << "db: ERR there has to be a line break at end of maze." << std::endl;
+    return false;
+  }
+  
+  
+  
+  
+  // now we can start reading the symbols in this row
   for (int x = 0; x < nr_of_fields; x++)
   {
     bool valid_char = false;
@@ -382,18 +412,23 @@ bool Loader::readOneRow(ifstream& cur_file, vector<char>& teleport_list,
       return false;
     }
   }
+
   loaded_board_.push_back(row);
   return true;
 }
 
-void Loader::deleteBoard()
+void Loader::deleteBoard(Coordinates* start_point)
 {
   for (int y = 0; y < loaded_board_.size(); ++y)
   {
     for (int x = 0; x < loaded_board_.at(y).size(); ++x)
     {
       delete loaded_board_[y][x];
+      loaded_board_[y][x] = 0;
     }
   }
+  loaded_board_.clear();
+  delete start_point;
+  start_point = 0;
 }
 

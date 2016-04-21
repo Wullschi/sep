@@ -22,7 +22,7 @@ Wall::Wall(int x, int y) : Field(x, y)
 
 Wall::~Wall()
 {
-  std::cout << "Field x: " << x_var_ << "   y:  " << y_var_ << " has been deleted" <<std::endl;
+  std::cout << "Wall x: " << x_var_ << "   y:  " << y_var_ << " has been deleted" <<std::endl;
 }
 
 /****************************************************************************
