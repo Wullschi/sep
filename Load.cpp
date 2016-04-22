@@ -24,13 +24,13 @@ Load::~Load()
 //------------------------------------------------------------------------------
 
 
-int Load::execute(Game*& board, std::vector<std::string>& params)
+Command::Status Load::execute(Game*& board, std::vector<std::string>& params)
 {
   
   if (params.size() != 1)
   {
     std::cout << "Wrong parameter count.\n" << std::endl;
-    return 1;
+    return WRONG_PARAMETER_COUNT;
   }
   
   Game* new_board = 0;
@@ -39,14 +39,14 @@ int Load::execute(Game*& board, std::vector<std::string>& params)
   if (!gameloader.filenameIsValid())
   {
     std::cout << "Wrong parameter.\n" << std::endl;
-    return 2;
+    return WRONG_PARAMETER;
   }
   
-  int load_error = gameloader.load(new_board);
+  Command::Status return_status = gameloader.load(new_board);
   
-  if (!load_error)
+  if (!return_status)
   {
-    if (board != 0)
+    if (board)
     {
       delete board;
     }
@@ -59,7 +59,7 @@ int Load::execute(Game*& board, std::vector<std::string>& params)
     
   }
   
-  return load_error;
+  return return_status;
   
 }
 

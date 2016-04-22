@@ -39,7 +39,7 @@ Loader::~Loader()
 
 
 /*Loading function*/
-int Loader::load(Game*& game)
+Command::Status Loader::load(Game*& game)
 {
   const char* LOADFILE = filename_.c_str();
   Coordinates* start_point = 0;
@@ -70,7 +70,7 @@ int Loader::load(Game*& game)
     {
       std::cout << "[ERR] Invalid file.\n";
       deleteBoard(start_point);
-      return 1;
+      return Command::INVALID_FILE;
     }
     
     // read max amount of turns and check if it is a valid number
@@ -79,7 +79,7 @@ int Loader::load(Game*& game)
     {
       std::cout << "[ERR] Invalid file.\n";
       deleteBoard(start_point);
-      return 1;
+      return Command::INVALID_FILE;
     }
     
     std::istringstream total_turns_stream;
@@ -103,7 +103,7 @@ int Loader::load(Game*& game)
       if (correct_row == false)
       {
         deleteBoard(start_point);
-        return 1;
+        return Command::INVALID_FILE;
       }
 
       row.clear();
@@ -120,19 +120,19 @@ int Loader::load(Game*& game)
     if ((start_and_finish == false) || (shape == false) || (wall == false) || (teleport == false))
     {
       deleteBoard(start_point);
-      return 1;
+      return Command::INVALID_FILE;
     }
     
     game = new Game(loaded_board_, "", total_turns, start_point);
     
     if(fastmove_string != "")
     {
-      int error_code = game->fastMove(fastmove_string);
-      if (error_code == 1)
+      Command::Status fastmove_status = game->fastMove(fastmove_string);
+      if (fastmove_status)
       {
         std::cout << "[ERR] Invalid path.\n";
         deleteBoard(start_point);
-        return 1;
+        return Command::INVALID_FILE;
       }
     }
     
@@ -140,11 +140,11 @@ int Loader::load(Game*& game)
   {
     std::cout << "[ERR] File could not be opened.\n";
     deleteBoard(start_point);
-    return 4;
+    return Command::FILE_NOT_OPENED;
   }
 
 
-  return 0;
+  return Command::OK;
 }
 
 

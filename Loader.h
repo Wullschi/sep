@@ -16,9 +16,10 @@
 #include <vector>
 #include <sstream>
 
-
 #include "Filehandler.h"
-#include <fstream>
+
+#include "Command.h"   // necessary to access Status constants
+
 using std::vector;
 using std::ifstream;
 
@@ -47,7 +48,7 @@ class Loader : public Filehandler
     Loader(const std::string filename);
     ~Loader();
     
-    int load(Game*& game);
+    Command::Status load(Game*& game);
     
     
 };
