@@ -24,10 +24,11 @@ using std::string;
 using std::cout;
 using std::endl;
 
-const string UserInput::QUIT_MESSAGE_ = "Bye!\n";
-const string UserInput::PROMPT_ = "sep>";
+const std::string UserInput::PROMPT_ = "sep>";
+const std::string UserInput::CONGRATULATION_MESSAGE_ = "Congratulation! You solved the maze.\n";
+const std::string UserInput::QUIT_MESSAGE_ = "Bye!\n";
 
-string UserInput::entered_command_ = "";
+std::string UserInput::entered_command_ = "";
 std::vector<std::string> UserInput::entered_arguments_;
 
 

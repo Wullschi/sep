@@ -33,7 +33,7 @@ Saver::~Saver()
 }
 
 
-int Saver::save(const Game& current_game)
+Command::Status Saver::save(const Game& current_game)
 {
   
   
@@ -44,6 +44,7 @@ int Saver::save(const Game& current_game)
   if (!file.is_open())
   {
     std::cout << "cannot open file" << std::endl;
+    return Command::FILE_NOT_OPENED;
   }
   else
   {
@@ -68,7 +69,7 @@ int Saver::save(const Game& current_game)
     file.close();
   }
    
-  return 0;
+  return Command::OK;
 
 }
   

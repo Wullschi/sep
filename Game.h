@@ -12,6 +12,8 @@
 #include <iostream>
 #include <vector> // Can't forward declare templates
 #include <fstream>
+
+#include "Command.h"   // necessary to access Status constants
 class Field;
 class Coordinates;
 using std::string;
@@ -164,26 +166,26 @@ class Game
 
     //--------------------------------------------------------------------------
     // This method is executed when the player uses the move-command. It makes
-    // use  of the single_move() method and updates the member variables of this
+    // use of the single_move() method and updates the member variables of this
     // class (position of player, remaining turns etc.) if the move is valid.
     //
     // @param go_to_string the move string that was entered by the player
     //
-    // @return int 0 if valid move, 1 if invalid move
+    // @return Status constant of class Command: OK or INVALID_MOVE
 
-    int move(string direction);
+    Command::Status move(string direction);
   
     //--------------------------------------------------------------------------
-    // This method is executed when the player uses the move-command. It makes
-    // use  of the single_move() method for every letter in the string. If the
+    // This method is executed when the player uses the fastmove-command. It makes
+    // use of the single_move() method for every letter in the string. If the
     // series of single moves is valid, it updates the member variables of this
     // class (position of player, remaining turns etc.).
     //
     // @param all_moves_str the fastmove string entered by the player
     //
-    // @return int 0 if fastmove is valid, 1 if fastmove is invalid
+    // @return Status constant of class Command: OK or INVALID_MOVE
 
-    int fastMove(string direction);
+    Command::Status fastMove(string direction);
 
     //--------------------------------------------------------------------------
     // Resets the game

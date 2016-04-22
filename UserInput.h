@@ -25,6 +25,7 @@ class UserInput
     
   public:
     static const std::string PROMPT_;
+    static const std::string CONGRATULATION_MESSAGE_;
     static const std::string QUIT_MESSAGE_;
     static int checkCommandLineOptions(int argc, const char* argv[], Game*& current_game);
     static void parseUserInput(std::string user_input);

@@ -32,10 +32,10 @@ public:
   virtual ~Show();
   //--------------------------------------------------------------------------
   // Executes the command.
-  // @param board The board where action should be performed on
-  // @param params Possible parameters neede for the execution
-  // @return Integer representing the success of the action
-  virtual int execute(Game*& board, std::vector<std::string>& params);
+  // @param board Pointer to the board where action should be performed on
+  // @param params Possible parameters needed for the execution
+  // @return Status constant representing the success of the action
+  virtual Command::Status execute(Game*& board, std::vector<std::string>& params);
   //--------------------------------------------------------------------------
   
 };

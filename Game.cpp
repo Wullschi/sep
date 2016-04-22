@@ -11,6 +11,7 @@
 #include "Game.h"
 #include "Field.h"
 #include "Coordinates.h"
+#include "Command.h"
 
 using std::string;
 using std::vector;
@@ -121,7 +122,7 @@ int Game::singleMove(Coordinates& tmp_pos, Coordinates& go_to,
 
 
 //------------------------------------------------------------------------------
-int Game::move(string go_to_str)
+Command::Status Game::move(string go_to_str)
 {
   int move_validity = 0;
   int bonus = 0;
@@ -148,19 +149,19 @@ int Game::move(string go_to_str)
     // check if player is on finish field
     setGameIsFinished();
     
-    return 0;
+    return Command::OK;
   }
   else
   {
     std::cout << "[ERR] Invalid move.\n";
-    return 1;
+    return Command::INVALID_MOVE;
   }
 }
 
 
 
 //------------------------------------------------------------------------------
-int Game::fastMove(string all_turns_str)
+Command::Status Game::fastMove(string all_turns_str)
 {
   int move_validity = 0;
   int bonus, char_iterator = 0;
@@ -195,13 +196,13 @@ int Game::fastMove(string all_turns_str)
     finished_turns_ = finished_turns_ + all_turns_str; // update finished turns
     *pos_now_ = tmp_pos; // update player position
     setGameIsFinished(); // check if player is on finish field
-    return 0; // All OK
+    return Command::OK; // All OK
   }
   else
   {
     remaining_turns_ = remaining_turns_backup;
     std::cout << "[ERR] Invalid move.\n";
-    return 1; // invalid series of turns
+    return Command::INVALID_MOVE; // invalid series of turns
   }
 }
 

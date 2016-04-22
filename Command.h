@@ -27,6 +27,20 @@ private:
   std::string command_name_;
 public:
   //--------------------------------------------------------------------------
+  enum Status
+  {
+    GAME_WON = -1,
+    OK,
+    WRONG_PARAMETER_COUNT,
+    WRONG_PARAMETER,
+    NO_MAZE_LOADED,
+    FILE_NOT_OPENED,
+    INVALID_FILE,
+    INVALID_PATH,
+    FILE_NOT_WRITTEN,
+    INVALID_MOVE
+  };
+  
   // Constructor
   Command(std::string name);
   //--------------------------------------------------------------------------
@@ -34,10 +48,10 @@ public:
   virtual ~Command();
   //--------------------------------------------------------------------------
   // Executes the command.
-  // @param board The board where action should be performed on
-  // @param params Possible parameters neede for the execution
-  // @return Integer representing the success of the action
-  virtual int execute(Game*& board, std::vector<std::string>& params) = 0;
+  // @param board Pointer to the board where action should be performed on
+  // @param params Possible parameters needed for the execution
+  // @return Status constant  representing the success of the action
+  virtual Status execute(Game*& board, std::vector<std::string>& params) = 0;
   //--------------------------------------------------------------------------
   // Getter Methods
   const std::string& getName() const;

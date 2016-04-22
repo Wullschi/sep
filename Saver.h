@@ -16,6 +16,8 @@
 
 #include "Filehandler.h"
 
+#include "Command.h"   // necessary to access Command Status constants
+
 class Game;
 class Saver: public Filehandler
 {
@@ -30,7 +32,7 @@ class Saver: public Filehandler
     Saver(const std::string filename);
     ~Saver();
     
-    int save(const Game& current_game);
+    Command::Status save(const Game& current_game);
     static void enableAutosave(std::string filename);
     static bool isAutosaveActive();
     static std::vector<std::string> getAutosaveParams();
