@@ -33,7 +33,6 @@ Loader::Loader(const std::string filename) : Filehandler(filename)
 
 Loader::~Loader()
 {
-  
 }
 
 
@@ -439,6 +438,7 @@ void Loader::deleteBoard(Coordinates* start_point)
   }
   loaded_board_->clear();
   delete start_point;
+  delete loaded_board_;
   start_point = 0;
 }
 
