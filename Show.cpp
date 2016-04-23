@@ -35,26 +35,23 @@ Command::Status Show::execute(Game*& board, std::vector<std::string>& params)
     }
     else
     {
-      std::cout << "Wrong parameter.\n" << std::endl;
-      return WRONG_PARAMETER;
+      return WRONG_PARAMETER_;
     }
   
   }
   
   else if (params.size() > 1)
   {
-    std::cout << "Wrong parameter count.\n" << std::endl;
-    return WRONG_PARAMETER_COUNT;
+    return WRONG_PARAMETER_COUNT_;
   }
   
   if (!board)
   {
-    std::cout << "No maze loaded.\n" << std::endl;
-    return NO_MAZE_LOADED;
+    return NO_MAZE_LOADED_;
   }
   
   board->show(more);
   
-  return OK;
+  return OK_;
   
 }

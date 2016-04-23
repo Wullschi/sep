@@ -28,22 +28,19 @@ Command::Status Save::execute(Game*& board, std::vector<std::string>& params)
   
   if (params.size() != 1)
   {
-    std::cout << "Wrong parameter count.\n" << std::endl;
-    return WRONG_PARAMETER_COUNT;
+    return WRONG_PARAMETER_COUNT_;
   }
   
   Saver gamesaver(params.front());
   
   if (!gamesaver.filenameIsValid())
   {
-    std::cout << "Wrong parameter.\n" << std::endl;
-    return WRONG_PARAMETER;
+    return WRONG_PARAMETER_;
   }
   
   if (!board)
   {
-    std::cout << "No maze loaded.\n" << std::endl;
-    return NO_MAZE_LOADED;
+    return NO_MAZE_LOADED_;
   }
   
   Command::Status return_status = gamesaver.save(*board);

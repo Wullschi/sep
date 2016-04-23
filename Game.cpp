@@ -149,12 +149,15 @@ Command::Status Game::move(string go_to_str)
     // check if player is on finish field
     setGameIsFinished();
     
-    return Command::OK;
+    return (finished_) ? Command::GAME_WON_ : Command::OK_;
+  }
+  else if (!remaining_turns_)
+  {
+    return Command::NO_MORE_STEPS_;
   }
   else
   {
-    std::cout << "[ERR] Invalid move.\n";
-    return Command::INVALID_MOVE;
+    return Command::INVALID_MOVE_;
   }
 }
 
@@ -196,13 +199,17 @@ Command::Status Game::fastMove(string all_turns_str)
     finished_turns_ = finished_turns_ + all_turns_str; // update finished turns
     *pos_now_ = tmp_pos; // update player position
     setGameIsFinished(); // check if player is on finish field
-    return Command::OK; // All OK
+    
+    return (finished_) ? Command::GAME_WON_ : Command::OK_;
+  }
+  else if (!remaining_turns_)
+  {
+    return Command::NO_MORE_STEPS_;
   }
   else
   {
     remaining_turns_ = remaining_turns_backup;
-    std::cout << "[ERR] Invalid move.\n";
-    return Command::INVALID_MOVE; // invalid series of turns
+    return Command::INVALID_MOVE_; // invalid series of turns
   }
 }
 
@@ -278,7 +285,6 @@ void Game::setGameIsFinished()
   if (field_symbol == "x")
   {
     finished_ = true;
-    std::cout << "Congratulation! You solved the maze.\n";
   }
 }
 

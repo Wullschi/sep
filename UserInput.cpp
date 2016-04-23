@@ -1,14 +1,15 @@
-//------------------------------------------------------------------------------
-// UserInput.cpp
 //
-// Group: Group 13717, study assistant: Pascal Nasahl
+//  UserInput.cpp
+//  SEP Basisbeispiel
 //
-// Authors:
-// Christopher Kopel 0730613
-//------------------------------------------------------------------------------
+//  Created by Benjamin on 28.03.16.
+//  Copyright © 2016 Benjamin. All rights reserved.
+//
 
 
 #include "UserInput.h"
+
+#include "Message.h"
 #include "Game.h"
 #include "Saver.h"
 #include "Load.h"
@@ -21,12 +22,8 @@
 
 
 using std::string;
-using std::cout;
-using std::endl;
 
 const std::string UserInput::PROMPT_ = "sep>";
-const std::string UserInput::CONGRATULATION_MESSAGE_ = "Congratulation! You solved the maze.\n";
-const std::string UserInput::QUIT_MESSAGE_ = "Bye!\n";
 
 std::string UserInput::entered_command_ = "";
 std::vector<std::string> UserInput::entered_arguments_;
@@ -35,9 +32,11 @@ std::vector<std::string> UserInput::entered_arguments_;
 int UserInput::checkCommandLineOptions(int argc, const char* argv[], Game*& current_game)
 {
   
+  const int WRONG_USAGE_RETURN = 2;
+  
   if ( (argc == 2) || (argc == 4) || (argc > 5) )
   {
-    cout << "Wrong number of arguments!" << endl;
+    Message::outputWrongUsage();
     return 2;
   }
   
@@ -59,8 +58,8 @@ int UserInput::checkCommandLineOptions(int argc, const char* argv[], Game*& curr
     }
     else
     {
-      cout << "Wrong arguments!" << endl;
-      return 2;
+      Message::outputWrongUsage();
+      return WRONG_USAGE_RETURN;
     }
   
   }
@@ -125,6 +124,7 @@ void UserInput::commandLine(Game*& current_game)
   
   
   std::string user_input = "";
+  Command::Status return_status = Command::OK_;
   
   
   do
@@ -142,54 +142,61 @@ void UserInput::commandLine(Game*& current_game)
     if (entered_command_ == "load")
     {
       Load load("load");
-      load.execute(current_game, entered_arguments_);
+      return_status = load.execute(current_game, entered_arguments_);
     }
     
     else if (entered_command_ == "save")
     {
       Save save("save");
-      save.execute(current_game, entered_arguments_);
+      return_status = save.execute(current_game, entered_arguments_);
     }
         
     else if (entered_command_ == "move")
     {
       Move move("move");
-      move.execute(current_game, entered_arguments_);
+      return_status = move.execute(current_game, entered_arguments_);
     }
     
     else if (entered_command_ == "fastmove")
     {
       Fastmove fastmove("fastmove");
-      fastmove.execute(current_game, entered_arguments_);
+      return_status = fastmove.execute(current_game, entered_arguments_);
     }
         
     else if (entered_command_ == "reset")
     {
       Reset reset("reset");
-      reset.execute(current_game, entered_arguments_);
+      return_status = reset.execute(current_game, entered_arguments_);
     }
         
     else if (entered_command_ == "show")
     {
       Show show("show");
-      show.execute(current_game, entered_arguments_);
+      return_status = show.execute(current_game, entered_arguments_);
     }
         
     else if (entered_command_ == "quit")
     {
-      std::cout << QUIT_MESSAGE_ << std::endl;
+      Message::outputQuit();
+      return_status = Command::OK_;
     }
     
     else if (entered_command_ == "")
     {
-      
+      return_status = Command::OK_;
     }
     
     else
     {
-      cout << "Wrong command!" << endl;
+      Message::outputUnknownCommand();
+      return_status = Command::OK_;
     }
     
+  if (return_status)
+  {
+    Message::outputByCode(return_status);
+  }
+  
   } while (entered_command_ != "quit");
      
      

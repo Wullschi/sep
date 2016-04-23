@@ -29,8 +29,7 @@ Command::Status Load::execute(Game*& board, std::vector<std::string>& params)
   
   if (params.size() != 1)
   {
-    std::cout << "Wrong parameter count.\n" << std::endl;
-    return WRONG_PARAMETER_COUNT;
+    return WRONG_PARAMETER_COUNT_;
   }
   
   Game* new_board = 0;
@@ -38,13 +37,12 @@ Command::Status Load::execute(Game*& board, std::vector<std::string>& params)
   
   if (!gameloader.filenameIsValid())
   {
-    std::cout << "Wrong parameter.\n" << std::endl;
-    return WRONG_PARAMETER;
+    return WRONG_PARAMETER_;
   }
   
   Command::Status return_status = gameloader.load(new_board);
   
-  if (!return_status)
+  if (return_status <= 0)
   {
     if (board)
     {

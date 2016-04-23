@@ -10,17 +10,18 @@
 
 
 #include "Loader.h"
+
 #include "Coordinates.h"
-#include "Field.h"
 #include "Bonus.h"
 #include "Teleport.h"
 #include "Ice.h"
 #include "Wall.h"
 #include "Path.h"
-#include "Oneway.h"
+#include "OneWay.h"
 #include "Start.h"
 #include "Finish.h"
 #include "Game.h"
+#include "Fastmove.h"
 
 using std::vector;
 using std::string;
@@ -59,7 +60,6 @@ Command::Status Loader::load(Game*& game)
 
   if(cur_file.is_open())
   {
-    //std::cout << "db: opened loadfile" << std::endl;
     /*Reading the file*/
     std::vector<Field*> row;
     
@@ -67,18 +67,16 @@ Command::Status Loader::load(Game*& game)
     getline(cur_file, fastmove_string);
     if ( (fastmove_string != "") && (fastmove_string.find_first_not_of("ldru") != std::string::npos) )
     {
-      std::cout << "[ERR] Invalid file.\n";
       deleteBoard(start_point);
-      return Command::INVALID_FILE;
+      return Command::INVALID_FILE_;
     }
     
     // read max amount of turns and check if it is a valid number
     getline(cur_file, total_turns_string);
     if(total_turns_string.find_first_not_of("0123456789")!=std::string::npos)
     {
-      std::cout << "[ERR] Invalid file.\n";
       deleteBoard(start_point);
-      return Command::INVALID_FILE;
+      return Command::INVALID_FILE_;
     }
     
     std::istringstream total_turns_stream;
@@ -102,7 +100,7 @@ Command::Status Loader::load(Game*& game)
       if (correct_row == false)
       {
         deleteBoard(start_point);
-        return Command::INVALID_FILE;
+        return Command::INVALID_FILE_;
       }
 
       row.clear();
@@ -119,31 +117,31 @@ Command::Status Loader::load(Game*& game)
     if ((start_and_finish == false) || (shape == false) || (wall == false) || (teleport == false))
     {
       deleteBoard(start_point);
-      return Command::INVALID_FILE;
+      return Command::INVALID_FILE_;
     }
     
     game = new Game(loaded_board_, "", total_turns, start_point);
     
-    if(fastmove_string != "")
+    if (fastmove_string != "")
     {
       Command::Status fastmove_status = game->fastMove(fastmove_string);
-      if (fastmove_status)
+      if (fastmove_status == Command::INVALID_MOVE_)
       {
-        std::cout << "[ERR] Invalid path.\n";
         deleteBoard(start_point);
-        return Command::INVALID_FILE;
+        return Command::INVALID_PATH_;
       }
+      return fastmove_status;
     }
     
-  }else
+  }
+  else
   {
-    std::cout << "[ERR] File could not be opened.\n";
     deleteBoard(start_point);
-    return Command::FILE_NOT_OPENED;
+    return Command::FILE_NOT_OPENED_;
   }
 
 
-  return Command::OK;
+  return Command::OK_;
 }
 
 
@@ -186,8 +184,7 @@ bool Loader::checkStartAndFinish(bool start, bool finish)
   }
   else
   {
-    /*Start und End tile existieren nicht*/
-    std::cout << "[ERR] Invalid file.\n";
+    /*Start and/or End tile don't exist*/
     return false;
   }
 }
@@ -199,11 +196,8 @@ bool Loader::checkShape()
   for(int i = 0; i < field_height; i++)
   {
     unsigned long int row_length = loaded_board_->at(i).size();
-    //std::cout << Row.size() << std::endl;
-    //std::cout << fptr->getFieldSymbol() << std::endl;
-    if(row_length != field_length)
+    if (row_length != field_length)
     {
-      std::cout << "[ERR] Invalid file.\n";
       //exception hierher
       return false;
     }
@@ -221,9 +215,8 @@ bool Loader::checkWall()
   for(int k = 0; k < field_length; k++)
   {
     string field_symbol = loaded_board_->at(0).at(k)->getFieldSymbol();
-    if(field_symbol != "#")
+    if (field_symbol != "#")
     {
-      std::cout << "[ERR] Invalid file.\n";
       return false;
     }
   }
@@ -235,13 +228,11 @@ bool Loader::checkWall()
     string field_symbol = loaded_board_->at(k).front()->getFieldSymbol();
     if(field_symbol != "#")
     {
-      std::cout << "[ERR] Invalid file.\n";
       return false;
     }
     field_symbol = loaded_board_->at(k).back()->getFieldSymbol();
     if(field_symbol != "#")
     {
-      std::cout << "[ERR] Invalid file.\n";
       return false;
     }
   }
@@ -250,10 +241,8 @@ bool Loader::checkWall()
   for(int k = 0; k < field_length; k++)
   {
     string field_symbol = loaded_board_->at(field_height-1).at(k)->getFieldSymbol();
-    if(field_symbol != "#")
+    if (field_symbol != "#")
     {
-      std::cout << "[ERR] Invalid file.\n";
-      
       return false;
     }
   }
@@ -279,7 +268,6 @@ bool Loader::checkTeleport(vector<char>* teleport_list)
     // if 0 or 2 teleport fields for every letter exist, teleporters are valid
     if(!((teleport_amount == 0) || (teleport_amount == 2)))
     {
-      std::cout << "[ERR] Invalid file.\n";
       return false;
     }
   }
@@ -318,14 +306,12 @@ bool Loader::readOneRow(ifstream& cur_file, vector<char>& teleport_list,
   // reached the end of a file, thats a fault
   else if((!cur_file.eof()) && (nr_of_fields == 0))
   {
-    std::cout << "[ERR] Invalid file.\n";
     return false;
   }
   // If we read input and reach the EOF, thats a fault
   // because there must be a line break befre EOF.
   else if((cur_file.eof()) && (nr_of_fields != 0))
   {
-    std::cout << "[ERR] Invalid file.\n";
     return false;
   }
   
@@ -361,7 +347,6 @@ bool Loader::readOneRow(ifstream& cur_file, vector<char>& teleport_list,
     }
     else if ((symbol == 'o') && (found_start == true))
     {
-      std::cout << "[ERR] Invalid file.\n";
       return false;
     }
     
@@ -369,7 +354,6 @@ bool Loader::readOneRow(ifstream& cur_file, vector<char>& teleport_list,
     {
       row.push_back(new Ice(x,y));
       valid_char = true;
-      //std::cout << "db: + at (" << i << "," << j << ")" <<std::endl;
     }
     
     if((symbol == 'x') && (found_end == false))
@@ -378,11 +362,9 @@ bool Loader::readOneRow(ifstream& cur_file, vector<char>& teleport_list,
       row.push_back(new Finish(x,y));
       valid_char = true;
       found_end = true;
-      //std::cout << "db: x at (" << i << "," << j << ")" <<std::endl;
     }
     else if((symbol == 'x') && (found_end == true))
     {
-      std::cout << "[ERR] Invalid file.\n";
       return false;
     }
 
@@ -417,7 +399,6 @@ bool Loader::readOneRow(ifstream& cur_file, vector<char>& teleport_list,
     
     if(valid_char == false)
     {
-      std::cout << "[ERR] Invalid file.\n";
       return false;
     }
   }

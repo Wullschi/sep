@@ -13,6 +13,7 @@
 #include "Game.h"
 #include "Saver.h"
 #include "Save.h"
+#include "Message.h"
 
 
 //------------------------------------------------------------------------------
@@ -30,14 +31,12 @@ Command::Status Reset::execute(Game*& board, std::vector<std::string>& params)
   
   if (params.size())
   {
-    std::cout << "Wrong parameter count.\n" << std::endl;
-    return WRONG_PARAMETER_COUNT;
+    return WRONG_PARAMETER_COUNT_;
   }
   
   if (!board)
   {
-    std::cout << "No maze loaded.\n" << std::endl;
-    return NO_MAZE_LOADED;
+    return NO_MAZE_LOADED_;
   }
   
   board->reset();
@@ -46,9 +45,13 @@ Command::Status Reset::execute(Game*& board, std::vector<std::string>& params)
   {
     std::vector<std::string> autosave_params = Saver::getAutosaveParams();
     Save autosave("autosave");
-    autosave.execute(board, autosave_params);
-  }
+    Command::Status autosave_status = autosave.execute(board, autosave_params);
+    if (autosave_status)
+      {
+        Message::outputByCode(autosave_status);
+      }
+    }
   
-  return OK;
+  return OK_;
   
 }

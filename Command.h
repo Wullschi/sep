@@ -29,16 +29,17 @@ public:
   //--------------------------------------------------------------------------
   enum Status
   {
-    GAME_WON = -1,
-    OK,
-    WRONG_PARAMETER_COUNT,
-    WRONG_PARAMETER,
-    NO_MAZE_LOADED,
-    FILE_NOT_OPENED,
-    INVALID_FILE,
-    INVALID_PATH,
-    FILE_NOT_WRITTEN,
-    INVALID_MOVE
+    GAME_WON_ = -1,
+    OK_,
+    WRONG_PARAMETER_COUNT_,
+    WRONG_PARAMETER_,
+    NO_MAZE_LOADED_,
+    FILE_NOT_OPENED_,
+    INVALID_FILE_,
+    INVALID_PATH_,
+    FILE_NOT_WRITTEN_,
+    INVALID_MOVE_,
+    NO_MORE_STEPS_
   };
   
   // Constructor

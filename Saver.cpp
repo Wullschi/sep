@@ -14,6 +14,7 @@
 #include <fstream>
 
 #include "Saver.h"
+
 #include "Game.h"
 #include "Field.h"
 
@@ -43,8 +44,7 @@ Command::Status Saver::save(const Game& current_game)
   std::ofstream file(SAVEFILE);
   if (!file.is_open())
   {
-    std::cout << "cannot open file" << std::endl;
-    return Command::FILE_NOT_OPENED;
+    return Command::FILE_NOT_WRITTEN_;
   }
   else
   {
@@ -69,7 +69,7 @@ Command::Status Saver::save(const Game& current_game)
     file.close();
   }
    
-  return Command::OK;
+  return Command::OK_;
 
 }
   

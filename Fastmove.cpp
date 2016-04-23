@@ -13,7 +13,9 @@
 #include "Save.h"
 #include "Saver.h"
 #include "Show.h"
+#include "Reset.h"
 #include "UserInput.h"
+#include "Message.h"
 
 
 //------------------------------------------------------------------------------
@@ -33,21 +35,17 @@ Command::Status Fastmove::execute(Game*& board,
   
   if (params.size() != 1)
   {
-    std::cout << "Wrong parameter count.\n" << std::endl;
-    return WRONG_PARAMETER_COUNT;
+    return WRONG_PARAMETER_COUNT_;
   }
   
   if (params.front().find_first_not_of("ldru") != std::string::npos)
   {
-    std::cout << params.front() << std::endl;
-    std::cout << "Wrong parameter.\n" << std::endl;
-    return WRONG_PARAMETER;
+    return WRONG_PARAMETER_;
   }
   
-  if (board == 0)
+  if (!board)
   {
-    std::cout << "No maze added.\n" << std::endl;
-    return NO_MAZE_LOADED;
+    return NO_MAZE_LOADED_;
   }
   
   Command::Status return_status = board->fastMove(params.front());
@@ -59,7 +57,11 @@ Command::Status Fastmove::execute(Game*& board,
     {
       std::vector<std::string> autosave_params = Saver::getAutosaveParams();
       Save autosave("autosave");
-      autosave.execute(board, autosave_params);
+      Command::Status autosave_status = autosave.execute(board, autosave_params);
+      if (autosave_status)
+      {
+        Message::outputByCode(autosave_status);
+      }
     }
     
     Show implicit_show("implicit_show");
@@ -67,12 +69,13 @@ Command::Status Fastmove::execute(Game*& board,
     implicit_show.execute(board, show_params);
     
   }
-  
-  if (return_status == GAME_WON)
+  else if (return_status == NO_MORE_STEPS_)
   {
-    std::cout << UserInput::CONGRATULATION_MESSAGE_ << std::endl;
+    std::vector<std::string> reset_params;
+    Reset auto_reset("auto_reset");
+    auto_reset.execute(board, reset_params);
   }
-    
+  
   return return_status;
   
 }
