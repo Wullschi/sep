@@ -26,6 +26,9 @@ class Finish: public Field
     Finish(const Finish&);
   
   public:
+    
+    static const char SYMBOL_;
+    
     //--------------------------------------------------------------------------
     // This is the Costructor of Field class which is the base class for all
     // fields.

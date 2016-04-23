@@ -9,6 +9,11 @@
 
 #include "Teleport.h"
 
+
+const char Teleport::SYMBOL_ = 'A';
+const char Teleport::SYMBOL2_ = 'Z';
+
+
 //------------------------------------------------------------------------------
 Teleport::Teleport(int x, int y, std::string symbol_letter) : Field(x, y)
 {

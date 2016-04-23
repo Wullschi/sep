@@ -21,10 +21,18 @@
 #include "Quit.h"
 
 
-
 using std::string;
 
+
 const std::string UserInput::PROMPT_ = "sep>";
+
+const std::string UserInput::LOAD_ = "load";
+const std::string UserInput::SAVE_ = "save";
+const std::string UserInput::MOVE_ = "move";
+const std::string UserInput::FASTMOVE_ = "fastmove";
+const std::string UserInput::RESET_ = "reset";
+const std::string UserInput::SHOW_ = "show";
+const std::string UserInput::QUIT_ = "quit";
 
 std::string UserInput::entered_command_ = "";
 std::vector<std::string> UserInput::entered_arguments_;
@@ -145,43 +153,43 @@ void UserInput::commandLine(Game*& current_game)
     
     parseUserInput(user_input);
     
-    if (entered_command_ == "load")
+    if (entered_command_ == LOAD_)
     {
       Load load("load");
       return_status = load.execute(current_game, entered_arguments_);
     }
     
-    else if (entered_command_ == "save")
+    else if (entered_command_ == SAVE_)
     {
       Save save("save");
       return_status = save.execute(current_game, entered_arguments_);
     }
         
-    else if (entered_command_ == "move")
+    else if (entered_command_ == MOVE_)
     {
       Move move("move");
       return_status = move.execute(current_game, entered_arguments_);
     }
     
-    else if (entered_command_ == "fastmove")
+    else if (entered_command_ == FASTMOVE_)
     {
       Fastmove fastmove("fastmove");
       return_status = fastmove.execute(current_game, entered_arguments_);
     }
         
-    else if (entered_command_ == "reset")
+    else if (entered_command_ == RESET_)
     {
       Reset reset("reset");
       return_status = reset.execute(current_game, entered_arguments_);
     }
         
-    else if (entered_command_ == "show")
+    else if (entered_command_ == SHOW_)
     {
       Show show("show");
       return_status = show.execute(current_game, entered_arguments_);
     }
         
-    else if (entered_command_ == "quit")
+    else if (entered_command_ == QUIT_)
     {
       Quit quit("quit");
       return_status = quit.execute(current_game, entered_arguments_);
@@ -203,7 +211,7 @@ void UserInput::commandLine(Game*& current_game)
       Message::outputByCode(return_status);
     }
     
-  } while (entered_command_ != "quit");
+  } while (entered_command_ != QUIT_);
      
      
       

@@ -9,10 +9,14 @@
 
 #include "Ice.h"
 
+
+const char Ice::SYMBOL_ = '+';
+
+
 //------------------------------------------------------------------------------
 Ice::Ice(int x, int y) : Field(x, y)
 {
-  field_symbol_ = "+";
+  field_symbol_ = SYMBOL_;
 }
 
 Ice::~Ice( )

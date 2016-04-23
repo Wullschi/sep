@@ -31,6 +31,10 @@ class Bonus: public Field
     Bonus(const Bonus&);
   
   public:
+    
+    static const char SYMBOL_;
+    static const char SYMBOL2_;
+    
     //--------------------------------------------------------------------------
     // This is the Costructor of Field class which is the base class for all
     // fields.

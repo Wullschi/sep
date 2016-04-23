@@ -9,10 +9,14 @@
 
 #include "Start.h"
 
+
+const char Start::SYMBOL_ = 'o';
+
+
 //------------------------------------------------------------------------------
 Start::Start(int x, int y) : Field(x, y)
 {
-  field_symbol_ = "o";
+  field_symbol_ = SYMBOL_;
 }
 
 

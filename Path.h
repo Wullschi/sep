@@ -26,6 +26,9 @@ class Path: public Field
     Path(const Path&);
   
   public:
+    
+    static const char SYMBOL_;
+    
     //--------------------------------------------------------------------------
     // This is the Costructor of Field class which is the base class for all
     // fields.

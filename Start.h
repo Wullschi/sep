@@ -26,6 +26,9 @@ class Start: public Field
     Start(const Start&);
   
   public:
+    
+    static const char SYMBOL_;
+    
     //--------------------------------------------------------------------------
     // This is the Costructor of Field class which is the base class for all
     // fields.

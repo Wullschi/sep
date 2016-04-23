@@ -20,6 +20,12 @@
 #include "Message.h"
 
 
+const std::string Move::UP_ = "up";
+const std::string Move::DOWN_ = "down";
+const std::string Move::LEFT_ = "left";
+const std::string Move::RIGHT_ = "right";
+
+
 //------------------------------------------------------------------------------
 Move::Move(std::string name) : Command(name)
 {
@@ -42,8 +48,8 @@ Command::Status Move::execute(Game*& board, std::vector<std::string>& params)
   }
   
   std::string parameter = params.front();
-  if ( (parameter != "up") && (parameter != "down")
-      && (parameter != "left") && (parameter != "right") )
+  if ( (parameter != UP_) && (parameter != DOWN_)
+      && (parameter != LEFT_) && (parameter != RIGHT_) )
   {
     return WRONG_PARAMETER_;
   }

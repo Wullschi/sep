@@ -18,6 +18,13 @@
 #include "Message.h"
 
 
+const std::string Fastmove::VALID_COMMANDS_ = "ldru";
+const std::string Fastmove::UP_ = "u";
+const std::string Fastmove::DOWN_ = "d";
+const std::string Fastmove::LEFT_ = "l";
+const std::string Fastmove::RIGHT_ = "r";
+
+
 //------------------------------------------------------------------------------
 Fastmove::Fastmove(std::string name) : Command(name)
 {
@@ -38,7 +45,7 @@ Command::Status Fastmove::execute(Game*& board,
     return WRONG_PARAMETER_COUNT_;
   }
   
-  if (params.front().find_first_not_of("ldru") != std::string::npos)
+  if (params.front().find_first_not_of(VALID_COMMANDS_) != std::string::npos)
   {
     return WRONG_PARAMETER_;
   }
