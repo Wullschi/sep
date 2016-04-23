@@ -1,10 +1,11 @@
+//------------------------------------------------------------------------------
+// Coordinates.cpp
 //
-//  Coordinates.hpp
-//  SEP Basisbeispiel
+// Group: Group 13717, study assistant: Pascal Nasahl
 //
-//  Created by Hildebrand on 17.04.16.
-//  Copyright © 2016 Benjamin. All rights reserved.
-//
+// Authors:
+// Benjamin Wullschleger 0773092
+//------------------------------------------------------------------------------
 
 #ifndef COORDINATES_H_INCLUDED
 #define COORDINATES_H_INCLUDED
@@ -14,18 +15,75 @@ class Coordinates
   private:
     int x_;
     int y_;
-//--------------------------------------------------------------------------------------------
+
+    //--------------------------------------------------------------------------
+    // Private standard constructor
+  
+    Coordinates();
+
   public:
     Coordinates(const int x, const int y);
-    Coordinates(const Coordinates& model);
+  
+    //--------------------------------------------------------------------------
+    // Public copy constructor
+    Coordinates(const Coordinates& original);
+  
+    //--------------------------------------------------------------------------
+    // Destructor
+  
     virtual ~Coordinates();
+
+    //--------------------------------------------------------------------------
+    // Setter: Sets the x-coordinate
+    //
+    // @param x the coordinate which is set
+  
     void setX(int x);
+  
+    //--------------------------------------------------------------------------
+    // Setter: Sets the x-coordinate
+    //
+    // @param y the coordinate which is set
+  
     void setY(int y);
-    void changeXBy(int increase_value);
-    void changeYBy(int increase_value);
+  
+    //--------------------------------------------------------------------------
+    // Setter: Sets an x- and y-coordinate at the same time.
+    //
+    // @param x the x coordinate which is set
+    // @param y the y coordinate which is set
+  
     void setXY(int x, int y);
+
+    //--------------------------------------------------------------------------
+    // Getter: Gets the x-coordinate.
+    //
+    // @return int the returned y-coordinate
+
+  
     int getX() const;
+  
+    //--------------------------------------------------------------------------
+    // Getter: Gets the x-coordinate.
+    //
+    // @return int the returned y-coordinate
+
+  
     int getY() const;
+  
+    //--------------------------------------------------------------------------
+    // Adds a specified value to the coordinate
+    //
+    // @param increase_value the value that is added to the coordinate
+  
+    void changeXBy(int increase_value);
+  
+    //--------------------------------------------------------------------------
+    // Adds a specified value to the coordinate
+    //
+    // @param increase_value the value that is added to the coordinate
+  
+    void changeYBy(int increase_value);
 };
 
 

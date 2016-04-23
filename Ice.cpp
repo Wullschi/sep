@@ -1,30 +1,27 @@
 //------------------------------------------------------------------------------
-// ice.cpp
+// Ice.cpp
 //
 // Group: Group 13717, study assistant: Pascal Nasahl
 //
-// Authors: Benjamin Wullschleger 0773092
+// Authors:
+// Benjamin Wullschleger 0773092
 //------------------------------------------------------------------------------
-//
+
 #include "Ice.h"
 
-/****************************************************************************
- *                      Constructor und Destructor                          *
- ****************************************************************************/
-
+//------------------------------------------------------------------------------
 Ice::Ice(int x, int y) : Field(x, y)
 {
   field_symbol_ = "+";
 }
 
-Ice::~Ice( ){
-  //std::cout << "Ice x: " << x_var_ << "   y:  " << y_var_ << " has been deleted" <<std::endl;
+Ice::~Ice( )
+{
 }
 
-/****************************************************************************
- *                          Restliche Funktionen                            *
- ****************************************************************************/
 
+
+//------------------------------------------------------------------------------
 int Ice::enter(std::string enter_from_direction, int& bonus)
 {
   if(enter_from_direction=="l")
@@ -50,6 +47,9 @@ int Ice::enter(std::string enter_from_direction, int& bonus)
   return 1; // we are on ice now!
 }
 
+
+
+//------------------------------------------------------------------------------
 bool Ice::isTurnOver(std::string &leaveThisFieldTo)
 {
   leaveThisFieldTo = slipping_to_;

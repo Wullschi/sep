@@ -1,12 +1,12 @@
 //------------------------------------------------------------------------------
-// Filename: Fastmove.cpp
-// Description: Class representing a Fastmove command
-// Authors: Tutors
-// Tutor: Tutors
-// Group: ??
-// Created: 02.09.2011
-// Last change: 02.09.2011
+// UserInput.cpp
+//
+// Group: Group 13717, study assistant: Pascal Nasahl
+//
+// Authors:
+// Christopher Kopel 0730613
 //------------------------------------------------------------------------------
+
 #include "Fastmove.h"
 
 #include "Game.h"
@@ -27,7 +27,8 @@ Fastmove::~Fastmove()
 //------------------------------------------------------------------------------
 
 
-Command::Status Fastmove::execute(Game*& board, std::vector<std::string>& params)
+Command::Status Fastmove::execute(Game*& board,
+    std::vector<std::string>& params)
 {
   
   if (params.size() != 1)
@@ -36,15 +37,16 @@ Command::Status Fastmove::execute(Game*& board, std::vector<std::string>& params
     return WRONG_PARAMETER_COUNT;
   }
   
-  if (params.front().find_first_not_of("udlr"))
+  if (params.front().find_first_not_of("ldru") != std::string::npos)
   {
+    std::cout << params.front() << std::endl;
     std::cout << "Wrong parameter.\n" << std::endl;
     return WRONG_PARAMETER;
   }
   
   if (board == 0)
   {
-    std::cout << "No maze oaded.\n" << std::endl;
+    std::cout << "No maze added.\n" << std::endl;
     return NO_MAZE_LOADED;
   }
   

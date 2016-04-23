@@ -18,10 +18,10 @@
 Coordinates::Coordinates(const int x, const int y):x_(x), y_(y)
 {}
 
-Coordinates::Coordinates(const Coordinates& model)
+Coordinates::Coordinates(const Coordinates& original)
 {
-  x_ = model.getX();
-  y_ = model.getY();
+  x_ = original.getX();
+  y_ = original.getY();
 }
 
 Coordinates::~Coordinates(){}

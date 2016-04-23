@@ -1,9 +1,10 @@
 //------------------------------------------------------------------------------
-// field.h
+// Field.h
 //
 // Group: Group 13717, study assistant: Pascal Nasahl
 //
-// Authors: Benjamin Wullschleger 0773092
+// Authors:
+// Benjamin Wullschleger 0773092
 //------------------------------------------------------------------------------
 //
 
@@ -41,7 +42,7 @@ class Field
     // fields.
     //
     // @param x x-coordinate of the position of this field on the board
-    // @param y x-coordinate of the position of this field on the board
+    // @param y y-coordinate of the position of this field on the board
     //        (coordinate origin is in the top left corner of the board)
   
     Field(int x, int y);
@@ -50,6 +51,14 @@ class Field
     // Destructor
   
     virtual ~Field();
+  
+  
+    //--------------------------------------------------------------------------
+    // Getter: Gets the symbol of the field.
+    //
+    // @return the symbol of the field
+  
+    string getFieldSymbol();
 
     //--------------------------------------------------------------------------
     // Calculates from which direction the player wants to enter this field
@@ -68,7 +77,7 @@ class Field
     // and returns the result in the fastmove notation.
     //
     // @param leaving_to the coordinates to which the player wants to leave
-    //        this field
+    //
     //
     // @return string the direction the player wants to leave this field in the
     //         fastmove notation
@@ -90,22 +99,41 @@ class Field
     bool isAbleToEnter(Coordinates* coming_from, string &direction);
   
     //--------------------------------------------------------------------------
-    // Calculates in which direction the player wants to leave this field
-    // and returns the result in the fastmove notation.
+    // Calculates if the player is able to leave the field in the desired
+    // direction.
     //
-    // @param leaving_to the coordinates to which the player wants to leave
-    //        this field
+    // @param leaving_to the coordinates to which the player wants to leave.
+    //
     //
     // @return bool returns if the player may leave the field in the desired
     //         direction
   
     bool isAbleToLeave(Coordinates* leaving_to);
+  
+    //--------------------------------------------------------------------------
+    // Performs any necessary action when a player enters a field. This Method
+    // is mainly used for the bonus/quicksand and ice fields.
+    //
+    // @param enter_from_direction the direction from which the player enter
+    //        in the fastmove notation
+    // @param bonus the bonus or minus points which might be applied after
+    //        entering the field.
+    //
+    // @return int 1 for entered ice field, 0 for entered any other field
 
     virtual int enter(string enter_from_direction, int& bonus);
+  
+    //--------------------------------------------------------------------------
+    // Determines if the turn is over after entering this field. And returns
+    // The direction in which to go if the turn isn't over.
+    //
+    // @param direction the direction in which the player has to leave the
+    //        field if the turn is not over
+    //
+    // @return bool returns if turn is over or not
 
     virtual bool isTurnOver(string &direction) = 0;
 
-    string getFieldSymbol();
 };
 
 #endif

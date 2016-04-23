@@ -1,11 +1,11 @@
+//------------------------------------------------------------------------------
+// UserInput.cpp
 //
-//  UserInput.hpp
-//  SEP Basisbeispiel
+// Group: Group 13717, study assistant: Pascal Nasahl
 //
-//  Created by Benjamin on 28.03.16.
-//  Copyright © 2016 Benjamin. All rights reserved.
-//
-
+// Authors:
+// Christopher Kopel 0730613
+//------------------------------------------------------------------------------
 
 #include <iostream>
 #include <string>
