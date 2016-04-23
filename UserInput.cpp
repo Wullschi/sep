@@ -18,6 +18,7 @@
 #include "Fastmove.h"
 #include "Reset.h"
 #include "Show.h"
+#include "Quit.h"
 
 
 
@@ -34,10 +35,11 @@ int UserInput::checkCommandLineOptions(int argc, const char* argv[], Game*& curr
   
   const int WRONG_USAGE_RETURN = 2;
   
+  
   if ( (argc == 2) || (argc == 4) || (argc > 5) )
   {
     Message::outputWrongUsage();
-    return 2;
+    return WRONG_USAGE_RETURN;
   }
   
   std::string argument_string = "";
@@ -50,7 +52,11 @@ int UserInput::checkCommandLineOptions(int argc, const char* argv[], Game*& curr
       Load initial_load("initial");
       std::vector<std::string> filenames;
       filenames.push_back( argv[argument_no + 1] );
-      initial_load.execute(current_game, filenames);
+      Command::Status return_status = initial_load.execute(current_game, filenames);
+      if (return_status)
+      {
+        Message::outputByCode(return_status);
+      }
     }
     else if ( (argument_string == "-s") || (argument_string == "-S") )
     {
@@ -177,8 +183,8 @@ void UserInput::commandLine(Game*& current_game)
         
     else if (entered_command_ == "quit")
     {
-      Message::outputQuit();
-      return_status = Command::OK_;
+      Quit quit("quit");
+      return_status = quit.execute(current_game, entered_arguments_);
     }
     
     else if (entered_command_ == "")
@@ -192,11 +198,11 @@ void UserInput::commandLine(Game*& current_game)
       return_status = Command::OK_;
     }
     
-  if (return_status)
-  {
-    Message::outputByCode(return_status);
-  }
-  
+    if (return_status)
+    {
+      Message::outputByCode(return_status);
+    }
+    
   } while (entered_command_ != "quit");
      
      

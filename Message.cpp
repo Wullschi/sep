@@ -1,4 +1,13 @@
-#include <iostream>
+//------------------------------------------------------------------------------
+// Filename: Message.cpp
+// Description: Singleton class for message output
+// Authors: Tutors
+// Tutor: Tutors
+// Group: ??
+// Created: 02.09.2011
+// Last change: 02.09.2011
+//------------------------------------------------------------------------------
+
 
 #include "Message.h"
 

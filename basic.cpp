@@ -29,7 +29,6 @@ int main(int argc, const char* argv[])
   
   UserInput::commandLine(current_game);
   
-  delete current_game;
   return 0;
   
   

@@ -124,6 +124,16 @@ int Game::singleMove(Coordinates& tmp_pos, Coordinates& go_to,
 //------------------------------------------------------------------------------
 Command::Status Game::move(string go_to_str)
 {
+
+  if (finished_)
+  {
+    return Command::INVALID_MOVE_;
+  }
+  else if (!remaining_turns_)
+  {
+    return Command::NO_MORE_STEPS_;
+  }
+  
   int move_validity = 0;
   int bonus = 0;
   Coordinates tmp_pos = *pos_now_;
@@ -151,10 +161,6 @@ Command::Status Game::move(string go_to_str)
     
     return (finished_) ? Command::GAME_WON_ : Command::OK_;
   }
-  else if (!remaining_turns_)
-  {
-    return Command::NO_MORE_STEPS_;
-  }
   else
   {
     return Command::INVALID_MOVE_;
@@ -166,6 +172,16 @@ Command::Status Game::move(string go_to_str)
 //------------------------------------------------------------------------------
 Command::Status Game::fastMove(string all_turns_str)
 {
+
+  if (finished_)
+  {
+    return Command::INVALID_MOVE_;
+  }
+  else if (!remaining_turns_)
+  {
+    return Command::NO_MORE_STEPS_;
+  }
+
   int move_validity = 0;
   int bonus, char_iterator = 0;
   unsigned long int nr_turns = all_turns_str.length(); //total number of turns
@@ -201,10 +217,6 @@ Command::Status Game::fastMove(string all_turns_str)
     setGameIsFinished(); // check if player is on finish field
     
     return (finished_) ? Command::GAME_WON_ : Command::OK_;
-  }
-  else if (!remaining_turns_)
-  {
-    return Command::NO_MORE_STEPS_;
   }
   else
   {
