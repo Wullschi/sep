@@ -112,7 +112,7 @@ Command::Status Loader::load(Game*& game)
       row.clear();
       row_count = row_count + 1;
     }
-    std::cout << "geladen\n";
+    
     cur_file.close();
     
 
