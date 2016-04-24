@@ -103,6 +103,9 @@ void Message::outputUnknownCommand()
       cout << OUT_OF_MEMORY_ << endl;
       break;
       
+    case Command::OK_:
+      break;
+      
   }
   
   }

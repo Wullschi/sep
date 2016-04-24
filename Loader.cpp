@@ -212,7 +212,7 @@ Command::Status Loader::checkShape()
 {
   unsigned long int field_height = loaded_board_->size();
   unsigned long int field_length = loaded_board_->at(0).size();
-  for(int i = 0; i < field_height; i++)
+  for (unsigned int i = 0; i < field_height; i++)
   {
     unsigned long int row_length = loaded_board_->at(i).size();
     if (row_length != field_length)
@@ -230,7 +230,7 @@ Command::Status Loader::checkWall()
   unsigned long int field_length = loaded_board_->at(0).size();
   
   /*Check if all fields in first line are walls*/
-  for(int k = 0; k < field_length; k++)
+  for (unsigned int k = 0; k < field_length; k++)
   {
     string field_symbol = loaded_board_->at(0).at(k)->getFieldSymbol();
     if (field_symbol != "#")
@@ -240,7 +240,7 @@ Command::Status Loader::checkWall()
   }
   
   /*Check if all fields at left and right side are walls*/
-  for(int k = 1; k < field_height-1; k++)
+  for (unsigned int k = 1; k < field_height-1; k++)
   {
     Row = loaded_board_->at(k);
     string field_symbol = loaded_board_->at(k).front()->getFieldSymbol();
@@ -256,7 +256,7 @@ Command::Status Loader::checkWall()
   }
   
   /*Check if all fields in last line are walls*/
-  for(int k = 0; k < field_length; k++)
+  for (unsigned int k = 0; k < field_length; k++)
   {
     string field_symbol = loaded_board_->at(field_height-1).at(k)->getFieldSymbol();
     if (field_symbol != "#")
@@ -275,9 +275,9 @@ Command::Status Loader::checkTeleport(vector<char>* teleport_list)
   for(int asci = 65; asci <= 90; asci++)
   {
     teleport_amount = 0;
-    for(int k = 0; k < teleport_list->size(); k++)
+    for (unsigned int k = 0; k < teleport_list->size(); k++)
     {
-      if(teleport_list->at(k) == asci)
+      if (teleport_list->at(k) == asci)
       {
         teleport_amount++;
       }
@@ -337,7 +337,7 @@ Command::Status Loader::readOneRow(ifstream& cur_file, vector<char>& teleport_li
   
   
   // now we can start reading the symbols in this row
-  for (int x = 0; x < nr_of_fields; x++)
+  for (unsigned int x = 0; x < nr_of_fields; x++)
   {
     bool valid_char = false;
     char symbol = row_string[x];
@@ -427,7 +427,7 @@ Command::Status Loader::readOneRow(ifstream& cur_file, vector<char>& teleport_li
     catch(std::bad_alloc& exception)
     {
       
-      for (int i = 0; i < row.size(); i++)
+      for (unsigned int i = 0; i < row.size(); i++)
       {
         delete row.at(i);
       }
@@ -447,9 +447,9 @@ Command::Status Loader::readOneRow(ifstream& cur_file, vector<char>& teleport_li
 
 void Loader::deleteBoard(Coordinates* start_point)
 {
-  for (int y = 0; y < loaded_board_->size(); ++y)
+  for (unsigned int y = 0; y < loaded_board_->size(); ++y)
   {
-    for (int x = 0; x < loaded_board_->at(y).size(); ++x)
+    for (unsigned int x = 0; x < loaded_board_->at(y).size(); ++x)
     {
       delete loaded_board_->at(y).at(x);
       loaded_board_->at(y).at(x) = 0;

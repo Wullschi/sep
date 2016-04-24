@@ -12,12 +12,13 @@
 
 const char Bonus::SYMBOL_ = 'a';
 const char Bonus::SYMBOL2_ = 'j';
+const char Bonus::SYMBOL_FIRST_QUICKSAND_ = 'f';
 
 
 //------------------------------------------------------------------------------
-Bonus::Bonus(int x, int y, std::string symbol_letter) : Field(x, y)
+Bonus::Bonus(int x, int y, std::string symbol_letter) : Field(x, y),
+    bonus_letter_(symbol_letter)
 {
-  bonus_letter_ = symbol_letter;
   field_symbol_ = symbol_letter;
   reset();
 }
@@ -32,13 +33,13 @@ Bonus::~Bonus()
 //------------------------------------------------------------------------------
 void Bonus::reset()
 {
-  if (((int)bonus_letter_[0] >= 97) && ((int)bonus_letter_[0] <= 101))
+  if ( (bonus_letter_[0] >= SYMBOL_) && (bonus_letter_[0] < SYMBOL_FIRST_QUICKSAND_) )
   {
-    bonus_count_ = ((int)bonus_letter_[0]) - 96;
+    bonus_count_ = bonus_letter_[0] - SYMBOL_ + 1;
   }
-  else if (((int)bonus_letter_[0] >= 102) && ((int)bonus_letter_[0] <= 106))
+  else if ( (bonus_letter_[0] >= SYMBOL_FIRST_QUICKSAND_) && (bonus_letter_[0] <= SYMBOL2_) )
   {
-    bonus_count_ = -(((int)bonus_letter_[0]) - 101);
+    bonus_count_ = -(bonus_letter_[0] - SYMBOL_FIRST_QUICKSAND_ + 1);
   }
   field_symbol_ = bonus_letter_;
 }
