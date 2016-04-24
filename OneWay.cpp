@@ -10,25 +10,30 @@
 #include "OneWay.h"
 
 
+const char OneWay::SYMBOL_LEFT_ = '<';
+const char OneWay::SYMBOL_RIGHT_ = '>';
+const char OneWay::SYMBOL_DOWN_ = 'v';
+const char OneWay::SYMBOL_UP_ = '^';
+
 
 //------------------------------------------------------------------------------
-OneWay::OneWay(int x, int y, std::string symbolLetter) : Field(x, y)
+OneWay::OneWay(int x, int y, std::string symbol_letter) : Field(x, y)
 {
-  field_symbol_ = symbolLetter;
+  field_symbol_ = symbol_letter;
   
-  if(symbolLetter == "<")
+  if (symbol_letter[0] == SYMBOL_LEFT_)
   {
     can_leave_to_ = "l";
   }
-  else if(symbolLetter == ">")
+  else if (symbol_letter[0] == SYMBOL_RIGHT_)
   {
     can_leave_to_="r";
   }
-  else if(symbolLetter == "^")
+  else if (symbol_letter[0] == SYMBOL_UP_)
   {
     can_leave_to_="u";
   }
-  else if(symbolLetter == "v")
+  else if (symbol_letter[0] == SYMBOL_DOWN_)
   {
     can_leave_to_="d";
   }

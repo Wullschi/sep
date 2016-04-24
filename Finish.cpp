@@ -9,10 +9,14 @@
 
 #include "Finish.h"
 
+
+const char Finish::SYMBOL_ = 'x';
+
+
 //------------------------------------------------------------------------------
 Finish::Finish(int x, int y) : Field(x, y)
 {
-  field_symbol_ = "x";
+  field_symbol_ = SYMBOL_;
   can_leave_to_ = "lrud";
 }
 

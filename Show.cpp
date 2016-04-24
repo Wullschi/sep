@@ -11,6 +11,10 @@
 
 #include "Game.h"
 
+
+const std::string Show::MORE_ = "more";
+
+
 //------------------------------------------------------------------------------
 Show::Show(std::string name) : Command(name)
 {
@@ -28,7 +32,7 @@ Command::Status Show::execute(Game*& board, std::vector<std::string>& params)
   
   if (params.size() == 1)
   {
-    if (params.front() == "more")
+    if (params.front() == MORE_)
     {
       more = true;
     }

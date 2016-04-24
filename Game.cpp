@@ -14,6 +14,8 @@
 #include "Command.h"
 #include "Path.h"
 #include "Bonus.h"
+#include "Move.h"
+#include "Fastmove.h"
 
 using std::string;
 using std::vector;
@@ -58,7 +60,7 @@ int Game::singleMove(Coordinates& tmp_pos, Coordinates& go_to,
   bool turn_is_over = false;
   
   // if game already finished or no more turns left => invalid move
-  if((finished_ == true ) || (remaining_turns_ <= 0))
+  if (finished_)
   {
     return -1; //invalid move
   }
@@ -262,27 +264,27 @@ Command::Status Game::fastMove(string all_turns_str)
 int Game::calculateNextField(Coordinates& position, Coordinates &go_to,
     string leaving_to)
 {
-  if(leaving_to == "l")
+  if (leaving_to == Fastmove::LEFT_)
   {
     go_to.changeXBy(-1);
     return 0; // Next field is a valid neighboring field
   }
-  else if(leaving_to == "r")
+  else if (leaving_to == Fastmove::RIGHT_)
   {
     go_to.changeXBy(1);
     return 0;
   }
-  else if(leaving_to == "u")
+  else if (leaving_to == Fastmove::UP_)
   {
     go_to.changeYBy(-1);
     return 0;
   }
-  else if(leaving_to == "d")
+  else if (leaving_to == Fastmove::DOWN_)
   {
     go_to.changeYBy(1);
     return 0;
   }
-  else if(isupper(leaving_to[0]) && isalpha(leaving_to[0]))
+  else if (isupper(leaving_to[0]) && isalpha(leaving_to[0]))
   {
     findTeleportLocation(leaving_to, position, go_to);
     return 1; // Next field is a teleport field.
@@ -336,21 +338,21 @@ void Game::setGameIsFinished()
 //------------------------------------------------------------------------------
 void Game::longToShortMoveString(string& long_string)
 {
-  if (long_string == "up")
+  if (long_string == Move::UP_)
   {
-    long_string = "u";
+    long_string = Fastmove::UP_;
   }
-  else if (long_string == "down")
+  else if (long_string == Move::DOWN_)
   {
-    long_string = "d";
+    long_string = Fastmove::DOWN_;
   }
-  else if (long_string == "left")
+  else if (long_string == Move::LEFT_)
   {
-    long_string = "l";
+    long_string = Fastmove::LEFT_;
   }
-  else if (long_string == "right")
+  else if (long_string == Move::RIGHT_)
   {
-    long_string = "r";
+    long_string = Fastmove::RIGHT_;
   }
 }
 

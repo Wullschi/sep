@@ -66,7 +66,7 @@ Command::Status Loader::load(Game*& game)
     
     // read fastmove string and check if it is valid
     getline(cur_file, fastmove_string);
-    if ( (fastmove_string != "") && (fastmove_string.find_first_not_of("ldru") != std::string::npos) )
+    if ( (fastmove_string != "") && (fastmove_string.find_first_not_of(Fastmove::VALID_COMMANDS_) != std::string::npos) )
     {
       deleteBoard(start_point);
       return Command::INVALID_FILE_;
@@ -86,9 +86,9 @@ Command::Status Loader::load(Game*& game)
     
     
     // start reading the board if fastmove string and max turns are valid
-    while(!cur_file.eof())
+    while (!cur_file.eof())
     {
-      if(cur_file.eof())
+      if (cur_file.eof())
       {
         break;
       }
@@ -316,7 +316,7 @@ Command::Status Loader::readOneRow(ifstream& cur_file, vector<char>& teleport_li
   
   // Check if we are reading the last line break
   // that ends the maze
-  if((cur_file.eof()) && (nr_of_fields == 0))
+  if ((cur_file.eof()) && (nr_of_fields == 0))
   {
     return Command::OK_;
   }
@@ -346,49 +346,51 @@ Command::Status Loader::readOneRow(ifstream& cur_file, vector<char>& teleport_li
     try
     {
       /*Generating the Field*/
-      if(symbol == '#')
+      if (symbol == Wall::SYMBOL_)
       {
         row.push_back(new Wall(x, y));
         valid_char = true;
       }
       
-      if(symbol == ' ')
+      if (symbol == Path::SYMBOL_)
       {
         row.push_back(new Path(x,y));
         valid_char = true;
       }
       
-      if((symbol == 'o') && (found_start == false))
+      if ((symbol == Start::SYMBOL_) && (found_start == false))
       {
-
         row.push_back(new Start(x,y));
         start_point = new Coordinates(x,y);
         valid_char = true;
         found_start = true;
       }
-      else if ((symbol == 'o') && (found_start == true))
+      
+      else if ((symbol == Start::SYMBOL_) && (found_start == true))
       {
         return Command::INVALID_FILE_;
       }
       
-      if(symbol == '+')
+      if (symbol == Ice::SYMBOL_)
       {
         row.push_back(new Ice(x,y));
         valid_char = true;
       }
       
-      if((symbol == 'x') && (found_end == false))
+      if ((symbol == Finish::SYMBOL_) && (found_end == false))
       {
         row.push_back(new Finish(x,y));
         valid_char = true;
         found_end = true;
       }
-      else if((symbol == 'x') && (found_end == true))
+      
+      
+      else if ((symbol == Finish::SYMBOL_) && (found_end == true))
       {
         return Command::INVALID_FILE_;
       }
       
-      if((symbol >= 65 ) && (symbol <= 90))
+      if ((symbol >= Teleport::SYMBOL_ ) && (symbol <= Teleport::SYMBOL2_))
       {
         string str;
         str.push_back(symbol);
@@ -398,8 +400,8 @@ Command::Status Loader::readOneRow(ifstream& cur_file, vector<char>& teleport_li
         str.clear();
       }
       
-      if((symbol == '<') || (symbol == '>') || (symbol == 'v')
-         ||(symbol == '^'))
+      if ((symbol == OneWay::SYMBOL_LEFT_) || (symbol == OneWay::SYMBOL_RIGHT_) || (symbol == OneWay::SYMBOL_UP_)
+          || (symbol == OneWay::SYMBOL_DOWN_))
       {
         string str;
         str.push_back(symbol);
@@ -408,7 +410,7 @@ Command::Status Loader::readOneRow(ifstream& cur_file, vector<char>& teleport_li
         str.clear();
       }
       
-      if((symbol >= 97 ) && (symbol <= 106))
+      if ( (symbol >= Bonus::SYMBOL_) && (symbol <= Bonus::SYMBOL2_) )
       {
         string str;
         str.push_back(symbol);
@@ -429,14 +431,19 @@ Command::Status Loader::readOneRow(ifstream& cur_file, vector<char>& teleport_li
       {
         delete row.at(i);
       }
-        
+      
       return Command::OUT_OF_MEMORY_;
     }
   }
-
+  
   loaded_board_->push_back(row);
   return Command::OK_;
 }
+
+
+
+
+
 
 void Loader::deleteBoard(Coordinates* start_point)
 {

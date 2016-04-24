@@ -29,7 +29,9 @@ class Ice: public Field
     Ice(const Ice&);
   
   public:
-  
+    
+    static const char SYMBOL_;
+    
     //--------------------------------------------------------------------------
     // This is the Costructor of Field class which is the base class for all
     // fields.

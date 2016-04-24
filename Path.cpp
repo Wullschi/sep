@@ -10,10 +10,14 @@
 
 #include "Path.h"
 
+
+const char Path::SYMBOL_ = ' ';
+
+
 //------------------------------------------------------------------------------
 Path::Path(int x, int y) : Field(x, y)
 {
-  field_symbol_ = " ";
+  field_symbol_ = SYMBOL_;
 }
 
 

@@ -28,6 +28,12 @@ class OneWay: public Field
   
     
   public:
+    
+    static const char SYMBOL_LEFT_;
+    static const char SYMBOL_RIGHT_;
+    static const char SYMBOL_UP_;
+    static const char SYMBOL_DOWN_;
+    
     //--------------------------------------------------------------------------
     // This is the Costructor of Field class which is the base class for all
     // fields.

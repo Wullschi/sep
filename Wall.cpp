@@ -9,10 +9,14 @@
 
 #include "Wall.h"
 
+
+const char Wall::SYMBOL_ = '#';
+
+
 //------------------------------------------------------------------------------
 Wall::Wall(int x, int y) : Field(x, y)
 {
-  field_symbol_ = "#";
+  field_symbol_ = SYMBOL_;
   can_enter_from_ = "";
   can_leave_to_ = "";
 }

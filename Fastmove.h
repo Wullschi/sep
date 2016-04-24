@@ -28,6 +28,12 @@ class Fastmove : public Command
     
   public:
     //--------------------------------------------------------------------------
+    static const std::string VALID_COMMANDS_;
+    static const std::string UP_;
+    static const std::string DOWN_;
+    static const std::string LEFT_;
+    static const std::string RIGHT_;
+    
     // Constructor
     Fastmove(std::string name);
     //--------------------------------------------------------------------------

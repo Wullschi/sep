@@ -9,6 +9,11 @@
 
 #include "Bonus.h"
 
+
+const char Bonus::SYMBOL_ = 'a';
+const char Bonus::SYMBOL2_ = 'j';
+
+
 //------------------------------------------------------------------------------
 Bonus::Bonus(int x, int y, std::string symbol_letter) : Field(x, y)
 {

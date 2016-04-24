@@ -37,6 +37,7 @@ class Field
     std::string field_symbol_;
 
   public:
+    
     //--------------------------------------------------------------------------
     // This is the Costructor of Field class which is the base class for all
     // fields.

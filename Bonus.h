@@ -32,6 +32,8 @@ class Bonus: public Field
     Bonus(const Bonus&);
   
   public:
+    static const char SYMBOL_;
+    static const char SYMBOL2_;
   
     //--------------------------------------------------------------------------
     // Resets the bonus value of a field in case of a invalid fastmove during

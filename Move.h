@@ -27,6 +27,12 @@ class Move : public Command
     
   public:
   //--------------------------------------------------------------------------
+    
+    static const std::string UP_;
+    static const std::string DOWN_;
+    static const std::string LEFT_;
+    static const std::string RIGHT_;
+    
     // Constructor
     Move(std::string name);
     //--------------------------------------------------------------------------
