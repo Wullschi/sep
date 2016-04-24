@@ -19,15 +19,15 @@ using std::string;
 class Field
 {
   private:
-  //--------------------------------------------------------------------------
-  // Private standard constructor
+    //--------------------------------------------------------------------------
+    // Private standard constructor
   
-  Field();
+    Field();
   
-  //--------------------------------------------------------------------------
-  // Private copy constructor
+    //--------------------------------------------------------------------------
+    // Private copy constructor
   
-  Field(const Field&);
+    Field(const Field&);
   
   protected:
     int x_var_;

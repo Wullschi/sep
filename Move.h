@@ -26,7 +26,7 @@ class Move : public Command
     //--------------------------------------------------------------------------
     
   public:
-  //--------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
     
     static const std::string UP_;
     static const std::string DOWN_;
@@ -43,7 +43,8 @@ class Move : public Command
     // @param board Pointer to the board where action should be performed on
     // @param params Possible parameters needed for the execution
     // @return Status constant  representing the success of the action
-    virtual Command::Status execute(Game*& board, std::vector<std::string>& params);
+    virtual Command::Status execute(Game*& board,
+      std::vector<std::string>& params);
     //--------------------------------------------------------------------------
 
 };

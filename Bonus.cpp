@@ -33,11 +33,13 @@ Bonus::~Bonus()
 //------------------------------------------------------------------------------
 void Bonus::reset()
 {
-  if ( (bonus_letter_[0] >= SYMBOL_) && (bonus_letter_[0] < SYMBOL_FIRST_QUICKSAND_) )
+  if ( (bonus_letter_[0] >= SYMBOL_) && (bonus_letter_[0]
+      < SYMBOL_FIRST_QUICKSAND_) )
   {
     bonus_count_ = bonus_letter_[0] - SYMBOL_ + 1;
   }
-  else if ( (bonus_letter_[0] >= SYMBOL_FIRST_QUICKSAND_) && (bonus_letter_[0] <= SYMBOL2_) )
+  else if ( (bonus_letter_[0] >= SYMBOL_FIRST_QUICKSAND_)
+      && (bonus_letter_[0] <= SYMBOL2_) )
   {
     bonus_count_ = -(bonus_letter_[0] - SYMBOL_FIRST_QUICKSAND_ + 1);
   }

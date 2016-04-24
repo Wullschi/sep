@@ -176,7 +176,8 @@ class Game
     Command::Status move(string direction);
   
     //--------------------------------------------------------------------------
-    // This method is executed when the player uses the fastmove-command. It makes
+    // This method is executed when the player uses the fastmove-command.
+    // It makes
     // use of the single_move() method for every letter in the string. If the
     // series of single moves is valid, it updates the member variables of this
     // class (position of player, remaining turns etc.).

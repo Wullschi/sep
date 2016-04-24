@@ -15,9 +15,11 @@ using std::endl;
 
 
 const string Message::QUIT_ = "Bye!\n";
-const string Message::CONGRATULATION_ = "Congratulation! You solved the maze.\n";
+const string Message::CONGRATULATION_ =
+    "Congratulation! You solved the maze.\n";
 const string Message::OUT_OF_MEMORY_ = "[ERR] Out of memory\n";
-const string Message::WRONG_USAGE_ = "[ERR] Wrong usage: ./basic [-s <filename1>] [-m <filename2>]\n";
+const string Message::WRONG_USAGE_ =
+    "[ERR] Wrong usage: ./basic [-s <filename1>] [-m <filename2>]\n";
 const string Message::UNKNOWN_COMMAND_ = "[ERR] Unknown command.\n";
 const string Message::WRONG_PARAMETER_COUNT_ = "[ERR] Wrong parameter count.\n";
 const string Message::WRONG_PARAMETER_ = "[ERR] Wrong parameter.\n";

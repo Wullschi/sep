@@ -64,7 +64,8 @@ Command::Status Fastmove::execute(Game*& board,
     {
       std::vector<std::string> autosave_params = Saver::getAutosaveParams();
       Save autosave("autosave");
-      Command::Status autosave_status = autosave.execute(board, autosave_params);
+      Command::Status autosave_status
+          = autosave.execute(board, autosave_params);
       if (autosave_status)
       {
         Message::outputByCode(autosave_status);

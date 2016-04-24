@@ -34,7 +34,8 @@ class UserInput
     static const std::string SHOW_;
     static const std::string QUIT_;
     
-    static int checkCommandLineOptions(int argc, const char* argv[], Game*& current_game);
+    static int checkCommandLineOptions(int argc,
+        const char* argv[], Game*& current_game);
     static void parseUserInput(std::string user_input);
     static int commandLine(Game*& current_game);
     

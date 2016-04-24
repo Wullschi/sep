@@ -66,7 +66,9 @@ Command::Status Loader::load(Game*& game)
     
     // read fastmove string and check if it is valid
     getline(cur_file, fastmove_string);
-    if ( (fastmove_string != "") && (fastmove_string.find_first_not_of(Fastmove::VALID_COMMANDS_) != std::string::npos) )
+    if ( (fastmove_string != "") &&
+        (fastmove_string.find_first_not_of(Fastmove::VALID_COMMANDS_)
+        != std::string::npos) )
     {
       deleteBoard(start_point);
       return Command::INVALID_FILE_;
@@ -94,7 +96,8 @@ Command::Status Loader::load(Game*& game)
       }
      
       
-      Command::Status correct_row = readOneRow(cur_file, teleport_list, found_start, found_end, row_count, start_point);
+      Command::Status correct_row = readOneRow(cur_file, teleport_list,
+          found_start, found_end, row_count, start_point);
       
 
       
@@ -118,7 +121,8 @@ Command::Status Loader::load(Game*& game)
 
 
     //check board validity
-    Command::Status start_and_finish = checkStartAndFinish(found_start, found_end);
+    Command::Status start_and_finish =
+        checkStartAndFinish(found_start, found_end);
     Command::Status shape = checkShape();
     Command::Status wall = checkWall();
     Command::Status teleport = checkTeleport(&teleport_list);
@@ -258,7 +262,8 @@ Command::Status Loader::checkWall()
   /*Check if all fields in last line are walls*/
   for (unsigned int k = 0; k < field_length; k++)
   {
-    string field_symbol = loaded_board_->at(field_height-1).at(k)->getFieldSymbol();
+    string field_symbol =
+        loaded_board_->at(field_height-1).at(k)->getFieldSymbol();
     if (field_symbol != "#")
     {
       return Command::INVALID_FILE_;
@@ -301,8 +306,9 @@ Command::Status Loader::checkTeleport(vector<char>* teleport_list)
 
 
 
-Command::Status Loader::readOneRow(ifstream& cur_file, vector<char>& teleport_list,
-                        bool& found_start, bool& found_end, int row_count, Coordinates*& start_point)
+Command::Status Loader::readOneRow(ifstream& cur_file,
+    vector<char>& teleport_list, bool& found_start, bool& found_end,
+    int row_count, Coordinates*& start_point)
 {
   int y = row_count;
   vector<Field*> row;
@@ -400,8 +406,8 @@ Command::Status Loader::readOneRow(ifstream& cur_file, vector<char>& teleport_li
         str.clear();
       }
       
-      if ((symbol == OneWay::SYMBOL_LEFT_) || (symbol == OneWay::SYMBOL_RIGHT_) || (symbol == OneWay::SYMBOL_UP_)
-          || (symbol == OneWay::SYMBOL_DOWN_))
+      if ((symbol == OneWay::SYMBOL_LEFT_) || (symbol == OneWay::SYMBOL_RIGHT_)
+          || (symbol == OneWay::SYMBOL_UP_) || (symbol == OneWay::SYMBOL_DOWN_))
       {
         string str;
         str.push_back(symbol);

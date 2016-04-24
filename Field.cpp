@@ -37,20 +37,24 @@ std::string Field::getFieldSymbol()
 //------------------------------------------------------------------------------
 std::string Field::calculateEnteringDirection(Coordinates* coming_from)
 {
-  if ((x_var_ - coming_from->getX() == 1) && (y_var_ - coming_from->getY() == 0))
+  if ((x_var_ - coming_from->getX() == 1)
+      && (y_var_ - coming_from->getY() == 0))
   {
     return "l";
   }
-  else if ((x_var_ - coming_from->getX() == -1) && (y_var_ - coming_from->getY() == 0))
+  else if ((x_var_ - coming_from->getX() == -1)
+      && (y_var_ - coming_from->getY() == 0))
   {
     return "r";
   }
   
-  if ((y_var_ - coming_from->getY() == 1) && (x_var_ - coming_from->getX() == 0))
+  if ((y_var_ - coming_from->getY() == 1)
+      && (x_var_ - coming_from->getX() == 0))
   {
     return "u";
   }
-  else if ((y_var_ - coming_from->getY() == -1) && (x_var_ - coming_from->getX() == 0))
+  else if ((y_var_ - coming_from->getY() == -1)
+      && (x_var_ - coming_from->getX() == 0))
   {
     return "d";
   }
@@ -63,20 +67,24 @@ std::string Field::calculateEnteringDirection(Coordinates* coming_from)
 //------------------------------------------------------------------------------
 std::string Field::calculateLeavingDirection(Coordinates* leaving_to)
 {
-  if ((x_var_ - leaving_to->getX() == 1) && (y_var_ - leaving_to->getY() == 0))
+  if ((x_var_ - leaving_to->getX() == 1)
+      && (y_var_ - leaving_to->getY() == 0))
   {
     return "l";
   }
-  else if ((x_var_ - leaving_to->getX() == -1) && (y_var_ - leaving_to->getY() == 0))
+  else if ((x_var_ - leaving_to->getX() == -1)
+      && (y_var_ - leaving_to->getY() == 0))
   {
     return "r";
   }
   
-  if ((y_var_ - leaving_to->getY() == 1) && (x_var_ - leaving_to->getX() == 0))
+  if ((y_var_ - leaving_to->getY() == 1)
+      && (x_var_ - leaving_to->getX() == 0))
   {
     return "u";
   }
-  else if ((y_var_ - leaving_to->getY() == -1) && (x_var_ - leaving_to->getX() == 0))
+  else if ((y_var_ - leaving_to->getY() == -1)
+      && (x_var_ - leaving_to->getX() == 0))
   {
     return "d";
   }

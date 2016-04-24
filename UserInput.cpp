@@ -39,7 +39,8 @@ std::string UserInput::entered_command_ = "";
 std::vector<std::string> UserInput::entered_arguments_;
 
 
-int UserInput::checkCommandLineOptions(int argc, const char* argv[], Game*& current_game)
+int UserInput::checkCommandLineOptions(int argc,
+    const char* argv[], Game*& current_game)
 {
   
   const int WRONG_USAGE_RETURN = 2;
@@ -61,7 +62,8 @@ int UserInput::checkCommandLineOptions(int argc, const char* argv[], Game*& curr
       Load initial_load("initial");
       std::vector<std::string> filenames;
       filenames.push_back( argv[argument_no + 1] );
-      Command::Status return_status = initial_load.execute(current_game, filenames);
+      Command::Status return_status =
+          initial_load.execute(current_game, filenames);
       if (return_status)
       {
         Message::outputByCode(return_status);
@@ -92,7 +94,8 @@ void UserInput::parseUserInput(std::string user_input)
   bool end_of_command = false;
   
   
-  for (unsigned int character_position = 0; character_position < user_input.length(); character_position++)
+  for (unsigned int character_position = 0; character_position <
+      user_input.length(); character_position++)
   {
     
     if (user_input[character_position] != ' ')
@@ -219,7 +222,9 @@ int UserInput::commandLine(Game*& current_game)
       Message::outputByCode(return_status);
     }
     
-  } while ((entered_command_ != QUIT_) && (return_status != Command::OUT_OF_MEMORY_));
+  }
+  while ((entered_command_ != QUIT_) &&
+      (return_status != Command::OUT_OF_MEMORY_));
   
   return return_status;
 }
