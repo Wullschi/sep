@@ -14,37 +14,36 @@ using std::cout;
 using std::endl;
 
 
-const string Message::QUIT_ = "Bye!\n";
-const string Message::CONGRATULATION_ =
-    "Congratulation! You solved the maze.\n";
-const string Message::OUT_OF_MEMORY_ = "[ERR] Out of memory\n";
+const string Message::QUIT_ = "Bye!";
+const string Message::CONGRATULATION_ = "Congratulation! You solved the maze.";
+const string Message::OUT_OF_MEMORY_ = "[ERR] Out of memory.";
 const string Message::WRONG_USAGE_ =
-    "[ERR] Wrong usage: ./basic [-s <filename1>] [-m <filename2>]\n";
-const string Message::UNKNOWN_COMMAND_ = "[ERR] Unknown command.\n";
-const string Message::WRONG_PARAMETER_COUNT_ = "[ERR] Wrong parameter count.\n";
-const string Message::WRONG_PARAMETER_ = "[ERR] Wrong parameter.\n";
-const string Message::NO_MAZE_LOADED_ = "[ERR] No maze loaded.\n";
-const string Message::FILE_NOT_OPENED_ = "[ERR] File could not be opened.\n";
-const string Message::INVALID_FILE_ = "[ERR] Invalid file.\n";
-const string Message::INVALID_PATH_ = "[ERR] Invalid path.\n";
-const string Message::FILE_NOT_WRITTEN_ = "[ERR] File could not be written.\n";
-const string Message::INVALID_MOVE_ = "[ERR] Invalid move.\n";
-const string Message::NO_MORE_STEPS_ = "[ERR] No more steps possible.\n";
-    
-  
-  void Message::outputQuit()
-  {
-    cout << QUIT_ << endl;
-  }
-  
-  
-  void Message::outputOutOfMemory()
+    "[ERR] Wrong usage: ./basic [-s <filename1>] [-m <filename2>]";
+const string Message::UNKNOWN_COMMAND_ = "[ERR] Unknown command.";
+const string Message::WRONG_PARAMETER_COUNT_ = "[ERR] Wrong parameter count.";
+const string Message::WRONG_PARAMETER_ = "[ERR] Wrong parameter.";
+const string Message::NO_MAZE_LOADED_ = "[ERR] No maze loaded.";
+const string Message::FILE_NOT_OPENED_ = "[ERR] File could not be opened.";
+const string Message::INVALID_FILE_ = "[ERR] Invalid file.";
+const string Message::INVALID_PATH_ = "[ERR] Invalid path.";
+const string Message::FILE_NOT_WRITTEN_ = "[ERR] File could not be written.";
+const string Message::INVALID_MOVE_ = "[ERR] Invalid move.";
+const string Message::NO_MORE_STEPS_ = "[ERR] No more steps possible.";
+
+
+void Message::outputQuit()
+{
+  cout << QUIT_ << endl;
+}
+
+
+void Message::outputOutOfMemory()
 {
   cout << OUT_OF_MEMORY_ << endl;
-  }
-  
-  
-  void Message::outputWrongUsage()
+}
+
+
+void Message::outputWrongUsage()
 {
   cout << WRONG_USAGE_ << endl;
 }
@@ -54,13 +53,13 @@ void Message::outputUnknownCommand()
 {
   cout << UNKNOWN_COMMAND_ << endl;
 }
-  
-  void Message::outputByCode(Command::Status return_status)
+
+void Message::outputByCode(Command::Status return_status)
 {
   
   switch (return_status)
   {
-    
+      
     case Command::GAME_WON_:
       cout << CONGRATULATION_ << endl;
       break;
@@ -110,5 +109,4 @@ void Message::outputUnknownCommand()
       
   }
   
-  }
-  
+}

@@ -39,11 +39,13 @@ std::string UserInput::entered_command_ = "";
 std::vector<std::string> UserInput::entered_arguments_;
 
 
-int UserInput::checkCommandLineOptions(int argc,
-    const char* argv[], Game*& current_game)
+int UserInput::checkCommandLineOptions(int argc, const char* argv[],
+    Game*& current_game)
 {
   
   const int WRONG_USAGE_RETURN = 2;
+  
+  bool initial_load = false;
   
   
   if ( (argc == 2) || (argc == 4) || (argc > 5) )
@@ -53,21 +55,15 @@ int UserInput::checkCommandLineOptions(int argc,
   }
   
   std::string argument_string = "";
-
+  std::vector<std::string> load_filenames;
+  
   for (int argument_no = 1; argument_no < argc - 1; argument_no += 2)
-  {  
+  {
     argument_string = static_cast<std::string>(argv[argument_no]);
     if ( (argument_string == "-m") || (argument_string == "-M") )
     {
-      Load initial_load("initial");
-      std::vector<std::string> filenames;
-      filenames.push_back( argv[argument_no + 1] );
-      Command::Status return_status =
-          initial_load.execute(current_game, filenames);
-      if (return_status)
-      {
-        Message::outputByCode(return_status);
-      }
+      initial_load = true;
+      load_filenames.push_back( argv[argument_no + 1] );
     }
     else if ( (argument_string == "-s") || (argument_string == "-S") )
     {
@@ -78,24 +74,36 @@ int UserInput::checkCommandLineOptions(int argc,
       Message::outputWrongUsage();
       return WRONG_USAGE_RETURN;
     }
-  
+    
   }
-
+  
+  if (initial_load)
+  {
+    Load initial("initial");
+    Command::Status return_status = initial.execute(current_game,
+        load_filenames);
+    if (return_status)
+    {
+      Message::outputByCode(return_status);
+    }
+    
+  }
+  
   return 0;
   
-  }
+}
 
 
 void UserInput::parseUserInput(std::string user_input)
 {
-
+  
   char previous_character = ' ';
   std::string argument = "";
   bool end_of_command = false;
   
   
-  for (unsigned int character_position = 0; character_position <
-      user_input.length(); character_position++)
+  for (unsigned int character_position = 0;
+      character_position < user_input.length(); character_position++)
   {
     
     if (user_input[character_position] != ' ')
@@ -131,12 +139,12 @@ void UserInput::parseUserInput(std::string user_input)
     entered_arguments_.push_back(argument);
     argument = "";
   }
-
-
+  
+  
 }
-  
-  
-  
+
+
+
 int UserInput::commandLine(Game*& current_game)
 {
   
@@ -193,13 +201,13 @@ int UserInput::commandLine(Game*& current_game)
       Reset reset("reset");
       return_status = reset.execute(current_game, entered_arguments_);
     }
-
+    
     else if (entered_command_ == SHOW_)
     {
       Show show("show");
       return_status = show.execute(current_game, entered_arguments_);
     }
-
+    
     else if (entered_command_ == QUIT_)
     {
       Quit quit("quit");

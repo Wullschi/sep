@@ -1,4 +1,4 @@
-﻿SUBMISSION = basic
+SUBMISSION = basic
 EXECUTABLE = $(SUBMISSION)
 SOURCES    = $(wildcard *.cpp)
 OBJECTS    = $(patsubst %,%,${SOURCES:.cpp=.o})
