@@ -44,6 +44,8 @@ int UserInput::checkCommandLineOptions(int argc, const char* argv[], Game*& curr
   
   const int WRONG_USAGE_RETURN = 2;
   
+  bool initial_load = false;
+  
   
   if ( (argc == 2) || (argc == 4) || (argc > 5) )
   {
@@ -52,20 +54,15 @@ int UserInput::checkCommandLineOptions(int argc, const char* argv[], Game*& curr
   }
   
   std::string argument_string = "";
-
+  std::vector<std::string> load_filenames;
+      
   for (int argument_no = 1; argument_no < argc - 1; argument_no += 2)
   {  
     argument_string = static_cast<std::string>(argv[argument_no]);
     if ( (argument_string == "-m") || (argument_string == "-M") )
     {
-      Load initial_load("initial");
-      std::vector<std::string> filenames;
-      filenames.push_back( argv[argument_no + 1] );
-      Command::Status return_status = initial_load.execute(current_game, filenames);
-      if (return_status)
-      {
-        Message::outputByCode(return_status);
-      }
+	  initial_load = true;
+	  load_filenames.push_back( argv[argument_no + 1] );
     }
     else if ( (argument_string == "-s") || (argument_string == "-S") )
     {
@@ -78,7 +75,18 @@ int UserInput::checkCommandLineOptions(int argc, const char* argv[], Game*& curr
     }
   
   }
-
+  
+  if (initial_load)
+  {
+	Load initial("initial");
+    Command::Status return_status = initial.execute(current_game, load_filenames);
+    if (return_status)
+    {
+      Message::outputByCode(return_status);
+    }
+  
+  }
+  
   return 0;
   
   }

@@ -26,6 +26,11 @@ Filehandler::Filehandler(std::string filename) : filename_(filename)
 const bool Filehandler::filenameIsValid() const
 {
   
+  if (filename_.length() > 255)
+  {
+	return false;
+  }
+  
   for (std::size_t character_position = 0;
       character_position < filename_.length(); character_position++)
   {
