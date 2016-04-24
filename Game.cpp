@@ -25,8 +25,8 @@ using std::vector;
 //------------------------------------------------------------------------------
 Game::Game(vector<vector<Field* > >* new_board, string turns_string,
     int total_turns, Coordinates* start_point) : board_(new_board),
-    finished_turns_(turns_string), max_turns_(total_turns),
-    origin_(start_point), remaining_turns_(total_turns), finished_(false)
+    origin_(start_point), remaining_turns_(total_turns),
+    max_turns_(total_turns), finished_turns_(turns_string), finished_(false)
 {
     pos_now_ = new Coordinates(*start_point);
 }
@@ -207,8 +207,9 @@ Command::Status Game::fastMove(string all_turns_str)
   }
 
   int move_validity = 0;
-  int bonus, char_iterator = 0;
-  unsigned long int nr_turns = all_turns_str.length(); //total number of turns
+  int bonus = 0;
+  std::size_t char_iterator = 0;
+  std::size_t nr_turns = all_turns_str.length(); //total number of turns
   
   // backup some members if fastmove fails
   int remaining_turns_backup = remaining_turns_;
@@ -363,16 +364,18 @@ void Game::findTeleportLocation(const string teleport_letter,
     const Coordinates& position, Coordinates& teleport_exit)
 {
   int portal_x=0, portal_y=0;
-  for (int y = 0; y < board_->size(); y++)
+  for (std::size_t y = 0; y < board_->size(); y++)
   {
-    for (int x = 0; x < board_->at(y).size(); x++)
+    for (std::size_t x = 0; x < board_->at(y).size(); x++)
     {
       string symbol = board_->at(y).at(x)->getFieldSymbol();
       
       // If the momentary field in this loop is not the one the player wants to
       // enter and if it has the same portal letter as the one he wants to enter
       // it must be the corresponding portal of that field.
-      if (((x != position.getX()) || (y != position.getY()))
+      std::size_t player_x = position.getX();
+      std::size_t player_y = position.getY();
+      if (((x != player_x) || (y != player_y))
           && symbol == teleport_letter)
       {
         portal_x = x;
@@ -400,7 +403,9 @@ void Game::show(bool more) const
   {
     for (unsigned int x = 0; x < board_->at(y).size(); x++)
     {
-      if ((x != pos_now_->getX()) || (y != pos_now_->getY()))
+      std::size_t player_x = pos_now_->getX();
+      std::size_t player_y = pos_now_->getY();
+      if ((x != player_x) || (y != player_y))
       {
         std::cout << board_->at(y).at(x)->getFieldSymbol();
       }
@@ -433,9 +438,9 @@ void Game::reset()
   
   // This Loop is used to delete all the Fields in the 2D Board Vector. Copied
   // and slightly adapted from a Stackoverflow discussion about 2D Vectors.
-  for (int y = 0; y < board_->size(); ++y)
+  for (std::size_t y = 0; y < board_->size(); ++y)
   {
-    for (int x = 0; x < board_->at(y).size(); ++x)
+    for (std::size_t x = 0; x < board_->at(y).size(); ++x)
     {
       board_->at(y).at(x)->reset();
     }
@@ -449,9 +454,9 @@ void Game::deleteFields()
 {
   // This Loop is used to delete all the Fields in the 2D Board Vector. Copied
   // and slightly adapted from a Stackoverflow discussion about 2D Vectors.
-  for (int y = 0; y < board_->size(); ++y)
+  for (std::size_t y = 0; y < board_->size(); ++y)
   {
-    for (int x = 0; x < board_->at(y).size(); ++x)
+    for (std::size_t x = 0; x < board_->at(y).size(); ++x)
     {
       delete board_->at(y).at(x);
       board_->at(y).at(x) = 0;
