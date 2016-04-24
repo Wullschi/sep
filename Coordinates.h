@@ -9,7 +9,8 @@
 
 #ifndef COORDINATES_H_INCLUDED
 #define COORDINATES_H_INCLUDED
-
+#include <string> //typedefs can not be forward declared
+#include <iostream>
 class Coordinates
 {
   private:
@@ -84,6 +85,7 @@ class Coordinates
     // @param increase_value the value that is added to the coordinate
   
     void changeYBy(int increase_value);
+  
 };
 
 

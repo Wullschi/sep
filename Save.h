@@ -1,12 +1,12 @@
 //------------------------------------------------------------------------------
-// Filename: Save.h
-// Description: Class representing a Save  command
-// Authors: Tutors
-// Tutor: Tutors
-// Group: ??
-// Created: 08.08.2011
-// Last change: 02.09.2011
+// Save.h
+//
+// Group: Group 13717, study assistant: Pascal Nasahl
+//
+// Authors:
+// Christopher Kopel 0730613
 //------------------------------------------------------------------------------
+
 #ifndef SAVE_H
 #define SAVE_H
 

@@ -140,3 +140,8 @@ bool Field::isTurnOver(std::string &direction)
 }
 
 
+
+//------------------------------------------------------------------------------
+void Field::reset()
+{
+}

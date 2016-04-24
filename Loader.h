@@ -1,10 +1,11 @@
+//------------------------------------------------------------------------------
+// Loader.h
 //
-//  load.h
-//  sep_basis
+// Group: Group 13717, study assistant: Pascal Nasahl
 //
-//  Created by Stefan Maier on 05.04.16.
-//  Copyright (c) 2016 Stefan Maier. All rights reserved.
-//
+// Authors:
+// Stefan Maier 0730613
+//------------------------------------------------------------------------------
 
 
 #ifndef LOADER_H_INCLUDED
@@ -34,11 +35,11 @@ class Loader : public Filehandler
     std::vector< std::vector< Field* > >* loaded_board_;
     //--------------------------------------------------------------------------
     // Private methods
-    bool checkStartAndFinish(bool start, bool finish);
-    bool checkShape();
-    bool checkWall();
-    bool checkTeleport(vector<char>* teleport_list);
-    bool readOneRow(ifstream& cur_file, vector<char>& teleport_list,
+    Command::Status checkStartAndFinish(bool start, bool finish);
+    Command::Status checkShape();
+    Command::Status checkWall();
+    Command::Status checkTeleport(vector<char>* teleport_list);
+    Command::Status readOneRow(ifstream& cur_file, vector<char>& teleport_list,
     bool& found_start, bool& found_end, int row_count,
         Coordinates*& start_point);
     void deleteBoard(Coordinates* start_point);
@@ -47,7 +48,7 @@ class Loader : public Filehandler
   public:
     Loader(const std::string filename);
     ~Loader();
-    
+  
     Command::Status load(Game*& game);
     
     

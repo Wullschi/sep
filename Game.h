@@ -57,7 +57,7 @@ class Game
     // @return int indicates if the move is valid or not
 
     int singleMove(Coordinates& tmp_pos, Coordinates& go_to,
-        string go_to_str, int& bonus);
+        vector <Coordinates>& bonus_list, string go_to_str, int& bonus);
   
     //--------------------------------------------------------------------------
     // This methods takes the momentary coordinates and a move string and

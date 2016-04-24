@@ -5,7 +5,6 @@
 //
 // Authors: Benjamin Wullschleger 0773092
 //------------------------------------------------------------------------------
-//
 
 #include "Coordinates.h"
 #include <iostream>

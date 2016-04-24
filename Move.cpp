@@ -1,11 +1,10 @@
 //------------------------------------------------------------------------------
-// Filename: Move.cpp
-// Description: Class representing a move command
-// Authors: Tutors
-// Tutor: Tutors
-// Group: ??
-// Created: 02.09.2011
-// Last change: 02.09.2011
+// Move.cpp
+//
+// Group: Group 13717, study assistant: Pascal Nasahl
+//
+// Authors:
+// Christopher Kopel 0730613
 //------------------------------------------------------------------------------
 
 

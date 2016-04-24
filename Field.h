@@ -133,7 +133,11 @@ class Field
     // @return bool returns if turn is over or not
 
     virtual bool isTurnOver(string &direction) = 0;
-
+  
+    //--------------------------------------------------------------------------
+    // Action that has to be performed to put the field into its initial state
+  
+    virtual void reset();
 };
 
 #endif

@@ -1,10 +1,11 @@
+//------------------------------------------------------------------------------
+// UserInput.cpp
 //
-//  UserInput.cpp
-//  SEP Basisbeispiel
+// Group: Group 13717, study assistant: Pascal Nasahl
 //
-//  Created by Benjamin on 28.03.16.
-//  Copyright © 2016 Benjamin. All rights reserved.
-//
+// Authors:
+// Christopher Kopel 0730613
+//------------------------------------------------------------------------------
 
 
 #include "UserInput.h"
@@ -125,7 +126,7 @@ void UserInput::parseUserInput(std::string user_input)
   
   
   
-void UserInput::commandLine(Game*& current_game)
+int UserInput::commandLine(Game*& current_game)
 {
   
   
@@ -148,7 +149,14 @@ void UserInput::commandLine(Game*& current_game)
     if (entered_command_ == "load")
     {
       Load load("load");
-      return_status = load.execute(current_game, entered_arguments_);
+      try
+      {
+        return_status = load.execute(current_game, entered_arguments_);
+      }
+      catch (std::bad_alloc& exception)
+      {
+        return_status = Command::OUT_OF_MEMORY_;
+      }
     }
     
     else if (entered_command_ == "save")
@@ -156,7 +164,7 @@ void UserInput::commandLine(Game*& current_game)
       Save save("save");
       return_status = save.execute(current_game, entered_arguments_);
     }
-        
+    
     else if (entered_command_ == "move")
     {
       Move move("move");
@@ -168,19 +176,19 @@ void UserInput::commandLine(Game*& current_game)
       Fastmove fastmove("fastmove");
       return_status = fastmove.execute(current_game, entered_arguments_);
     }
-        
+    
     else if (entered_command_ == "reset")
     {
       Reset reset("reset");
       return_status = reset.execute(current_game, entered_arguments_);
     }
-        
+    
     else if (entered_command_ == "show")
     {
       Show show("show");
       return_status = show.execute(current_game, entered_arguments_);
     }
-        
+    
     else if (entered_command_ == "quit")
     {
       Quit quit("quit");
@@ -203,8 +211,8 @@ void UserInput::commandLine(Game*& current_game)
       Message::outputByCode(return_status);
     }
     
-  } while (entered_command_ != "quit");
-     
-     
-      
+  } while ((entered_command_ != "quit") && (return_status != Command::OUT_OF_MEMORY_));
+  
+  return return_status;
+  
 }

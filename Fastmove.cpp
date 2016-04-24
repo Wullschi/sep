@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// UserInput.cpp
+// Fastmove.cpp
 //
 // Group: Group 13717, study assistant: Pascal Nasahl
 //

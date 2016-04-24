@@ -1,11 +1,10 @@
 //------------------------------------------------------------------------------
-// Filename: Load.cpp
-// Description: Class representing a general command
-// Authors: Tutors
-// Tutor: Tutors
-// Group: ??
-// Created: 02.09.2011
-// Last change: 02.09.2011
+// Load.cpp
+//
+// Group: Group 13717, study assistant: Pascal Nasahl
+//
+// Authors:
+// Christopher Kopel 0730613
 //------------------------------------------------------------------------------
 
 #include "Load.h"
@@ -37,7 +36,9 @@ Command::Status Load::execute(Game*& board, std::vector<std::string>& params)
   }
   
   Game* new_board = 0;
-  Loader gameloader(params.front());
+  
+
+    Loader gameloader(params.front());
   
   if (!gameloader.filenameIsValid())
   {

@@ -1,12 +1,12 @@
 //------------------------------------------------------------------------------
-// Filename: Command.cpp
-// Description: Class representing a general command
-// Authors: Tutors
-// Tutor: Tutors
-// Group: ??
-// Created: 02.09.2011
-// Last change: 02.09.2011
+// Command.cpp
+//
+// Group: Group 13717, study assistant: Pascal Nasahl
+//
+// Authors:
+// Christopher Kopel 0730613
 //------------------------------------------------------------------------------
+
 #include "Command.h"
 
 //------------------------------------------------------------------------------

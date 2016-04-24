@@ -19,6 +19,7 @@ class Bonus: public Field
 {
   private:
     int bonus_count_;
+    string bonus_letter_;
   
     //--------------------------------------------------------------------------
     // Private standard constructor
@@ -31,6 +32,18 @@ class Bonus: public Field
     Bonus(const Bonus&);
   
   public:
+  
+    //--------------------------------------------------------------------------
+    // Resets the bonus value of a field in case of a invalid fastmove during
+    // which a b fieonus field was transformed. 
+    //
+    // @param direction the direction in which the player has to leave the
+    //        field if the turn is not over
+    //
+    // @return bool returns if turn is over or not
+  
+    void reset();
+  
     //--------------------------------------------------------------------------
     // This is the Costructor of Field class which is the base class for all
     // fields.
@@ -70,6 +83,7 @@ class Bonus: public Field
     // @return bool returns if turn is over or not
   
     bool isTurnOver(std::string &direction);
+  
 };
 
 #endif

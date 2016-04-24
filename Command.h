@@ -1,12 +1,12 @@
 //------------------------------------------------------------------------------
-// Filename: command.hpp
-// Description: Class representing a general command
-// Authors: Tutors
-// Tutor: Tutors
-// Group: ??
-// Created: 08.08.2011
-// Last change: 02.09.2011
+// Command.h
+//
+// Group: Group 13717, study assistant: Pascal Nasahl
+//
+// Authors:
+// Christopher Kopel 0730613
 //------------------------------------------------------------------------------
+
 #ifndef COMMAND_H_INCLUDED
 #define COMMAND_H_INCLUDED
 
@@ -33,6 +33,7 @@ public:
   {
     GAME_WON_ = -1,
     OK_,
+    OUT_OF_MEMORY_,
     WRONG_PARAMETER_COUNT_,
     WRONG_PARAMETER_,
     NO_MAZE_LOADED_,

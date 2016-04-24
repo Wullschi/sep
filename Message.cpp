@@ -1,11 +1,10 @@
 //------------------------------------------------------------------------------
-// Filename: Message.cpp
-// Description: Singleton class for message output
-// Authors: Tutors
-// Tutor: Tutors
-// Group: ??
-// Created: 02.09.2011
-// Last change: 02.09.2011
+// Message.cpp
+//
+// Group: Group 13717, study assistant: Pascal Nasahl
+//
+// Authors:
+// Christopher Kopel 0730613
 //------------------------------------------------------------------------------
 
 
@@ -98,6 +97,10 @@ void Message::outputUnknownCommand()
       
     case Command::NO_MORE_STEPS_:
       cout << NO_MORE_STEPS_ << endl;
+      break;
+      
+    case Command::OUT_OF_MEMORY_:
+      cout << OUT_OF_MEMORY_ << endl;
       break;
       
   }

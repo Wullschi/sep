@@ -1,11 +1,10 @@
 //------------------------------------------------------------------------------
-// Filename: Show.cpp
-// Description: Class representing a Show command
-// Authors: Tutors
-// Tutor: Tutors
-// Group: ??
-// Created: 02.09.2011
-// Last change: 02.09.2011
+// Show.cpp
+//
+// Group: Group 13717, study assistant: Pascal Nasahl
+//
+// Authors:
+// Christopher Kopel 0730613
 //------------------------------------------------------------------------------
 
 #include "Show.h"

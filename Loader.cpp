@@ -5,6 +5,7 @@
 //
 // Authors:
 // Stefan Maier 1014203
+// Benjamin Wullschleger 0773092
 //------------------------------------------------------------------------------
 
 
@@ -93,34 +94,53 @@ Command::Status Loader::load(Game*& game)
       }
      
       
-      bool correct_row = readOneRow(cur_file, teleport_list, found_start, found_end, row_count, start_point);
+      Command::Status correct_row = readOneRow(cur_file, teleport_list, found_start, found_end, row_count, start_point);
       
 
       
-      if (correct_row == false)
+      if (correct_row == Command::INVALID_FILE_)
       {
         deleteBoard(start_point);
         return Command::INVALID_FILE_;
+      }
+      else if (correct_row == Command::OUT_OF_MEMORY_)
+      {
+        deleteBoard(start_point);
+        return Command::OUT_OF_MEMORY_;
       }
 
       row.clear();
       row_count = row_count + 1;
     }
+    std::cout << "geladen\n";
+    cur_file.close();
+    
+
 
     //check board validity
-    bool start_and_finish = checkStartAndFinish(found_start, found_end);
-    bool shape = checkShape();
-    bool wall = checkWall();
-    bool teleport = checkTeleport(&teleport_list);
+    Command::Status start_and_finish = checkStartAndFinish(found_start, found_end);
+    Command::Status shape = checkShape();
+    Command::Status wall = checkWall();
+    Command::Status teleport = checkTeleport(&teleport_list);
     
     // if any error has been detected, stop loading
-    if ((start_and_finish == false) || (shape == false) || (wall == false) || (teleport == false))
+    if ((start_and_finish == Command::INVALID_FILE_) ||
+        (shape == Command::INVALID_FILE_) || (wall == Command::INVALID_FILE_)
+        || (teleport == Command::INVALID_FILE_))
     {
       deleteBoard(start_point);
       return Command::INVALID_FILE_;
     }
     
-    game = new Game(loaded_board_, "", total_turns, start_point);
+    try
+    {
+      game = new Game(loaded_board_, "", total_turns, start_point);
+    }
+    catch (std::bad_alloc& exception)
+    {
+      deleteBoard(start_point);
+      return Command::OUT_OF_MEMORY_;
+    }
     
     if (fastmove_string != "")
     {
@@ -139,7 +159,6 @@ Command::Status Loader::load(Game*& game)
     deleteBoard(start_point);
     return Command::FILE_NOT_OPENED_;
   }
-
 
   return Command::OK_;
 }
@@ -176,20 +195,20 @@ Command::Status Loader::load(Game*& game)
 
 
 
-bool Loader::checkStartAndFinish(bool start, bool finish)
+Command::Status Loader::checkStartAndFinish(bool start, bool finish)
 {
   if ((start == true) && (finish == true))
   {
-    return true;
+    return Command::OK_;
   }
   else
   {
     /*Start and/or End tile don't exist*/
-    return false;
+    return Command::INVALID_FILE_;
   }
 }
 
-bool Loader::checkShape()
+Command::Status Loader::checkShape()
 {
   unsigned long int field_height = loaded_board_->size();
   unsigned long int field_length = loaded_board_->at(0).size();
@@ -198,14 +217,13 @@ bool Loader::checkShape()
     unsigned long int row_length = loaded_board_->at(i).size();
     if (row_length != field_length)
     {
-      //exception hierher
-      return false;
+      return Command::INVALID_FILE_;
     }
   }
-  return true;
+  return Command::OK_;
 }
 
-bool Loader::checkWall()
+Command::Status Loader::checkWall()
 {
   std::vector<Field*> Row;
   unsigned long int field_height = loaded_board_->size();
@@ -217,7 +235,7 @@ bool Loader::checkWall()
     string field_symbol = loaded_board_->at(0).at(k)->getFieldSymbol();
     if (field_symbol != "#")
     {
-      return false;
+      return Command::INVALID_FILE_;
     }
   }
   
@@ -228,12 +246,12 @@ bool Loader::checkWall()
     string field_symbol = loaded_board_->at(k).front()->getFieldSymbol();
     if(field_symbol != "#")
     {
-      return false;
+      return Command::INVALID_FILE_;
     }
     field_symbol = loaded_board_->at(k).back()->getFieldSymbol();
     if(field_symbol != "#")
     {
-      return false;
+      return Command::INVALID_FILE_;
     }
   }
   
@@ -243,14 +261,14 @@ bool Loader::checkWall()
     string field_symbol = loaded_board_->at(field_height-1).at(k)->getFieldSymbol();
     if (field_symbol != "#")
     {
-      return false;
+      return Command::INVALID_FILE_;
     }
   }
   
-  return true;
+  return Command::OK_;
 }
 
-bool Loader::checkTeleport(vector<char>* teleport_list)
+Command::Status Loader::checkTeleport(vector<char>* teleport_list)
 {
   /*Check for valid Teleporter*/
   int teleport_amount;
@@ -268,10 +286,10 @@ bool Loader::checkTeleport(vector<char>* teleport_list)
     // if 0 or 2 teleport fields for every letter exist, teleporters are valid
     if(!((teleport_amount == 0) || (teleport_amount == 2)))
     {
-      return false;
+      return Command::INVALID_FILE_;
     }
   }
-  return true;
+  return Command::OK_;
 }
 
 
@@ -283,7 +301,7 @@ bool Loader::checkTeleport(vector<char>* teleport_list)
 
 
 
-bool Loader::readOneRow(ifstream& cur_file, vector<char>& teleport_list,
+Command::Status Loader::readOneRow(ifstream& cur_file, vector<char>& teleport_list,
                         bool& found_start, bool& found_end, int row_count, Coordinates*& start_point)
 {
   int y = row_count;
@@ -300,19 +318,19 @@ bool Loader::readOneRow(ifstream& cur_file, vector<char>& teleport_list,
   // that ends the maze
   if((cur_file.eof()) && (nr_of_fields == 0))
   {
-    return true;
+    return Command::OK_;
   }
   // If we don't read any input in a row and we haven't
   // reached the end of a file, thats a fault
   else if((!cur_file.eof()) && (nr_of_fields == 0))
   {
-    return false;
+    return Command::INVALID_FILE_;
   }
   // If we read input and reach the EOF, thats a fault
   // because there must be a line break befre EOF.
   else if((cur_file.eof()) && (nr_of_fields != 0))
   {
-    return false;
+    return Command::INVALID_FILE_;
   }
   
   
@@ -325,86 +343,99 @@ bool Loader::readOneRow(ifstream& cur_file, vector<char>& teleport_list,
     char symbol = row_string[x];
     
     
-    /*Generating the Field*/
-    if(symbol == '#')
+    try
     {
-      row.push_back(new Wall(x, y));
-      valid_char = true;
+      /*Generating the Field*/
+      if(symbol == '#')
+      {
+        row.push_back(new Wall(x, y));
+        valid_char = true;
+      }
+      
+      if(symbol == ' ')
+      {
+        row.push_back(new Path(x,y));
+        valid_char = true;
+      }
+      
+      if((symbol == 'o') && (found_start == false))
+      {
+
+        row.push_back(new Start(x,y));
+        start_point = new Coordinates(x,y);
+        valid_char = true;
+        found_start = true;
+      }
+      else if ((symbol == 'o') && (found_start == true))
+      {
+        return Command::INVALID_FILE_;
+      }
+      
+      if(symbol == '+')
+      {
+        row.push_back(new Ice(x,y));
+        valid_char = true;
+      }
+      
+      if((symbol == 'x') && (found_end == false))
+      {
+        row.push_back(new Finish(x,y));
+        valid_char = true;
+        found_end = true;
+      }
+      else if((symbol == 'x') && (found_end == true))
+      {
+        return Command::INVALID_FILE_;
+      }
+      
+      if((symbol >= 65 ) && (symbol <= 90))
+      {
+        string str;
+        str.push_back(symbol);
+        row.push_back(new Teleport(x, y, str));
+        teleport_list.push_back(symbol);
+        valid_char = true;
+        str.clear();
+      }
+      
+      if((symbol == '<') || (symbol == '>') || (symbol == 'v')
+         ||(symbol == '^'))
+      {
+        string str;
+        str.push_back(symbol);
+        row.push_back(new OneWay(x,y,str));
+        valid_char = true;
+        str.clear();
+      }
+      
+      if((symbol >= 97 ) && (symbol <= 106))
+      {
+        string str;
+        str.push_back(symbol);
+        row.push_back(new Bonus(x, y, str));
+        valid_char = true;
+        str.clear();
+      }
+      
+      if(valid_char == false)
+      {
+        return Command::INVALID_FILE_;
+      }
     }
-    
-    if(symbol == ' ')
-    {
-      row.push_back(new Path(x,y));
-      valid_char = true;
-    }
-    
-    if((symbol == 'o') && (found_start == false))
-    {
-      row.push_back(new Start(x,y));
-      start_point = new Coordinates(x,y);
-      valid_char = true;
-      found_start = true;
-    }
-    else if ((symbol == 'o') && (found_start == true))
-    {
-      return false;
-    }
-    
-    if(symbol == '+')
-    {
-      row.push_back(new Ice(x,y));
-      valid_char = true;
-    }
-    
-    if((symbol == 'x') && (found_end == false))
+    catch(std::bad_alloc& exception)
     {
       
-      row.push_back(new Finish(x,y));
-      valid_char = true;
-      found_end = true;
-    }
-    else if((symbol == 'x') && (found_end == true))
-    {
-      return false;
-    }
-
-    if((symbol >= 65 ) && (symbol <= 90))
-    {
-      string str;
-      str.push_back(symbol);
-      row.push_back(new Teleport(x, y, str));
-      teleport_list.push_back(symbol);
-      valid_char = true;
-      str.clear();
-    }
-    
-    if((symbol == '<') || (symbol == '>') || (symbol == 'v')
-       ||(symbol == '^'))
-    {
-      string str;
-      str.push_back(symbol);
-      row.push_back(new OneWay(x,y,str));
-      valid_char = true;
-      str.clear();
-    }
-    
-    if((symbol >= 97 ) && (symbol <= 106))
-    {
-      string str;
-      str.push_back(symbol);
-      row.push_back(new Bonus(x, y, str));
-      valid_char = true;
-      str.clear();
-    }
-    
-    if(valid_char == false)
-    {
-      return false;
+      for (int i = 0; i < row.size(); i++)
+      {
+        delete row.at(i);
+      }
+        
+      return Command::OUT_OF_MEMORY_;
     }
   }
 
   loaded_board_->push_back(row);
-  return true;
+  return Command::OK_;
 }
 
 void Loader::deleteBoard(Coordinates* start_point)
@@ -419,7 +450,7 @@ void Loader::deleteBoard(Coordinates* start_point)
   }
   loaded_board_->clear();
   delete start_point;
-  delete loaded_board_;
   start_point = 0;
+  delete loaded_board_;
+  loaded_board_ = 0;
 }
-

@@ -12,6 +12,8 @@
 #include "Field.h"
 #include "Coordinates.h"
 #include "Command.h"
+#include "Path.h"
+#include "Bonus.h"
 
 using std::string;
 using std::vector;
@@ -24,7 +26,7 @@ Game::Game(vector<vector<Field* > >* new_board, string turns_string,
     finished_turns_(turns_string), max_turns_(total_turns),
     origin_(start_point), remaining_turns_(total_turns), finished_(false)
 {
-  pos_now_ = new Coordinates(*start_point);
+    pos_now_ = new Coordinates(*start_point);
 }
 
 
@@ -40,7 +42,7 @@ Game::~Game(){
 
 
 //------------------------------------------------------------------------------
-void Game::setBoard(std::vector< std::vector<Field*> >* new_board)
+void Game::setBoard(vector<vector<Field*> >* new_board)
 {
   deleteFields();
   board_ = new_board;
@@ -50,7 +52,7 @@ void Game::setBoard(std::vector< std::vector<Field*> >* new_board)
 
 //------------------------------------------------------------------------------
 int Game::singleMove(Coordinates& tmp_pos, Coordinates& go_to,
-    string go_to_str, int& bonus)
+    vector <Coordinates>& bonus_list, string go_to_str, int& bonus)
 {
   int enter_code = 0;
   bool turn_is_over = false;
@@ -101,8 +103,15 @@ int Game::singleMove(Coordinates& tmp_pos, Coordinates& go_to,
         go_to = tmp_pos;
       }
       
+      
       enter_code = board_->at(go_y).at(go_x)->enter(entering_from, bonus);
       turn_is_over = board_->at(go_y).at(go_x)->isTurnOver(go_to_str);
+      
+      if (bonus > 0)
+      {
+        Coordinates found_bonus(go_x, go_y);
+        bonus_list.push_back(found_bonus);
+      }
     }
     
     // if next field is a teleport field
@@ -124,7 +133,9 @@ int Game::singleMove(Coordinates& tmp_pos, Coordinates& go_to,
 //------------------------------------------------------------------------------
 Command::Status Game::move(string go_to_str)
 {
+  vector <Coordinates> bonus_list;
 
+  
   if (finished_)
   {
     return Command::INVALID_MOVE_;
@@ -142,7 +153,7 @@ Command::Status Game::move(string go_to_str)
   // convert "right" to "r" etc.
   longToShortMoveString(go_to_str);
   
-  move_validity = singleMove(tmp_pos, go_to, go_to_str, bonus);
+  move_validity = singleMove(tmp_pos, go_to, bonus_list, go_to_str, bonus);
   
   // if the move is valid
   if (move_validity == 0)
@@ -155,6 +166,17 @@ Command::Status Game::move(string go_to_str)
     {
       remaining_turns_ = 0;
     }
+    
+    
+    for(std::vector<Coordinates>::iterator coord = bonus_list.begin();
+        coord != bonus_list.end(); ++coord)
+    {
+      int x = coord->getX();
+      int y = coord->getY();
+      delete board_->at(y).at(x);
+      board_->at(y).at(x) = new Path(x, y);
+    }
+
     
     // check if player is on finish field
     setGameIsFinished();
@@ -172,7 +194,7 @@ Command::Status Game::move(string go_to_str)
 //------------------------------------------------------------------------------
 Command::Status Game::fastMove(string all_turns_str)
 {
-
+  vector <Coordinates> bonus_list;
   if (finished_)
   {
     return Command::INVALID_MOVE_;
@@ -198,7 +220,7 @@ Command::Status Game::fastMove(string all_turns_str)
   {
     bonus = 0;
     go_to_str = all_turns_str[char_iterator]; //read next turn
-    move_validity = singleMove(tmp_pos, go_to, go_to_str, bonus);
+    move_validity = singleMove(tmp_pos, go_to, bonus_list, go_to_str, bonus);
     char_iterator = char_iterator + 1;
     remaining_turns_ = remaining_turns_ + bonus - 1;
     if (remaining_turns_ < 0)
@@ -220,6 +242,15 @@ Command::Status Game::fastMove(string all_turns_str)
   }
   else
   {
+    
+    for(std::vector<Coordinates>::iterator coord = bonus_list.begin();
+        coord != bonus_list.end(); ++coord)
+    {
+      int x = coord->getX();
+      int y = coord->getY();
+      board_->at(y).at(x)->reset();
+    }
+    
     remaining_turns_ = remaining_turns_backup;
     return Command::INVALID_MOVE_; // invalid series of turns
   }
@@ -397,6 +428,16 @@ void Game::reset()
   remaining_turns_ = getMaxTurns();
   setFinishedTurns("");
   *pos_now_ = *origin_;
+  
+  // This Loop is used to delete all the Fields in the 2D Board Vector. Copied
+  // and slightly adapted from a Stackoverflow discussion about 2D Vectors.
+  for (int y = 0; y < board_->size(); ++y)
+  {
+    for (int x = 0; x < board_->at(y).size(); ++x)
+    {
+      board_->at(y).at(x)->reset();
+    }
+  }
 }
 
 

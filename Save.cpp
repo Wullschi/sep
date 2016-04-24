@@ -1,11 +1,10 @@
 //------------------------------------------------------------------------------
-// Filename: Save.cpp
-// Description: Class representing a Save  command
-// Authors: Tutors
-// Tutor: Tutors
-// Group: ??
-// Created: 02.09.2011
-// Last change: 02.09.2011
+// Save.cpp
+//
+// Group: Group 13717, study assistant: Pascal Nasahl
+//
+// Authors:
+// Christopher Kopel 0730613
 //------------------------------------------------------------------------------
 
 #include "Save.h"

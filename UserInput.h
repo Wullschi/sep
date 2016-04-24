@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// UserInput.cpp
+// UserInput.h
 //
 // Group: Group 13717, study assistant: Pascal Nasahl
 //
@@ -29,6 +29,6 @@ class UserInput
     static const std::string QUIT_MESSAGE_;
     static int checkCommandLineOptions(int argc, const char* argv[], Game*& current_game);
     static void parseUserInput(std::string user_input);
-    static void commandLine(Game*& current_game);
+    static int commandLine(Game*& current_game);
     
 };

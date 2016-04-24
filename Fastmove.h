@@ -1,11 +1,10 @@
 //------------------------------------------------------------------------------
-// Filename: Fastmove.h
-// Description: Class representing a fastmove command
-// Authors: Tutors
-// Tutor: Tutors
-// Group: ??
-// Created: 08.08.2011
-// Last change: 02.09.2011
+// Fastmove.h
+//
+// Group: Group 13717, study assistant: Pascal Nasahl
+//
+// Authors:
+// Christopher Kopel 0730613
 //------------------------------------------------------------------------------
 
 

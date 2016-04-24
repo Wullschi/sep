@@ -1,12 +1,12 @@
 //------------------------------------------------------------------------------
-// Filename: Reset.h
-// Description: Class representing a Reset command
-// Authors: Tutors
-// Tutor: Tutors
-// Group: ??
-// Created: 08.08.2011
-// Last change: 02.09.2011
+// Reset.h
+//
+// Group: Group 13717, study assistant: Pascal Nasahl
+//
+// Authors:
+// Christopher Kopel 0730613
 //------------------------------------------------------------------------------
+
 #ifndef RESET_H
 #define RESET_H
 

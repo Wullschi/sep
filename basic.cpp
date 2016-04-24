@@ -11,6 +11,7 @@
 
 #include "Game.h"
 #include "UserInput.h"
+#include "Coordinates.h"
 
 
 
@@ -27,9 +28,16 @@ int main(int argc, const char* argv[])
   }
   
   
-  UserInput::commandLine(current_game);
+  error_code = UserInput::commandLine(current_game);
   
-  return 0;
-  
+  if (error_code == 1)
+  {
+    delete current_game;
+    return error_code;
+  }
+  else
+  {
+    return 0;
+  }
   
 }

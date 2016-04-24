@@ -1,11 +1,10 @@
 //------------------------------------------------------------------------------
-// Filename: Quit.cpp
-// Description: Class representing a Quit command
-// Authors: Tutors
-// Tutor: Tutors
-// Group: ??
-// Created: 02.09.2011
-// Last change: 02.09.2011
+// Quit.cpp
+//
+// Group: Group 13717, study assistant: Pascal Nasahl
+//
+// Authors:
+// Christopher Kopel 0730613
 //------------------------------------------------------------------------------
 
 #include "Quit.h"

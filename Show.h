@@ -1,11 +1,10 @@
 //------------------------------------------------------------------------------
-// Filename: Show.h
-// Description: Class representing a Show command
-// Authors: Tutors
-// Tutor: Tutors
-// Group: ??
-// Created: 08.08.2011
-// Last change: 02.09.2011
+// Show.h
+//
+// Group: Group 13717, study assistant: Pascal Nasahl
+//
+// Authors:
+// Christopher Kopel 0730613
 //------------------------------------------------------------------------------
 
 #ifndef SHOW_H_INCLUDED

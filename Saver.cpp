@@ -1,13 +1,11 @@
 //------------------------------------------------------------------------------
 // Saver.cpp
 //
-// Group: Group 13717, study assistant Pascal Nasahl
+// Group: Group 13717, study assistant: Pascal Nasahl
 //
-// Authors: <Name> <Matriculum Number>
-// <Name> <Matriculum Number>
-// <Add one row for every additional group member>
+// Authors:
+// Christopher Kopel 0730613
 //------------------------------------------------------------------------------
-//
 
 
 #include <vector>
