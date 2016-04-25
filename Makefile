@@ -1,7 +1,7 @@
 SUBMISSION = basic
 EXECUTABLE = $(SUBMISSION)
 SOURCES    = $(wildcard *.cpp)
-OBJECTS    = $(patsubst %,%,${SOURCES:.cpp=.o})
+OBJECTS    = $(patsubst %,%,${SOURCES:.cpp=.o})
 CXX        = g++
 CXXFLAGS   = -Wall -g -c -std=c++11 -o
 LDFLAGS    = -static-libstdc++
@@ -9,14 +9,13 @@ LDLIBS     =
 #-------------------------------------------------------------------------------
 
 #make executable
-all: $(EXECUTABLE)
-	
+all: $(EXECUTABLE) 
 
-%.o: %.cpp
+%.o: %.cpp
 	$(CXX) $(CXXFLAGS) $@ $< -MMD -MF ./$@.d
 
 #link Objects
-$(EXECUTABLE) : $(OBJECTS)
+$(EXECUTABLE) : $(OBJECTS)
 	$(CXX) -o $@ $^ $(LDFLAGS)
 
 pluto:
