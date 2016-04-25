@@ -30,7 +30,7 @@ using std::ifstream;
 
 Loader::Loader(const std::string filename) : Filehandler(filename)
 {
-  loaded_board_ = new std::vector< std::vector< Field* > >;
+  loaded_board_ = 0;
 }
 
 Loader::~Loader()
@@ -44,7 +44,7 @@ Command::Status Loader::load(Game*& game)
 {
   const char* LOADFILE = filename_.c_str();
   Coordinates* start_point = 0;
-  /*Initialisierungen*/
+  /*Initialisations*/
   std::ifstream cur_file;
   bool found_start = false;
   bool found_end = false;
@@ -57,6 +57,8 @@ Command::Status Loader::load(Game*& game)
   std::string fastmove_string = "";
 
   unsigned int total_turns = 0;
+
+  loaded_board_ = new std::vector< std::vector< Field* > >;
   
 
   if(cur_file.is_open())

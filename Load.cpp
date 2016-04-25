@@ -35,15 +35,14 @@ Command::Status Load::execute(Game*& board, std::vector<std::string>& params)
     return WRONG_PARAMETER_COUNT_;
   }
   
-  Game* new_board = 0;
-  
-
-    Loader gameloader(params.front());
+  Loader gameloader(params.front());
   
   if (!gameloader.filenameIsValid())
   {
     return WRONG_PARAMETER_;
   }
+  
+  Game* new_board = 0;
   
   Command::Status return_status = gameloader.load(new_board);
   
