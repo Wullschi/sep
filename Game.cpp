@@ -230,6 +230,10 @@ Command::Status Game::fastMove(string all_turns_str)
     {
       remaining_turns_ = 0;
     }
+    if ((remaining_turns_ == 0) && ((nr_turns - char_iterator) > 0))
+    {
+      move_validity = -1;
+    }
   }
   while ((char_iterator < nr_turns) && (move_validity == 0));
   
