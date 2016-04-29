@@ -1,14 +1,19 @@
 //------------------------------------------------------------------------------
-// Coordinates.cpp
+// Coordinates.h
 //
 // Group: Group 13717, study assistant: Pascal Nasahl
 //
-// Authors:
-// Benjamin Wullschleger 0773092
+// Authors: Benjamin Wullschleger 0773092
+// Stefan Maier 1014203
+// Christopher Kopel 0730613
 //------------------------------------------------------------------------------
+//
+
 
 #ifndef COORDINATES_H_INCLUDED
 #define COORDINATES_H_INCLUDED
+
+
 #include <string> //typedefs can not be forward declared
 #include <iostream>
 class Coordinates

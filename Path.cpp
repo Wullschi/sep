@@ -3,9 +3,11 @@
 //
 // Group: Group 13717, study assistant: Pascal Nasahl
 //
-// Authors:
-// Benjamin Wullschleger 0773092
+// Authors: Benjamin Wullschleger 0773092
+// Stefan Maier 1014203
+// Christopher Kopel 0730613
 //------------------------------------------------------------------------------
+//
 
 
 #include "Path.h"

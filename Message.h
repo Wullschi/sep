@@ -1,15 +1,18 @@
 //------------------------------------------------------------------------------
-// Filename: Message.h
-// Description: Singleton class for message output
-// Authors: Tutors
-// Tutor: Tutors
-// Group: ??
-// Created: 02.09.2011
-// Last change: 02.09.2011
+// Message.h
+//
+// Group: Group 13717, study assistant: Pascal Nasahl
+//
+// Authors: Benjamin Wullschleger 0773092
+// Stefan Maier 1014203
+// Christopher Kopel 0730613
 //------------------------------------------------------------------------------
+//
+
 
 #ifndef MESSAGE_H_INCLUDED
 #define MESSAGE_H_INCLUDED
+
 
 #include <string>
 
@@ -47,5 +50,6 @@ class Message
     static void outputByCode(Command::Status return_status);
     
 };
+
 
 #endif

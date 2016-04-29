@@ -3,13 +3,16 @@
 //
 // Group: Group 13717, study assistant: Pascal Nasahl
 //
-// Authors:
+// Authors: Benjamin Wullschleger 0773092
+// Stefan Maier 1014203
 // Christopher Kopel 0730613
 //------------------------------------------------------------------------------
+//
 
 
-#ifndef FASTMOVE_H
-#define FASTMOVE_H
+#ifndef FASTMOVE_H_INCLUDED
+#define FASTMOVE_H_INCLUDED
+
 
 #include "Command.h"
 
@@ -50,5 +53,5 @@ class Fastmove : public Command
   
 };
 
-  #endif
-  
+
+#endif

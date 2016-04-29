@@ -3,9 +3,12 @@
 //
 // Group: Group 13717, study assistant: Pascal Nasahl
 //
-// Authors:
+// Authors: Benjamin Wullschleger 0773092
+// Stefan Maier 1014203
 // Christopher Kopel 0730613
 //------------------------------------------------------------------------------
+//
+
 
 #include "Reset.h"
 
@@ -46,10 +49,10 @@ Command::Status Reset::execute(Game*& board, std::vector<std::string>& params)
     Save autosave("autosave");
     Command::Status autosave_status = autosave.execute(board, autosave_params);
     if (autosave_status)
-      {
-        Message::outputByCode(autosave_status);
-      }
+    {
+      Message::outputByCode(autosave_status);
     }
+  }
   
   return OK_;
   

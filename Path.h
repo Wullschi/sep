@@ -1,14 +1,19 @@
 //------------------------------------------------------------------------------
-// path.h
+// Path.h
 //
 // Group: Group 13717, study assistant: Pascal Nasahl
 //
-// Authors:
-// Benjamin Wullschleger 0773092
+// Authors: Benjamin Wullschleger 0773092
+// Stefan Maier 1014203
+// Christopher Kopel 0730613
 //------------------------------------------------------------------------------
+//
+
 
 #ifndef PATH_H_INCLUDED
 #define PATH_H_INCLUDED
+
+
 #include "Field.h" // can't forward declare the class from
                    // which this class inherits
 
@@ -68,5 +73,6 @@ class Path: public Field
   
     bool isTurnOver(std::string &direction);
 };
+
 
 #endif

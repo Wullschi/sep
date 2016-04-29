@@ -3,12 +3,16 @@
 //
 // Group: Group 13717, study assistant: Pascal Nasahl
 //
-// Authors:
+// Authors: Benjamin Wullschleger 0773092
+// Stefan Maier 1014203
 // Christopher Kopel 0730613
 //------------------------------------------------------------------------------
+//
 
-#ifndef LOAD_H
-#define LOAD_H
+
+#ifndef LOAD_H_INCLUDED
+#define LOAD_H_INCLUDED
+
 
 #include "Command.h"
 
@@ -43,5 +47,6 @@ class Load : public Command
     //--------------------------------------------------------------------------
     
 };
+
 
 #endif

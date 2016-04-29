@@ -3,12 +3,16 @@
 //
 // Group: Group 13717, study assistant: Pascal Nasahl
 //
-// Authors:
+// Authors: Benjamin Wullschleger 0773092
+// Stefan Maier 1014203
 // Christopher Kopel 0730613
 //------------------------------------------------------------------------------
+//
+
 
 #ifndef MOVE_H_INCLUDED
 #define MOVE_H_INCLUDED
+
 
 #include "Command.h"
 
@@ -49,4 +53,5 @@ class Move : public Command
 
 };
 
-  #endif
+
+#endif

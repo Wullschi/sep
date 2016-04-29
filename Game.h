@@ -3,12 +3,17 @@
 //
 // Group: Group 13717, study assistant: Pascal Nasahl
 //
-// Authors:
-// Benjamin Wullschleger 0773092
+// Authors: Benjamin Wullschleger 0773092
+// Stefan Maier 1014203
+// Christopher Kopel 0730613
 //------------------------------------------------------------------------------
+//
+
 
 #ifndef GAME_H_INCLUDED
 #define GAME_H_INCLUDED
+
+
 #include <iostream>
 #include <vector> // Can't forward declare templates
 #include <fstream>
@@ -203,4 +208,5 @@ class Game
 
 };
 
-#endif 
+
+#endif

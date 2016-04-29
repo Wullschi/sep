@@ -3,9 +3,12 @@
 //
 // Group: Group 13717, study assistant: Pascal Nasahl
 //
-// Authors:
+// Authors: Benjamin Wullschleger 0773092
+// Stefan Maier 1014203
 // Christopher Kopel 0730613
 //------------------------------------------------------------------------------
+//
+
 
 #include "Save.h"
 #include "Game.h"

@@ -3,14 +3,17 @@
 //
 // Group: Group 13717, study assistant: Pascal Nasahl
 //
-// Authors:
-// Benjamin Wullschleger 0773092
+// Authors: Benjamin Wullschleger 0773092
+// Stefan Maier 1014203
+// Christopher Kopel 0730613
 //------------------------------------------------------------------------------
 //
 
 
-#ifndef ONEWAY_H_INCLUDED
-#define ONEWAY_H_INCLUDED
+#ifndef ONE_WAY_H_INCLUDED
+#define ONE_WAY_H_INCLUDED
+
+
 #include "Field.h"
 
 class OneWay: public Field
@@ -75,4 +78,6 @@ class OneWay: public Field
     bool isTurnOver(std::string &direction);
     
 };
+
+
 #endif

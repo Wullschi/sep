@@ -3,9 +3,12 @@
 //
 // Group: Group 13717, study assistant: Pascal Nasahl
 //
-// Authors:
+// Authors: Benjamin Wullschleger 0773092
+// Stefan Maier 1014203
 // Christopher Kopel 0730613
 //------------------------------------------------------------------------------
+//
+
 
 #include "Show.h"
 
@@ -30,23 +33,23 @@ Command::Status Show::execute(Game*& board, std::vector<std::string>& params)
   
   bool more = false;
   
+  if (params.size() > 1)
+  {
+    return WRONG_PARAMETER_COUNT_;
+  }
+  
   if (params.size() == 1)
   {
     if (params.front() == MORE_)
-    {
+	{
       more = true;
     }
     else
     {
       return WRONG_PARAMETER_;
     }
-  
   }
   
-  else if (params.size() > 1)
-  {
-    return WRONG_PARAMETER_COUNT_;
-  }
   
   if (!board)
   {

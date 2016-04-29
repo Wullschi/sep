@@ -1,16 +1,19 @@
 //------------------------------------------------------------------------------
-// teleport.h
+// Teleport.h
 //
 // Group: Group 13717, study assistant: Pascal Nasahl
 //
-// Authors:
-// Benjamin Wullschleger 0773092
+// Authors: Benjamin Wullschleger 0773092
+// Stefan Maier 1014203
+// Christopher Kopel 0730613
 //------------------------------------------------------------------------------
 //
 
 
 #ifndef TELEPORT_H_INCLUDED
 #define TELEPORT_H_INCLUDED
+
+
 #include "Field.h"
 class Teleport: public Field
 {
@@ -71,5 +74,6 @@ class Teleport: public Field
   
     bool isTurnOver(std::string &portal_letter);
 };
+
 
 #endif

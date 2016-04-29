@@ -1,15 +1,19 @@
 //------------------------------------------------------------------------------
-// wall.h
+// Wall.h
 //
 // Group: Group 13717, study assistant: Pascal Nasahl
 //
-// Authors:
-// Benjamin Wullschleger 0773092
+// Authors: Benjamin Wullschleger 0773092
+// Stefan Maier 1014203
+// Christopher Kopel 0730613
 //------------------------------------------------------------------------------
 //
 
+
 #ifndef WALL_H_INCLUDED
 #define WALL_H_INCLUDED
+
+
 #include "Field.h"
 
 class Wall: public Field

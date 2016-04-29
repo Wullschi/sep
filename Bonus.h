@@ -1,16 +1,19 @@
 //------------------------------------------------------------------------------
-// bonus.h
+// Bonus.h
 //
 // Group: Group 13717, study assistant: Pascal Nasahl
 //
-// Authors:
-// Benjamin Wullschleger 0773092
+// Authors: Benjamin Wullschleger 0773092
+// Stefan Maier 1014203
+// Christopher Kopel 0730613
 //------------------------------------------------------------------------------
 //
 
 
 #ifndef BONUS_H_INCLUDED
 #define BONUS_H_INCLUDED
+
+
 #include "Field.h"
 
 // The bonus Class includes a negative bonus, which means it includes the
@@ -88,5 +91,6 @@ class Bonus: public Field
     bool isTurnOver(std::string &direction);
   
 };
+
 
 #endif

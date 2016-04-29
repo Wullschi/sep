@@ -3,12 +3,16 @@
 //
 // Group: Group 13717, study assistant: Pascal Nasahl
 //
-// Authors:
+// Authors: Benjamin Wullschleger 0773092
+// Stefan Maier 1014203
 // Christopher Kopel 0730613
 //------------------------------------------------------------------------------
+//
+
 
 #ifndef QUIT_H_INCLUDED
 #define QUIT_H_INCLUDED
+
 
 #include "Command.h"
 
@@ -41,5 +45,6 @@ class Quit : public Command
     //--------------------------------------------------------------------------
 
 };
+
 
 #endif
