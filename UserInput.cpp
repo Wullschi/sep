@@ -233,8 +233,8 @@ int UserInput::commandLine(Game*& current_game)
     }
     
   }
-  while ((entered_command_ != QUIT_) &&
-      (return_status != Command::OUT_OF_MEMORY_));
+  while ( (return_status != Command::QUIT_) &&
+      (return_status != Command::OUT_OF_MEMORY_) );
   
   return return_status;
 }

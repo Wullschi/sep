@@ -33,18 +33,6 @@ const string Message::INVALID_MOVE_ = "[ERR] Invalid move.";
 const string Message::NO_MORE_STEPS_ = "[ERR] No more steps possible.";
 
 
-void Message::outputQuit()
-{
-  cout << QUIT_ << endl;
-}
-
-
-void Message::outputOutOfMemory()
-{
-  cout << OUT_OF_MEMORY_ << endl;
-}
-
-
 void Message::outputWrongUsage()
 {
   cout << WRONG_USAGE_ << endl;
@@ -56,14 +44,26 @@ void Message::outputUnknownCommand()
   cout << UNKNOWN_COMMAND_ << endl;
 }
 
+
 void Message::outputByCode(Command::Status return_status)
 {
   
   switch (return_status)
   {
       
+    case Command::QUIT_:
+      cout << QUIT_ << endl;
+      break;
+      
     case Command::GAME_WON_:
       cout << CONGRATULATION_ << endl;
+      break;
+      
+    case Command::OK_:
+      break;
+      
+    case Command::OUT_OF_MEMORY_:
+      cout << OUT_OF_MEMORY_ << endl;
       break;
       
     case Command::WRONG_PARAMETER_COUNT_:
@@ -102,13 +102,7 @@ void Message::outputByCode(Command::Status return_status)
       cout << NO_MORE_STEPS_ << endl;
       break;
       
-    case Command::OUT_OF_MEMORY_:
-      cout << OUT_OF_MEMORY_ << endl;
-      break;
-      
-    case Command::OK_:
-      break;
-      
+    
   }
   
 }

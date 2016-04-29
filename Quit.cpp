@@ -40,8 +40,6 @@ Command::Status Quit::execute(Game*& board, std::vector<std::string>& params)
     board = 0;
   }
   
-  Message::outputQuit();
-    
-  return OK_;
+  return QUIT_;
   
 }
