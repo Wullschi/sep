@@ -14,25 +14,33 @@
 #define PATH_H_INCLUDED
 
 
-#include "Field.h" // can't forward declare the class from
-                   // which this class inherits
+#include "Field.h"
 
-class Path: public Field
+
+//------------------------------------------------------------------------------
+// Class representing an ordinary field (Path field)
+//
+class Path : public Field
 {
   private:
+    
     //--------------------------------------------------------------------------
     // Private standard constructor
-  
+    //
     Path();
-  
+    
     //--------------------------------------------------------------------------
     // Private copy constructor
-  
-    Path(const Path&);
-  
+    //
+    Path(const Path& original);
+    
   public:
     
-    static const char SYMBOL_;
+    //--------------------------------------------------------------------------
+    // Constant for the text symbol representing this type of  field
+    // on the textmode screen and in the file
+    //
+    static const char SYMBOL_ = ' ';
     
     //--------------------------------------------------------------------------
     // This is the Costructor of Field class which is the base class for all
@@ -41,14 +49,14 @@ class Path: public Field
     // @param x x-coordinate of the position of this field on the board
     // @param y y-coordinate of the position of this field on the board
     //        (coordinate origin is in the top left corner of the board)
-  
+    //
     Path(int x, int y);
-  
+    
     //--------------------------------------------------------------------------
     // Destructor
-  
-    ~Path();
-
+    //
+    ~Path() throw();
+    
     //--------------------------------------------------------------------------
     // Performs any necessary action when a player enters a field. This Method
     // is mainly used for the bonus/quicksand and ice fields.
@@ -59,9 +67,9 @@ class Path: public Field
     //        entering the field.
     //
     // @return int 1 for entered ice field, 0 for entered any other field
-  
+    //
     int enter(std::string enter_from_direction, int& bonus);
-
+    
     //--------------------------------------------------------------------------
     // Determines if the turn is over after entering this field. And returns
     // The direction in which to go if the turn isn't over.
@@ -70,8 +78,9 @@ class Path: public Field
     //        field if the turn is not over
     //
     // @return bool returns if turn is over or not
-  
+    //
     bool isTurnOver(std::string &direction);
+    
 };
 
 

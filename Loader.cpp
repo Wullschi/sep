@@ -28,10 +28,13 @@ using std::vector;
 using std::string;
 using std::ifstream;
 
+
+//------------------------------------------------------------------------------
 Loader::Loader(const std::string filename) : Filehandler(filename), loaded_board_(0)
 {
 }
 
+//------------------------------------------------------------------------------
 Loader::~Loader() throw()
 {
 }
@@ -39,6 +42,8 @@ Loader::~Loader() throw()
 
 
 /*Loading function*/
+
+//------------------------------------------------------------------------------
 Command::Status Loader::load(Game*& game)
 {
   const char* LOADFILE = filename_.c_str();
@@ -169,37 +174,7 @@ Command::Status Loader::load(Game*& game)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//------------------------------------------------------------------------------
 Command::Status Loader::checkStartAndFinish(bool start, bool finish)
 {
   if ((start == true) && (finish == true))
@@ -213,6 +188,7 @@ Command::Status Loader::checkStartAndFinish(bool start, bool finish)
   }
 }
 
+//------------------------------------------------------------------------------
 Command::Status Loader::checkShape()
 {
   unsigned long int field_height = loaded_board_->size();
@@ -228,6 +204,7 @@ Command::Status Loader::checkShape()
   return Command::OK_;
 }
 
+//------------------------------------------------------------------------------
 Command::Status Loader::checkWall()
 {
   std::vector<Field*> Row;
@@ -274,6 +251,7 @@ Command::Status Loader::checkWall()
   return Command::OK_;
 }
 
+//------------------------------------------------------------------------------
 Command::Status Loader::checkTeleport(vector<char>* teleport_list)
 {
   /*Check for valid Teleporter*/
@@ -299,14 +277,7 @@ Command::Status Loader::checkTeleport(vector<char>* teleport_list)
 }
 
 
-
-
-
-
-
-
-
-
+//------------------------------------------------------------------------------
 Command::Status Loader::readOneRow(ifstream& cur_file,
     vector<char>& teleport_list, bool& found_start, bool& found_end,
     int row_count, Coordinates*& start_point)
@@ -448,10 +419,7 @@ Command::Status Loader::readOneRow(ifstream& cur_file,
 }
 
 
-
-
-
-
+//------------------------------------------------------------------------------
 void Loader::deleteBoard(Coordinates* start_point)
 {
   for (unsigned int y = 0; y < loaded_board_->size(); ++y)

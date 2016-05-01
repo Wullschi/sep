@@ -33,16 +33,17 @@ Game::Game(vector<vector<Field* > >* new_board, string turns_string,
     pos_now_ = new Coordinates(*start_point);
 }
 
-
-
 //------------------------------------------------------------------------------
-Game::~Game(){
+Game::~Game() throw()
+{
   delete pos_now_;
+  pos_now_ = 0;
   deleteFields();
   delete board_;
+  board_ = 0;
   delete origin_;
+  origin_ = 0;
 }
-
 
 
 //------------------------------------------------------------------------------

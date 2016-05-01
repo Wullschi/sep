@@ -62,32 +62,36 @@ Command::Status Move::execute(Game*& board, std::vector<std::string>& params)
   
   Command::Status return_status = board->move(parameter);
   
-  if (return_status <= 0)
-  {
-    
-    if (Saver::isAutosaveActive())
-    {
-      std::vector<std::string> autosave_params = Saver::getAutosaveParams();
-      Save autosave("autosave");
-      Command::Status autosave_status =
-          autosave.execute(board, autosave_params);
-      if (autosave_status)
-      {
-        Message::outputByCode(autosave_status);
-      }
-    }
-    
-    Show implicit_show("implicit_show");
-    std::vector<std::string> show_params;
-    implicit_show.execute(board, show_params);
-    
-  }
-  else if (return_status == NO_MORE_STEPS_)
+  if (return_status == NO_MORE_STEPS_)
   {
     std::vector<std::string> reset_params;
     Reset auto_reset("auto_reset");
     auto_reset.execute(board, reset_params);
   }
+  
+  if (return_status > 0)
+  {
+    return return_status;
+  }
+  
+  if (Saver::isAutosaveActive())
+  {
+    
+    std::vector<std::string> autosave_params = Saver::getAutosaveParams();
+    Save autosave("autosave");
+    Command::Status autosave_status =
+        autosave.execute(board, autosave_params);
+      
+    if (autosave_status)
+    {
+      Message::outputByCode(autosave_status);
+    }
+    
+  }
+  
+  Show implicit_show("implicit_show");
+  std::vector<std::string> show_params;
+  implicit_show.execute(board, show_params);
   
   return return_status;
   

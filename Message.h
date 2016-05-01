@@ -21,12 +21,22 @@
 using std::string;
 
 
+//------------------------------------------------------------------------------
+// Singleton class providing constants for all possible messages
+// and methods for outputting them
+//
 class Message
 {
   private:
     
+    //------------------------------------------------------------------------------
+    // Private constructor (because this is a singleton class)
+    //
     Message();
     
+    //------------------------------------------------------------------------------
+    // Constants for all possible screen messages
+    //
     static const string QUIT_;
     static const string CONGRATULATION_;
     static const string OUT_OF_MEMORY_;

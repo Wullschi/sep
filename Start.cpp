@@ -13,23 +13,16 @@
 #include "Start.h"
 
 
-const char Start::SYMBOL_ = 'o';
-
-
 //------------------------------------------------------------------------------
 Start::Start(int x, int y) : Field(x, y)
 {
   field_symbol_ = SYMBOL_;
 }
 
-
-
 //------------------------------------------------------------------------------
-Start::~Start()
+Start::~Start() throw()
 {
 }
-
-
 
 //------------------------------------------------------------------------------
 int Start::enter(std::string enter_from_direction, int& bonus)

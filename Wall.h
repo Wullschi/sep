@@ -17,7 +17,10 @@
 #include "Field.h"
 
 
-class Wall: public Field
+//------------------------------------------------------------------------------
+// Class representing a Wall field
+//
+class Wall : public Field
 {
   private:
     
@@ -37,7 +40,7 @@ class Wall: public Field
     // Constant for the text symbol representing this type of  field
     // on the textmode screen and in the file
     //
-    static const char SYMBOL_;
+    static const char SYMBOL_ = '#';
     
     //--------------------------------------------------------------------------
     // This is the Constructor of Field class which is the base class for all

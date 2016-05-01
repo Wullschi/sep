@@ -50,32 +50,36 @@ Command::Status Load::execute(Game*& board, std::vector<std::string>& params)
   
   Command::Status return_status = gameloader.load(new_board);
   
-  if (return_status <= 0)
+  if (return_status > 0)
   {
-    if (board)
+    return return_status;
+  }
+    
+  if (board)
+  {
+    delete board;
+  }
+  
+  board = new_board;
+  
+  if (Saver::isAutosaveActive())
+  {
+    
+    std::vector<std::string> autosave_params = Saver::getAutosaveParams();
+    Save autosave("autosave");
+    Command::Status autosave_status =
+        autosave.execute(board, autosave_params);
+    
+    if (autosave_status)
     {
-      delete board;
+      Message::outputByCode(autosave_status);
     }
-    
-    board = new_board;
-    
-    if (Saver::isAutosaveActive())
-    {
-      std::vector<std::string> autosave_params = Saver::getAutosaveParams();
-      Save autosave("autosave");
-      Command::Status autosave_status =
-          autosave.execute(board, autosave_params);
-      if (autosave_status)
-      {
-        Message::outputByCode(autosave_status);
-      }
-    }
-    
-    Show implicit_show("implicit_show");
-    std::vector<std::string> show_params;
-    implicit_show.execute(board, show_params);
     
   }
+  
+  Show implicit_show("implicit_show");
+  std::vector<std::string> show_params;
+  implicit_show.execute(board, show_params);
   
   return return_status;
   

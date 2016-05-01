@@ -18,6 +18,10 @@
 
 
 class Game;
+
+//------------------------------------------------------------------------------
+// Class representing a reset command
+//
 class Reset : public Command
 {
   private:

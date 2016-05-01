@@ -19,15 +19,23 @@
 #include <fstream>
 
 #include "Command.h"   // necessary to access Status constants
-class Field;
-class Coordinates;
+
+
 using std::string;
 using std::vector;
 
+
+class Field;
+class Coordinates;
+
+//------------------------------------------------------------------------------
+// Class for performing the game, i.e., moving, checking the
+// validity of a move, and checking if a game has been won.
+//
 class Game
 {
   private:
-
+    
     vector<vector<Field* > >* board_;
     Coordinates* origin_;
     Coordinates* pos_now_; //x and y coordinates of player
@@ -35,17 +43,17 @@ class Game
     int max_turns_;
     string finished_turns_; //these turns have already been played
     bool finished_;
-  
+    
     //--------------------------------------------------------------------------
     // Private standard constructor
-  
+    //
     Game();
-  
+    
     //--------------------------------------------------------------------------
     // Private copy constructor
-  
-    Game(const Game&);
-  
+    //
+    Game(const Game& original);
+    
     //--------------------------------------------------------------------------
     // This private Method executes a single move and is a helper method for
     // the move AND the fastmove command.
@@ -60,10 +68,10 @@ class Game
     //        collected in this move
     //
     // @return int indicates if the move is valid or not
-
+    //
     int singleMove(Coordinates& tmp_pos, Coordinates& go_to,
         vector <Coordinates>& bonus_list, string go_to_str, int& bonus);
-  
+    
     //--------------------------------------------------------------------------
     // This methods takes the momentary coordinates and a move string and
     // calculates the coordinates in which the player ends up after this move.
@@ -76,24 +84,24 @@ class Game
     //
     // @return int indicates if next field is a teleport field, any other
     //         regular field or an invalid field
-  
+    //
     int calculateNextField(Coordinates& position,
         Coordinates &go_to, string go_to_str);
-
+    
     //--------------------------------------------------------------------------
     // This method checks if the player is standing on the finished field and
     // sets the finished_ member variable accordingly.
-  
+    //
     void setGameIsFinished();
-  
+    
     //--------------------------------------------------------------------------
     // This method converts a string from the move notation to the
     // fastmove notation. For example "up" to "u" or "left" to "l"
     //
     // @param long_string long notation of move string
-
+    //
     void longToShortMoveString(string &move_string);
-  
+    
     //--------------------------------------------------------------------------
     // This method finds the exit to a teleport field that the player is about
     // to enter.
@@ -103,16 +111,17 @@ class Game
     //        to enter
     // @param teleport_exit the position where the player appears after
     //        entering the teleport field
-  
+    //
     void findTeleportLocation(const string teleport_letter,
         const Coordinates& position, Coordinates& teleport_exit);
-  
+    
     //--------------------------------------------------------------------------
     // This method deletes all fields of the game board.
-
+    //
     void deleteFields();
-  
+    
   public:
+    
     //--------------------------------------------------------------------------
     // This is the Costructor of the Game class.
     //
@@ -121,54 +130,54 @@ class Game
     //        loaded file
     // @param total_turns maximum number of turns in the game
     // @param start_point the position of the start field
-  
+    //
     Game(vector<vector<Field* > >* new_board, string turns_string,
         int total_turns, Coordinates* start_point);
-  
+    
     //--------------------------------------------------------------------------
     // Destructor
-  
-    virtual ~Game();
-  
+    //
+    virtual ~Game() throw();
+    
     //--------------------------------------------------------------------------
     // Setter: This Method assigns a new game board to the appropriate member
     // variable.
     //
     // @param new_board the game board which is passed to the corresponding
     //        member variable
-
+    //
     void setBoard(vector<vector<Field*> >* new_board);
-
+    
     //--------------------------------------------------------------------------
     // Setter: sets/updates the all the turns that were already executed
     // in the game (fastmove notation)
     //
     // @param turns_string the string which contains all the executed turns
-
+    //
     void setFinishedTurns(string turns_string);
-  
+    
     //--------------------------------------------------------------------------
     // Getter: Returns the maximum turns for the game
     //
     // @return int the maximum turns in this game
-
+    //
     int getMaxTurns() const;
-  
+    
     //--------------------------------------------------------------------------
     // Getter: Returns the game board of the current game
     //
     // @return vector <vector<Field*> > the returned board
-  
+    //
     vector <vector<Field*> >* getBoard() const;
-  
+    
     //--------------------------------------------------------------------------
     // Getter: returns a string of commands that were already executed in this
     // game (in fastmove notation)
     //
     // @return string the commands that were successfully executed in this game
-
+    //
     string getFinishedTurns() const;
-
+    
     //--------------------------------------------------------------------------
     // This method is executed when the player uses the move-command. It makes
     // use of the single_move() method and updates the member variables of this
@@ -177,9 +186,9 @@ class Game
     // @param go_to_string the move string that was entered by the player
     //
     // @return Status constant of class Command: OK or INVALID_MOVE
-
+    //
     Command::Status move(string direction);
-  
+    
     //--------------------------------------------------------------------------
     // This method is executed when the player uses the fastmove-command.
     // It makes
@@ -190,22 +199,23 @@ class Game
     // @param all_moves_str the fastmove string entered by the player
     //
     // @return Status constant of class Command: OK or INVALID_MOVE
-
+    //
     Command::Status fastMove(string direction);
-
+    
     //--------------------------------------------------------------------------
-    // Resets the game
-
+    // This method resets the game, i.e., deletes all turns and sets
+    // the player onto the start field.
+    //
     void reset();
-  
+    
     //--------------------------------------------------------------------------
     // This method prints the game board to the console
     //
     // @param more true when remaining turns and finished moves should also be
     //        displayed
-  
+    //
     void show(bool more) const;
-
+    
 };
 
 

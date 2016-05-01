@@ -13,9 +13,6 @@
 #include "Wall.h"
 
 
-const char Wall::SYMBOL_ = '#';
-
-
 //------------------------------------------------------------------------------
 Wall::Wall(int x, int y) : Field(x, y)
 {

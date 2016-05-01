@@ -20,6 +20,11 @@
 
 
 class Game;
+
+//------------------------------------------------------------------------------
+// Class for saving a game to a file
+// This class also performs the autosave functionality.
+//
 class Saver : public Filehandler
 {
   private:

@@ -16,26 +16,34 @@
 
 #include "Field.h"
 
-class OneWay: public Field
+
+//------------------------------------------------------------------------------
+// Class representing a One Way field
+//
+class OneWay : public Field
 {
   private:
+    
     //--------------------------------------------------------------------------
     // Private standard constructor
-  
+    //
     OneWay();
-  
+    
     //--------------------------------------------------------------------------
     // Private copy constructor
-  
-    OneWay(const OneWay&);
-  
+    //
+    OneWay(const OneWay& original);
     
   public:
     
-    static const char SYMBOL_LEFT_;
-    static const char SYMBOL_RIGHT_;
-    static const char SYMBOL_UP_;
-    static const char SYMBOL_DOWN_;
+    //--------------------------------------------------------------------------
+    // Constants for the text symbols representing this type of  field
+    // on the textmode screen and in the file
+    //
+    static const char SYMBOL_LEFT_ = '<';
+    static const char SYMBOL_RIGHT_ = '>';
+    static const char SYMBOL_UP_ = '^';
+    static const char SYMBOL_DOWN_ = 'v';
     
     //--------------------------------------------------------------------------
     // This is the Costructor of Field class which is the base class for all
@@ -45,14 +53,14 @@ class OneWay: public Field
     // @param y y-coordinate of the position of this field on the board
     //        (coordinate origin is in the top left corner of the board)
     // @param symbol_letter the symbol of the one way field (<, >, ^, v)
-  
+    //
     OneWay(int x, int y, std::string symbol_letter);
-  
+    
     //--------------------------------------------------------------------------
     // Destructor
-  
-    ~OneWay();
-  
+    //
+    ~OneWay() throw();
+    
     //--------------------------------------------------------------------------
     // Performs any necessary action when a player enters a field. This Method
     // is mainly used for the bonus/quicksand and ice fields.
@@ -63,9 +71,9 @@ class OneWay: public Field
     //        entering the field.
     //
     // @return int 1 for entered ice field, 0 for entered any other field
-  
+    //
     int enter(std::string enter_from_direction, int& bonus);
-  
+    
     //--------------------------------------------------------------------------
     // Determines if the turn is over after entering this field. And returns
     // The direction in which to go if the turn isn't over.
@@ -74,7 +82,7 @@ class OneWay: public Field
     //        field if the turn is not over
     //
     // @return bool returns if turn is over or not
-  
+    //
     bool isTurnOver(std::string &direction);
     
 };

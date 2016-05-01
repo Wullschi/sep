@@ -17,6 +17,9 @@
 #include "Command.h"
 
 
+//------------------------------------------------------------------------------
+// Class representing a show command
+//
 class Show : public Command
 {
   private:

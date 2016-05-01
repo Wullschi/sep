@@ -13,14 +13,18 @@
 #include "Filehandler.h"
 
 
+//------------------------------------------------------------------------------
 Filehandler::Filehandler(std::string filename) : filename_(filename)
 {
 }
 
+//------------------------------------------------------------------------------
 Filehandler::~Filehandler() throw()
 {
 }
 
+
+//------------------------------------------------------------------------------
 const bool Filehandler::filenameIsValid() const
 {
   

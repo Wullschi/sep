@@ -33,18 +33,19 @@ const string Message::INVALID_MOVE_ = "[ERR] Invalid move.";
 const string Message::NO_MORE_STEPS_ = "[ERR] No more steps possible.";
 
 
+//------------------------------------------------------------------------------
 void Message::outputWrongUsage()
 {
   cout << WRONG_USAGE_ << endl;
 }
 
-
+//------------------------------------------------------------------------------
 void Message::outputUnknownCommand()
 {
   cout << UNKNOWN_COMMAND_ << endl;
 }
 
-
+//------------------------------------------------------------------------------
 void Message::outputByCode(Command::Status return_status)
 {
   

@@ -17,6 +17,10 @@
 #include <string>
 
 
+//------------------------------------------------------------------------------
+// Base class for loading and saving
+// It takes the filename and checks if it is valid.
+//
 class Filehandler
 {
   private:
