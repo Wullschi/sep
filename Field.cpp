@@ -14,6 +14,7 @@
 #include "Coordinates.h"
 using std::string;
 
+
 //------------------------------------------------------------------------------
 Field::Field(int x, int y) : x_var_(x), y_var_(y){
   can_enter_from_ = "lrud";
@@ -30,7 +31,7 @@ Field::~Field( )
 
 
 //------------------------------------------------------------------------------
-std::string Field::getFieldSymbol()
+std::string Field::getFieldSymbol(FieldSymbolPurpose purpose)
 {
   return field_symbol_;
 }

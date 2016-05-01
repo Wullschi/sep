@@ -39,9 +39,17 @@ class Field
     std::string can_enter_from_;
     std::string can_leave_to_;
     std::string field_symbol_;
+    
+
 
   public:
-    
+  
+    enum FieldSymbolPurpose
+    {
+      FOR_GAME = 0,
+      FOR_SAVING = 1
+    };
+
     //--------------------------------------------------------------------------
     // This is the Costructor of Field class which is the base class for all
     // fields.
@@ -63,7 +71,7 @@ class Field
     //
     // @return the symbol of the field
   
-    string getFieldSymbol();
+    virtual string getFieldSymbol(FieldSymbolPurpose purpose);
 
     //--------------------------------------------------------------------------
     // Calculates from which direction the player wants to enter this field
