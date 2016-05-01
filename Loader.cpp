@@ -214,7 +214,8 @@ Command::Status Loader::checkWall()
   /*Check if all fields in first line are walls*/
   for (unsigned int k = 0; k < field_length; k++)
   {
-    string field_symbol = loaded_board_->at(0).at(k)->getFieldSymbol();
+    string field_symbol = loaded_board_->at(0).at(k)->
+        getFieldSymbol(Field::FOR_GAME);
     if (field_symbol != "#")
     {
       return Command::INVALID_FILE_;
@@ -225,12 +226,14 @@ Command::Status Loader::checkWall()
   for (unsigned int k = 1; k < field_height-1; k++)
   {
     Row = loaded_board_->at(k);
-    string field_symbol = loaded_board_->at(k).front()->getFieldSymbol();
+    string field_symbol = loaded_board_->at(k).front()->
+        getFieldSymbol(Field::FOR_GAME);
     if(field_symbol != "#")
     {
       return Command::INVALID_FILE_;
     }
-    field_symbol = loaded_board_->at(k).back()->getFieldSymbol();
+    field_symbol = loaded_board_->at(k).back()->
+        getFieldSymbol(Field::FOR_GAME);
     if(field_symbol != "#")
     {
       return Command::INVALID_FILE_;
@@ -241,7 +244,7 @@ Command::Status Loader::checkWall()
   for (unsigned int k = 0; k < field_length; k++)
   {
     string field_symbol =
-        loaded_board_->at(field_height-1).at(k)->getFieldSymbol();
+      loaded_board_->at(field_height-1).at(k)->getFieldSymbol(Field::FOR_GAME);
     if (field_symbol != "#")
     {
       return Command::INVALID_FILE_;

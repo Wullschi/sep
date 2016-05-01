@@ -56,7 +56,7 @@ Command::Status Saver::save(const Game& current_game)
       for (unsigned int x = 0; x < board->at(y).size(); x++)
       {
         
-        file << board->at(y).at(x)->getFieldSymbol();
+        file << board->at(y).at(x)->getFieldSymbol(Field::FOR_SAVING);
       }
 
       file << "\n";

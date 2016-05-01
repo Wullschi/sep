@@ -28,7 +28,7 @@ Field::~Field() throw()
 
 
 //------------------------------------------------------------------------------
-std::string Field::getFieldSymbol()
+std::string Field::getFieldSymbol(FieldSymbolPurpose purpose)
 {
   return field_symbol_;
 }

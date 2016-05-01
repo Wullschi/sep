@@ -86,7 +86,7 @@ int Game::singleMove(Coordinates& tmp_pos, Coordinates& go_to,
       }
       
       string entering_from;
-      string symbol_now = board_->at(y_tmp).at(x_tmp)->getFieldSymbol();
+      //string symbol_now = board_->at(y_tmp).at(x_tmp)->getFieldSymbol();
       int go_x = go_to.getX();
       int go_y = go_to.getY();
       
@@ -334,7 +334,7 @@ void Game::setGameIsFinished()
 {
   int x = pos_now_->getX();
   int y = pos_now_->getY();
-  string field_symbol = board_->at(y).at(x)->getFieldSymbol();
+  string field_symbol = board_->at(y).at(x)->getFieldSymbol(Field::FOR_GAME);
   if (field_symbol == "x")
   {
     finished_ = true;
@@ -375,7 +375,7 @@ void Game::findTeleportLocation(const string teleport_letter,
   {
     for (std::size_t x = 0; x < board_->at(y).size(); x++)
     {
-      string symbol = board_->at(y).at(x)->getFieldSymbol();
+      string symbol = board_->at(y).at(x)->getFieldSymbol(Field::FOR_GAME);
       
       // If the momentary field in this loop is not the one the player wants to
       // enter and if it has the same portal letter as the one he wants to enter
@@ -414,7 +414,7 @@ void Game::show(bool more) const
       std::size_t player_y = pos_now_->getY();
       if ((x != player_x) || (y != player_y))
       {
-        std::cout << board_->at(y).at(x)->getFieldSymbol();
+        std::cout << board_->at(y).at(x)->getFieldSymbol(Field::FOR_GAME);
       }
       else
       {

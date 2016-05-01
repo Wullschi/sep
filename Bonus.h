@@ -78,9 +78,16 @@ class Bonus : public Field
     
     //--------------------------------------------------------------------------
     // Destructor
-    //
+  
     ~Bonus() throw();
+  
+    //--------------------------------------------------------------------------
+    // Getter: Gets the symbol of the field.
+    //
+    // @return the symbol of the field
     
+    string getFieldSymbol(FieldSymbolPurpose purpose);
+  
     //--------------------------------------------------------------------------
     // Performs any necessary action when a player enters a bonus field.
     // Informs of the bonus or minus points when entering the field.

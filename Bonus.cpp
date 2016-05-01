@@ -28,6 +28,19 @@ Bonus::~Bonus() throw()
 
 
 //------------------------------------------------------------------------------
+string Bonus::getFieldSymbol(FieldSymbolPurpose purpose)
+{
+  if (purpose == FOR_SAVING)// return bonus field for saving
+  {
+    return bonus_letter_;
+  }
+  else //return bonus field which is valid during the game
+  {
+    return field_symbol_;
+  }
+}
+
+//------------------------------------------------------------------------------
 void Bonus::reset()
 {
   if ( (bonus_letter_[0] >= SYMBOL_) && (bonus_letter_[0]
