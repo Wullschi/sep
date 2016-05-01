@@ -46,7 +46,7 @@ class Finish: public Field
     //--------------------------------------------------------------------------
     // Destructor
   
-    ~Finish();
+    ~Finish() throw();
   
     //--------------------------------------------------------------------------
     // Performs any necessary action when a player enters a field. This Method

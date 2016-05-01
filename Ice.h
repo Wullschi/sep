@@ -48,7 +48,7 @@ class Ice: public Field
     //--------------------------------------------------------------------------
     // Destructor
 
-    ~Ice();
+    ~Ice() throw();
   
     //--------------------------------------------------------------------------
     // Performs any necessary action when a player enters an ice field. This

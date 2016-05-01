@@ -47,7 +47,7 @@ class Path: public Field
     //--------------------------------------------------------------------------
     // Destructor
   
-    ~Path();
+    ~Path() throw();
 
     //--------------------------------------------------------------------------
     // Performs any necessary action when a player enters a field. This Method

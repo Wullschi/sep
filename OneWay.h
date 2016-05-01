@@ -51,7 +51,7 @@ class OneWay: public Field
     //--------------------------------------------------------------------------
     // Destructor
   
-    ~OneWay();
+    ~OneWay() throw();
   
     //--------------------------------------------------------------------------
     // Performs any necessary action when a player enters a field. This Method

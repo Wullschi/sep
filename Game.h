@@ -128,7 +128,7 @@ class Game
     //--------------------------------------------------------------------------
     // Destructor
   
-    virtual ~Game();
+    virtual ~Game() throw();
   
     //--------------------------------------------------------------------------
     // Setter: This Method assigns a new game board to the appropriate member

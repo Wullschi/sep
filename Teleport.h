@@ -47,7 +47,7 @@ class Teleport: public Field
     //--------------------------------------------------------------------------
     // Destructor
   
-    ~Teleport();
+    ~Teleport() throw();
   
     //--------------------------------------------------------------------------
     // Performs any necessary action when a player enters a field. This Method
