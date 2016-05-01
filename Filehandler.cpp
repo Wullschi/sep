@@ -15,9 +15,11 @@
 
 Filehandler::Filehandler(std::string filename) : filename_(filename)
 {
-  
 }
 
+Filehandler::~Filehandler() throw()
+{
+}
 
 const bool Filehandler::filenameIsValid() const
 {
@@ -30,11 +32,11 @@ const bool Filehandler::filenameIsValid() const
   for (std::size_t character_position = 0;
        character_position < filename_.length(); character_position++)
   {
-    int character_value = static_cast<int>(filename_[character_position]);
-    if ( (character_value < 46)
-        || ( (character_value > 57) && (character_value < 65) )
-        || ( (character_value > 90) && (character_value < 97) )
-        || (character_value > 122) )
+    char filename_character = filename_[character_position];
+    if ( (filename_character < '.')
+        || ( (filename_character > '9') && (filename_character < 'A') )
+        || ( (filename_character > 'Z') && (filename_character < 'a') )
+        || (filename_character > 'z') )
     {
       return false;
     }

@@ -10,7 +10,6 @@
 //
 
 
-#include <vector>
 #include <fstream>
 
 #include "Saver.h"
@@ -22,22 +21,20 @@
 bool Saver::autosave_enabled_ = false;
 std::string Saver::autosave_filename_ = "";
 
+//------------------------------------------------------------------------------
 Saver::Saver(const std::string filename) : Filehandler(filename)
 {
-  
 }
 
-
-Saver::~Saver()
+//------------------------------------------------------------------------------
+Saver::~Saver() throw()
 {
-  
 }
 
 
+//------------------------------------------------------------------------------
 Command::Status Saver::save(const Game& current_game)
 {
-  
-  
   
   const char* SAVEFILE = filename_.c_str();
   
@@ -74,22 +71,25 @@ Command::Status Saver::save(const Game& current_game)
 }
   
 
+//------------------------------------------------------------------------------
 void Saver::enableAutosave(std::string filename)
 {
   autosave_enabled_ = true;
   autosave_filename_ = filename;
-  
 }
 
+
+//------------------------------------------------------------------------------
 bool Saver::isAutosaveActive()
 {
   return Saver::autosave_enabled_;
 }
 
+
+//------------------------------------------------------------------------------
 std::vector<std::string> Saver::getAutosaveParams()
 {
   std::vector<std::string> autosave_params;
   autosave_params.push_back(Saver::autosave_filename_);
   return autosave_params;
 }
-

@@ -18,19 +18,42 @@
 
 #include "Command.h"   // necessary to access Command Status constants
 
+
 class Game;
-class Saver: public Filehandler
+class Saver : public Filehandler
 {
-  
   private:
+    
+    //--------------------------------------------------------------------------
+    // Attribute indicating if the autosave function is enabled
+    //
     static bool autosave_enabled_;
+    
+    //--------------------------------------------------------------------------
+    // Attribute for the name of the file to save the maze in
+    // in case that autosave is enabled
+    //
     static std::string autosave_filename_;
     
-    Saver(const Saver &);
-  
+    //--------------------------------------------------------------------------
+    // Private copy constructor
+    //
+    Saver(const Saver& original);
+    //--------------------------------------------------------------------------
+    // Private assignment operator
+    //
+    Saver& operator=(const Saver& original);
+    
   public:
+    
+    //--------------------------------------------------------------------------
+    // Constructor
+    //
     Saver(const std::string filename);
-    ~Saver();
+    //--------------------------------------------------------------------------
+    // Destructor
+    //
+    virtual ~Saver() throw();
     
     Command::Status save(const Game& current_game);
     static void enableAutosave(std::string filename);

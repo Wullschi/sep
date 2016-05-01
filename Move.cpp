@@ -12,6 +12,7 @@
 
 #include "Move.h"
 
+
 #include "Game.h"
 #include "Save.h"
 #include "Saver.h"
@@ -33,13 +34,12 @@ Move::Move(std::string name) : Command(name)
 }
 
 //------------------------------------------------------------------------------
-
-Move::~Move()
+Move::~Move() throw()
 {
 }
 
-//------------------------------------------------------------------------------
 
+//------------------------------------------------------------------------------
 Command::Status Move::execute(Game*& board, std::vector<std::string>& params)
 {
   

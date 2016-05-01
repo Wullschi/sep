@@ -22,12 +22,14 @@ const std::string Show::MORE_ = "more";
 Show::Show(std::string name) : Command(name)
 {
 }
+
 //------------------------------------------------------------------------------
-Show::~Show()
+Show::~Show() throw()
 {
 }
-//------------------------------------------------------------------------------
 
+
+//------------------------------------------------------------------------------
 Command::Status Show::execute(Game*& board, std::vector<std::string>& params)
 {
   

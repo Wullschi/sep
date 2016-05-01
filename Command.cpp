@@ -16,12 +16,15 @@
 Command::Command(std::string name) : command_name_(name)
 {
 }
+
 //------------------------------------------------------------------------------
-Command::~Command()
+Command::~Command() throw()
 {
 }
+
+
 //------------------------------------------------------------------------------
 const std::string &Command::getName() const
 {
-    return command_name_;
+  return command_name_;
 }

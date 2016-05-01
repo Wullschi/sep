@@ -21,27 +21,33 @@ class Game;
 class Move : public Command
 {
   private:
+    
     //--------------------------------------------------------------------------
     // Private copy constructor
+    //
     Move(const Move& original);
     //--------------------------------------------------------------------------
     // Private assignment operator
+    //
     Move& operator=(const Move& original);
-    //--------------------------------------------------------------------------
     
   public:
-    //--------------------------------------------------------------------------
     
+    //--------------------------------------------------------------------------
+    // Constants for each of all possible parameters
+    //
     static const std::string UP_;
     static const std::string DOWN_;
     static const std::string LEFT_;
     static const std::string RIGHT_;
     
+    //--------------------------------------------------------------------------
     // Constructor
     Move(std::string name);
     //--------------------------------------------------------------------------
     // Destructor
-    virtual ~Move();
+    virtual ~Move() throw();
+    
     //--------------------------------------------------------------------------
     // Executes the command.
     // @param board Pointer to the board where action should be performed on
@@ -49,8 +55,7 @@ class Move : public Command
     // @return Status constant  representing the success of the action
     virtual Command::Status execute(Game*& board,
       std::vector<std::string>& params);
-    //--------------------------------------------------------------------------
-
+    
 };
 
 

@@ -23,8 +23,8 @@ using std::string;
 
 class Message
 {
-  
   private:
+    
     Message();
     
     static const string QUIT_;
@@ -43,8 +43,7 @@ class Message
     static const string NO_MORE_STEPS_;
     
   public:
-    static void outputQuit();
-    static void outputOutOfMemory();
+    
     static void outputWrongUsage();
     static void outputUnknownCommand();
     static void outputByCode(Command::Status return_status);

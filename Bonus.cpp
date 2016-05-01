@@ -13,11 +13,6 @@
 #include "Bonus.h"
 
 
-const char Bonus::SYMBOL_ = 'a';
-const char Bonus::SYMBOL2_ = 'j';
-const char Bonus::SYMBOL_FIRST_QUICKSAND_ = 'f';
-
-
 //------------------------------------------------------------------------------
 Bonus::Bonus(int x, int y, std::string symbol_letter) : Field(x, y),
     bonus_letter_(symbol_letter)
@@ -26,12 +21,11 @@ Bonus::Bonus(int x, int y, std::string symbol_letter) : Field(x, y),
   reset();
 }
 
-
-
 //------------------------------------------------------------------------------
-Bonus::~Bonus()
+Bonus::~Bonus() throw()
 {
 }
+
 
 //------------------------------------------------------------------------------
 string Bonus::getFieldSymbol(FieldSymbolPurpose purpose)
@@ -63,7 +57,6 @@ void Bonus::reset()
 }
 
 
-
 //------------------------------------------------------------------------------
 int Bonus::enter(std::string enter_from_direction, int& bonus)
 {
@@ -77,7 +70,6 @@ int Bonus::enter(std::string enter_from_direction, int& bonus)
   
   return 0;
 }
-
 
 
 //------------------------------------------------------------------------------
