@@ -12,10 +12,13 @@
 
 #include "Game.h"
 #include "UserInput.h"
-#include "Coordinates.h"
+#include "Message.h"
 
 
-
+//------------------------------------------------------------------------------
+// Main function
+// entry point of execution
+//
 int main(int argc, const char* argv[])
 {
   
@@ -25,20 +28,19 @@ int main(int argc, const char* argv[])
   
   if (error_code)
   {
+    Message::outputWrongUsage();
     return error_code;
   }
   
   
   error_code = UserInput::commandLine(current_game);
   
-  if (error_code == 1)
+  if (error_code)
   {
     delete current_game;
-    return error_code;
+    current_game = 0;
   }
-  else
-  {
-    return 0;
-  }
+  
+  return error_code;
   
 }

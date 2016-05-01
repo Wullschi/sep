@@ -14,7 +14,6 @@
 #define USER_INPUT_H_INCLUDED
 
 
-#include <iostream>
 #include <string>
 #include <vector>
 
@@ -22,17 +21,44 @@
 class Game;
 class UserInput
 {
-  
   private:
+    
+    //--------------------------------------------------------------------------
+    // Attribute for the command entered by the user
+    //
     static std::string entered_command_;
+    //--------------------------------------------------------------------------
+    // Attribute for the command parameters entered by the user
+    //
     static std::vector<std::string> entered_arguments_;
     
+    //--------------------------------------------------------------------------
+    // Private constructor (because this is a singleton class)
+    //
     UserInput();
     
-    
   public:
+    
+    //--------------------------------------------------------------------------
+    // Constant for the value returned to the OS in case of wrong
+    // command line parameters when calling the main programme
+    //
+    static const int WRONG_USAGE_RETURN_ = 2;
+    
+    //--------------------------------------------------------------------------
+    // Constant for the prompt displayed when waiting for user input
+    //
     static const std::string PROMPT_;
     
+    //--------------------------------------------------------------------------
+    // Constants for the command line options when calling the main programme
+    //
+    static const std::string LOAD_OPTION_;
+    static const std::string AUTOSAVE_OPTION_;
+    
+    //--------------------------------------------------------------------------
+    // Constants for each of all possible commands
+    //
     static const std::string LOAD_;
     static const std::string SAVE_;
     static const std::string MOVE_;

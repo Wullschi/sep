@@ -11,6 +11,7 @@
 
 
 #include "Save.h"
+
 #include "Game.h"
 #include "Saver.h"
 
@@ -18,13 +19,14 @@
 Save::Save(std::string name) : Command(name)
 {
 }
+
 //------------------------------------------------------------------------------
-Save::~Save()
+Save::~Save() throw()
 {
 }
+
+
 //------------------------------------------------------------------------------
-
-
 Command::Status Save::execute(Game*& board, std::vector<std::string>& params)
 {
   

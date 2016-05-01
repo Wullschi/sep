@@ -19,16 +19,35 @@
 
 class Filehandler
 {
-  
   private:
-    Filehandler(const Filehandler &);
+    
+    //------------------------------------------------------------------------------
+    // Private copy constructor
+    //
+    Filehandler(const Filehandler& original);
+    //------------------------------------------------------------------------------
+    // Private assignment operator
+    //
+    Filehandler& operator=(const Filehandler& original);
   
   protected:
+    
+    //------------------------------------------------------------------------------
+    // Attribute for the name of the file to load or to save in
+    //
     std::string filename_;
     
-    
   public:
+    
+    //------------------------------------------------------------------------------
+    // Constructor
+    //
     Filehandler(std::string filename);
+    //------------------------------------------------------------------------------
+    // Destructor
+    //
+    virtual ~Filehandler() throw();
+    
     const bool filenameIsValid() const;
     
 };

@@ -29,6 +29,8 @@ using std::string;
 
 const std::string UserInput::PROMPT_ = "sep>";
 
+const std::string UserInput::LOAD_OPTION_ = "-m";
+const std::string UserInput::AUTOSAVE_OPTION_ = "-s";
 const std::string UserInput::LOAD_ = "load";
 const std::string UserInput::SAVE_ = "save";
 const std::string UserInput::MOVE_ = "move";
@@ -41,40 +43,48 @@ std::string UserInput::entered_command_ = "";
 std::vector<std::string> UserInput::entered_arguments_;
 
 
+//--------------------------------------------------------------------------
 int UserInput::checkCommandLineOptions(int argc, const char* argv[],
     Game*& current_game)
 {
   
-  const int WRONG_USAGE_RETURN = 2;
-  
-  bool initial_load = false;
-  
-  
-  if ( (argc == 2) || (argc == 4) || (argc > 5) )
+  if ( (argc % 2 == 0) || (argc > 5) )
   {
-    Message::outputWrongUsage();
-    return WRONG_USAGE_RETURN;
+    return WRONG_USAGE_RETURN_;
   }
   
+  bool initial_load = false;
   std::string argument_string = "";
   std::vector<std::string> load_filenames;
   
   for (int argument_no = 1; argument_no < argc - 1; argument_no += 2)
   {
     argument_string = static_cast<std::string>(argv[argument_no]);
-    if ( (argument_string == "-m") || (argument_string == "-M") )
+    
+    if (argument_string == LOAD_OPTION_)
     {
+      if ( (initial_load == true)
+          || (argv[argument_no + 1] == AUTOSAVE_OPTION_)
+          || (argv[argument_no + 1] == LOAD_OPTION_) )
+    {
+        return WRONG_USAGE_RETURN_;
+      }
       initial_load = true;
       load_filenames.push_back( argv[argument_no + 1] );
     }
-    else if ( (argument_string == "-s") || (argument_string == "-S") )
+    else if (argument_string == AUTOSAVE_OPTION_)
     {
+      if ( (Saver::isAutosaveActive())
+          || (argv[argument_no + 1] == LOAD_OPTION_)
+          || (argv[argument_no + 1] == AUTOSAVE_OPTION_) )
+      {
+        return WRONG_USAGE_RETURN_;
+      }
       Saver::enableAutosave(argv[argument_no + 1]);
     }
     else
     {
-      Message::outputWrongUsage();
-      return WRONG_USAGE_RETURN;
+      return WRONG_USAGE_RETURN_;
     }
     
   }
@@ -91,11 +101,12 @@ int UserInput::checkCommandLineOptions(int argc, const char* argv[],
     
   }
   
-  return 0;
+  return Command::OK_;
   
 }
 
 
+//--------------------------------------------------------------------------
 void UserInput::parseUserInput(std::string user_input)
 {
   
@@ -146,7 +157,7 @@ void UserInput::parseUserInput(std::string user_input)
 }
 
 
-
+//--------------------------------------------------------------------------
 int UserInput::commandLine(Game*& current_game)
 {
   
@@ -236,5 +247,6 @@ int UserInput::commandLine(Game*& current_game)
   while ( (return_status != Command::QUIT_) &&
       (return_status != Command::OUT_OF_MEMORY_) );
   
-  return return_status;
+  return (return_status == Command::QUIT_) ? Command::OK_ : return_status;
+  
 }

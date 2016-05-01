@@ -23,13 +23,14 @@
 Load::Load(std::string name) : Command(name)
 {
 }
+
 //------------------------------------------------------------------------------
-Load::~Load()
+Load::~Load() throw()
 {
 }
+
+
 //------------------------------------------------------------------------------
-
-
 Command::Status Load::execute(Game*& board, std::vector<std::string>& params)
 {
   

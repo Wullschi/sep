@@ -16,29 +16,43 @@
 
 #include "Field.h"
 
+
+//------------------------------------------------------------------------------
 // The bonus Class includes a negative bonus, which means it includes the
 // Quicksand field.
-class Bonus: public Field
+//
+class Bonus : public Field
 {
   private:
+    
     int bonus_count_;
     string bonus_letter_;
-  
+    
     //--------------------------------------------------------------------------
     // Private standard constructor
-  
+    //
     Bonus();
-  
+    
     //--------------------------------------------------------------------------
     // Private copy constructor
-  
+    //
     Bonus(const Bonus&);
-  
+    
   public:
-    static const char SYMBOL_;
-    static const char SYMBOL2_;
-    static const char SYMBOL_FIRST_QUICKSAND_;
-  
+    
+    //------------------------------------------------------------------------------
+    // Constant for the first letter indicating a Bonus field
+    //
+    static const char SYMBOL_ = 'a';
+    //------------------------------------------------------------------------------
+    // Constant for the last letter indicating a Quicksand field
+    //
+    static const char SYMBOL2_ = 'j';
+    //------------------------------------------------------------------------------
+    // Constant for the first letter indicating a Quicksand field
+    //
+    static const char SYMBOL_FIRST_QUICKSAND_ = 'f';
+    
     //--------------------------------------------------------------------------
     // Resets the bonus value of a field in case of a invalid fastmove during
     // which a b fieonus field was transformed. 
@@ -47,9 +61,9 @@ class Bonus: public Field
     //        field if the turn is not over
     //
     // @return bool returns if turn is over or not
-  
+    //
     void reset();
-  
+    
     //--------------------------------------------------------------------------
     // This is the Costructor of Field class which is the base class for all
     // fields.
@@ -58,14 +72,14 @@ class Bonus: public Field
     // @param y y-coordinate of the position of this field on the board
     //        (coordinate origin is in the top left corner of the board)
     // @param symbol_letter the symbol of the one way field (a-j)
-  
+    //
     Bonus(int x, int y,  std::string symbolLetter);
-  
+    
     //--------------------------------------------------------------------------
     // Destructor
-  
-    ~Bonus();
-  
+    //
+    ~Bonus() throw();
+    
     //--------------------------------------------------------------------------
     // Performs any necessary action when a player enters a bonus field.
     // Informs of the bonus or minus points when entering the field.
@@ -76,9 +90,9 @@ class Bonus: public Field
     //        entering the field.
     //
     // @return int 1 for entered ice field, 0 for entered any other field
-  
+    //
     int enter(std::string enter_from_direction, int& bonus);
-  
+    
     //--------------------------------------------------------------------------
     // Determines if the turn is over after entering this field. And returns
     // The direction in which to go if the turn isn't over.
@@ -87,9 +101,9 @@ class Bonus: public Field
     //        field if the turn is not over
     //
     // @return bool returns if turn is over or not
-  
+    //
     bool isTurnOver(std::string &direction);
-  
+    
 };
 
 

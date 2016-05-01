@@ -28,12 +28,11 @@ using std::vector;
 using std::string;
 using std::ifstream;
 
-Loader::Loader(const std::string filename) : Filehandler(filename)
+Loader::Loader(const std::string filename) : Filehandler(filename), loaded_board_(0)
 {
-  loaded_board_ = 0;
 }
 
-Loader::~Loader()
+Loader::~Loader() throw()
 {
 }
 
@@ -69,7 +68,7 @@ Command::Status Loader::load(Game*& game)
     // read fastmove string and check if it is valid
     getline(cur_file, fastmove_string);
     if ( (fastmove_string != "") &&
-        (fastmove_string.find_first_not_of(Fastmove::VALID_COMMANDS_)
+        (fastmove_string.find_first_not_of(Fastmove::VALID_PARAMETERS_)
         != std::string::npos) )
     {
       deleteBoard(start_point);
