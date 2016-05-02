@@ -122,9 +122,9 @@ Command::Status Loader::load(Game*& game)
 
 
     //check board validity
+    Command::Status shape = checkShape();
     Command::Status start_and_finish =
         checkStartAndFinish(found_start, found_end);
-    Command::Status shape = checkShape();
     Command::Status wall = checkWall();
     Command::Status teleport = checkTeleport(&teleport_list);
     
@@ -235,6 +235,7 @@ Command::Status Loader::checkWall()
   unsigned long int field_length = loaded_board_->at(0).size();
   
   /*Check if all fields in first line are walls*/
+  
   for (unsigned int k = 0; k < field_length; k++)
   {
     string field_symbol = loaded_board_->at(0).at(k)->
@@ -264,10 +265,12 @@ Command::Status Loader::checkWall()
   }
   
   /*Check if all fields in last line are walls*/
+  unsigned long int last_row_index = field_height-1;
+  field_length = loaded_board_->at(last_row_index).size();
   for (unsigned int k = 0; k < field_length; k++)
   {
     string field_symbol =
-      loaded_board_->at(field_height-1).at(k)->getFieldSymbol(Field::FOR_GAME);
+      loaded_board_->at(last_row_index).at(k)->getFieldSymbol(Field::FOR_GAME);
     if (field_symbol != "#")
     {
       return Command::INVALID_FILE_;
