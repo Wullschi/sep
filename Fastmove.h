@@ -18,6 +18,10 @@
 
 
 class Game;
+
+//------------------------------------------------------------------------------
+// Class representing the fastmove command
+//
 class Fastmove : public Command
 {
   private:

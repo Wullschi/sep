@@ -18,6 +18,10 @@
 
 
 class Game;
+
+//------------------------------------------------------------------------------
+// Class representing a quit command
+//
 class Quit : public Command
 {
   private:

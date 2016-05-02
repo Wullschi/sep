@@ -16,24 +16,33 @@
 
 #include "Field.h"
 
-class Ice: public Field
+
+//------------------------------------------------------------------------------
+// Class representing an Ice field
+//
+class Ice : public Field
 {
   private:
+    
     std::string slipping_to_;
   
     //--------------------------------------------------------------------------
     // Private standard constructor
-  
+    //
     Ice();
-  
+    
     //--------------------------------------------------------------------------
     // Private copy constructor
-  
-    Ice(const Ice&);
-  
+    //
+    Ice(const Ice& original);
+    
   public:
     
-    static const char SYMBOL_;
+    //--------------------------------------------------------------------------
+    // Constant for the text symbol representing this type of  field
+    // on the textmode screen and in the file
+    //
+    static const char SYMBOL_ = '+';
     
     //--------------------------------------------------------------------------
     // This is the Costructor of Field class which is the base class for all
@@ -42,14 +51,14 @@ class Ice: public Field
     // @param x x-coordinate of the position of this field on the board
     // @param y y-coordinate of the position of this field on the board
     //        (coordinate origin is in the top left corner of the board)
-  
+    //
     Ice(int x, int y);
-  
+    
     //--------------------------------------------------------------------------
     // Destructor
-
+    //
     ~Ice() throw();
-  
+    
     //--------------------------------------------------------------------------
     // Performs any necessary action when a player enters an ice field. This
     // method returns the direction in which the player is sliding on the ice.
@@ -60,9 +69,9 @@ class Ice: public Field
     //        entering the field.
     //
     // @return int returns 1 which means the player entered an ice field
-  
+    //
     int enter(std::string enter_from_direction, int& bonus);
-  
+    
     //--------------------------------------------------------------------------
     // Determines if the turn is over after entering this field. And returns
     // The direction in which to go if the turn isn't over.
@@ -71,7 +80,7 @@ class Ice: public Field
     //        field if the turn is not over
     //
     // @return bool returns if turn is over or not
-  
+    //
     bool isTurnOver(std::string &direction);
     
 };

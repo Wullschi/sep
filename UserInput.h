@@ -19,6 +19,11 @@
 
 
 class Game;
+
+//------------------------------------------------------------------------------
+// Class for handling all input entered by the user
+// incl. command line arguments when calling the programme
+//
 class UserInput
 {
   private:

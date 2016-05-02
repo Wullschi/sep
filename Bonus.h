@@ -18,7 +18,8 @@
 
 
 //------------------------------------------------------------------------------
-// The bonus Class includes a negative bonus, which means it includes the
+// Class representing a Bonus field.
+// The Bonus class also includes a negative bonus, which means it includes the
 // Quicksand field.
 //
 class Bonus : public Field

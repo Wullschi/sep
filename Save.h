@@ -18,6 +18,10 @@
 
 
 class Game;
+
+//------------------------------------------------------------------------------
+// Class representing a save command
+//
 class Save : public Command
 {
   private:

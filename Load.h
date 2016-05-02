@@ -18,6 +18,10 @@
 
 
 class Game;
+
+//------------------------------------------------------------------------------
+// Class representing a load command
+//
 class Load : public Command
 {
   private:

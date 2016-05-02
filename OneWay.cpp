@@ -13,12 +13,6 @@
 #include "OneWay.h"
 
 
-const char OneWay::SYMBOL_LEFT_ = '<';
-const char OneWay::SYMBOL_RIGHT_ = '>';
-const char OneWay::SYMBOL_DOWN_ = 'v';
-const char OneWay::SYMBOL_UP_ = '^';
-
-
 //------------------------------------------------------------------------------
 OneWay::OneWay(int x, int y, std::string symbol_letter) : Field(x, y)
 {
@@ -42,13 +36,10 @@ OneWay::OneWay(int x, int y, std::string symbol_letter) : Field(x, y)
   }
 }
 
-
-
 //------------------------------------------------------------------------------
-OneWay::~OneWay( )
+OneWay::~OneWay() throw()
 {
 }
-
 
 
 //------------------------------------------------------------------------------

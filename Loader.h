@@ -29,6 +29,11 @@ using std::ifstream;
 class Field;
 class Game;
 class Coordinates;
+
+//------------------------------------------------------------------------------
+// Class for loading a file, checking its validity,
+// and creating the board
+//
 class Loader : public Filehandler
 {
   private:

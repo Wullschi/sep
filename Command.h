@@ -18,7 +18,12 @@
 #include <string>
 #include <vector>
 
+
 class Game;
+
+//------------------------------------------------------------------------------
+// Abstract class representing a general command
+//
 class Command
 {
   private:

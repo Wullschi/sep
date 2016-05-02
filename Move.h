@@ -18,6 +18,10 @@
 
 
 class Game;
+
+//------------------------------------------------------------------------------
+// Class representing a move command
+//
 class Move : public Command
 {
   private:
