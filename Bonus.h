@@ -84,8 +84,14 @@ class Bonus : public Field
     //--------------------------------------------------------------------------
     // Getter: Gets the symbol of the field.
     //
+    // @param purpose specifies if the symbol is used for saving a file or
+    //        if it is used for the current game. In case of the bonus field
+    //        the symbol for saving and playing can differ since a bonus field
+    //        turns into a path after the player has entered. For saving, the
+    //        original bonus field has to be used.
+    //
     // @return the symbol of the field
-    
+  
     string getFieldSymbol(FieldSymbolPurpose purpose);
   
     //--------------------------------------------------------------------------

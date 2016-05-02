@@ -443,8 +443,6 @@ void Game::reset()
   setFinishedTurns("");
   *pos_now_ = *origin_;
   
-  // This Loop is used to delete all the Fields in the 2D Board Vector. Copied
-  // and slightly adapted from a Stackoverflow discussion about 2D Vectors.
   for (std::size_t y = 0; y < board_->size(); ++y)
   {
     for (std::size_t x = 0; x < board_->at(y).size(); ++x)
@@ -461,6 +459,9 @@ void Game::deleteFields()
 {
   // This Loop is used to delete all the Fields in the 2D Board Vector. Copied
   // and slightly adapted from a Stackoverflow discussion about 2D Vectors.
+  // http://stackoverflow.com/questions/11417772/
+  // fill-2d-vector-of-type-base-class-with-derived-class
+  // begin
   for (std::size_t y = 0; y < board_->size(); ++y)
   {
     for (std::size_t x = 0; x < board_->at(y).size(); ++x)
@@ -469,5 +470,6 @@ void Game::deleteFields()
       board_->at(y).at(x) = 0;
     }
   }
+  // end
   board_->clear();
 }

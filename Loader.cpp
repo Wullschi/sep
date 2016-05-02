@@ -30,9 +30,12 @@ using std::ifstream;
 
 
 //------------------------------------------------------------------------------
-Loader::Loader(const std::string filename) : Filehandler(filename), loaded_board_(0)
+Loader::Loader(const std::string filename) :
+    Filehandler(filename), loaded_board_(0)
 {
 }
+
+
 
 //------------------------------------------------------------------------------
 Loader::~Loader() throw()
@@ -40,8 +43,6 @@ Loader::~Loader() throw()
 }
 
 
-
-/*Loading function*/
 
 //------------------------------------------------------------------------------
 Command::Status Loader::load(Game*& game)
@@ -174,6 +175,7 @@ Command::Status Loader::load(Game*& game)
 }
 
 
+
 //------------------------------------------------------------------------------
 Command::Status Loader::checkStartAndFinish(bool start, bool finish)
 {
@@ -183,10 +185,12 @@ Command::Status Loader::checkStartAndFinish(bool start, bool finish)
   }
   else
   {
-    /*Start and/or End tile don't exist*/
+    // Start and/or End tile don't exist
     return Command::INVALID_FILE_;
   }
 }
+
+
 
 //------------------------------------------------------------------------------
 Command::Status Loader::checkShape()
@@ -203,6 +207,8 @@ Command::Status Loader::checkShape()
   }
   return Command::OK_;
 }
+
+
 
 //------------------------------------------------------------------------------
 Command::Status Loader::checkWall()
@@ -257,6 +263,8 @@ Command::Status Loader::checkWall()
   return Command::OK_;
 }
 
+
+
 //------------------------------------------------------------------------------
 Command::Status Loader::checkTeleport(vector<char>* teleport_list)
 {
@@ -281,6 +289,7 @@ Command::Status Loader::checkTeleport(vector<char>* teleport_list)
   }
   return Command::OK_;
 }
+
 
 
 //------------------------------------------------------------------------------
@@ -423,6 +432,7 @@ Command::Status Loader::readOneRow(ifstream& cur_file,
   loaded_board_->push_back(row);
   return Command::OK_;
 }
+
 
 
 //------------------------------------------------------------------------------
