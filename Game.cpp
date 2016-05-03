@@ -72,7 +72,7 @@ int Game::singleMove(Coordinates& tmp_pos, Coordinates& go_to,
   {
     int nxt_field_code = calculateNextField(tmp_pos, go_to, go_to_str);
     
-    // if next field is valid but not a teleport field
+    // if next field is valid but not the exit portal of a teleport field
     if (nxt_field_code == 0)
     {
       int x_tmp = tmp_pos.getX();
@@ -86,7 +86,6 @@ int Game::singleMove(Coordinates& tmp_pos, Coordinates& go_to,
       }
       
       string entering_from;
-      //string symbol_now = board_->at(y_tmp).at(x_tmp)->getFieldSymbol();
       int go_x = go_to.getX();
       int go_y = go_to.getY();
       
@@ -119,7 +118,7 @@ int Game::singleMove(Coordinates& tmp_pos, Coordinates& go_to,
       }
     }
     
-    // if next field is a teleport field
+    // if next field is a exit portal of a teleport field
     else if (nxt_field_code == 1)
     {
       // prevents from endlessly jumping between portals
@@ -172,17 +171,6 @@ Command::Status Game::move(string go_to_str)
       remaining_turns_ = 0;
     }
     
-    
-    for(std::vector<Coordinates>::iterator coord = bonus_list.begin();
-        coord != bonus_list.end(); ++coord)
-    {
-      int x = coord->getX();
-      int y = coord->getY();
-      delete board_->at(y).at(x);
-      board_->at(y).at(x) = new Path(x, y);
-    }
-
-    
     // check if player is on finish field
     setGameIsFinished();
     
@@ -212,7 +200,7 @@ Command::Status Game::fastMove(string all_turns_str)
   int move_validity = 0;
   int bonus = 0;
   std::size_t char_iterator = 0;
-  std::size_t nr_turns = all_turns_str.length(); //total number of turns
+  std::size_t nr_turns = all_turns_str.length(); // total number of turns
   
   // backup some members if fastmove fails
   int remaining_turns_backup = remaining_turns_;
@@ -225,7 +213,7 @@ Command::Status Game::fastMove(string all_turns_str)
   do
   {
     bonus = 0;
-    go_to_str = all_turns_str[char_iterator]; //read next turn
+    go_to_str = all_turns_str[char_iterator]; // read next turn
     move_validity = singleMove(tmp_pos, go_to, bonus_list, go_to_str, bonus);
     char_iterator = char_iterator + 1;
     remaining_turns_ = remaining_turns_ + bonus - 1;

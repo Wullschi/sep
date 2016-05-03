@@ -126,7 +126,14 @@ Command::Status Loader::load(Game*& game)
     cur_file.close();
     
 
-
+    //a valid board has at least three rows (first and last rows are walls)
+    //and at least another row which contains the start and finish fields.
+    if (loaded_board_->size() < 3)
+    {
+      deleteBoard(start_point);
+      return Command::INVALID_FILE_;
+    }
+    
     //check board validity
     Command::Status shape = checkShape();
     Command::Status start_and_finish =
@@ -273,9 +280,9 @@ Command::Status Loader::checkTeleport(vector<char>* teleport_list)
   for(int asci = 65; asci <= 90; asci++)
   {
     teleport_amount = 0;
-    for (unsigned int k = 0; k < teleport_list->size(); k++)
+    for (unsigned int index = 0; index < teleport_list->size(); index++)
     {
-      if (teleport_list->at(k) == asci)
+      if (teleport_list->at(index) == asci)
       {
         teleport_amount++;
       }

@@ -119,18 +119,24 @@ class Loader : public Filehandler
     
   public:
     
-    //------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
     // This is the Constructor of the Loader class
     //
     // @param filename the name of the file which should be loaded
     //
     Loader(const std::string filename);
   
-    //------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
     // Destructor
     //
     ~Loader() throw();
-    
+  
+    //--------------------------------------------------------------------------
+    // This method loads a file and initializes a game object.
+    //
+    // @param game the game object which contains the loaded board after loading
+    //         is complete
+    //
     Command::Status load(Game*& game);
     
 };
