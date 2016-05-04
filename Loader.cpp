@@ -124,11 +124,13 @@ Command::Status Loader::load(Game*& game)
     
     if (correct_row == Command::INVALID_FILE_)
     {
+      cur_file.close();
       deleteBoard(start_point);
       return Command::INVALID_FILE_;
     }
     else if (correct_row == Command::OUT_OF_MEMORY_)
     {
+      cur_file.close();
       deleteBoard(start_point);
       return Command::OUT_OF_MEMORY_;
     }
