@@ -16,6 +16,7 @@
 
 #include "Field.h"
 
+using std::string;
 
 //------------------------------------------------------------------------------
 // Class representing a One Way field
@@ -54,7 +55,7 @@ class OneWay : public Field
     //        (coordinate origin is in the top left corner of the board)
     // @param symbol_letter the symbol of the one way field (<, >, ^, v)
     //
-    OneWay(int x, int y, std::string symbol_letter);
+    OneWay(int x, int y, string symbol_letter);
     
     //--------------------------------------------------------------------------
     // Destructor
@@ -72,7 +73,7 @@ class OneWay : public Field
     //
     // @return int 1 for entered ice field, 0 for entered any other field
     //
-    int enter(std::string enter_from_direction, int& bonus);
+    int enter(string enter_from_direction, int& bonus);
     
     //--------------------------------------------------------------------------
     // Determines if the turn is over after entering this field. And returns
@@ -83,7 +84,7 @@ class OneWay : public Field
     //
     // @return bool returns if turn is over or not
     //
-    bool isTurnOver(std::string &direction);
+    bool isTurnOver(string &direction) const;
     
 };
 

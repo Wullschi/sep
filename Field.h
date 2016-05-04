@@ -42,9 +42,9 @@ class Field
     
     int x_var_;
     int y_var_;
-    std::string can_enter_from_;
-    std::string can_leave_to_;
-    std::string field_symbol_;
+    string can_enter_from_;
+    string can_leave_to_;
+    string field_symbol_;
     
   public:
   
@@ -80,7 +80,7 @@ class Field
     //
     // @return the symbol of the field
     //
-    virtual string getFieldSymbol(FieldSymbolPurpose purpose);
+    virtual string getFieldSymbol(FieldSymbolPurpose purpose) const;
     
     //--------------------------------------------------------------------------
     // Calculates from which direction the player wants to enter this field
@@ -92,7 +92,7 @@ class Field
     // @return string the direction the player wants to enter this field in the
     //         fastmove notation
     //
-    string calculateEnteringDirection(Coordinates* coming_from);
+    string calculateEnteringDirection(Coordinates* coming_from) const;
     
     //--------------------------------------------------------------------------
     // Calculates in which direction the player wants to leave this field
@@ -104,7 +104,7 @@ class Field
     // @return string the direction the player wants to leave this field in the
     //         fastmove notation
     //
-    string calculateLeavingDirection(Coordinates* leaving_to);
+    string calculateLeavingDirection(Coordinates* leaving_to) const;
 
     //--------------------------------------------------------------------------
     // Determines if the player can enter this field from the given
@@ -118,7 +118,7 @@ class Field
     // @return bool returns if the player may enter the field from the desired
     //         direction
     //
-    bool isAbleToEnter(Coordinates* coming_from, string &direction);
+    bool isAbleToEnter(Coordinates* coming_from, string &direction) const;
     
     //--------------------------------------------------------------------------
     // Calculates if the player is able to leave the field in the desired
@@ -130,7 +130,7 @@ class Field
     // @return bool returns if the player may leave the field in the desired
     //         direction
     //
-    bool isAbleToLeave(Coordinates* leaving_to);
+    bool isAbleToLeave(Coordinates* leaving_to) const;
     
     //--------------------------------------------------------------------------
     // Performs any necessary action when a player enters a field. This Method
@@ -154,7 +154,7 @@ class Field
     //
     // @return bool returns if turn is over or not
     //
-    virtual bool isTurnOver(string &direction) = 0;
+    virtual bool isTurnOver(string &direction) const = 0;
     
     //--------------------------------------------------------------------------
     // Action that has to be performed to put the field into its initial state

@@ -12,9 +12,10 @@
 
 #include "OneWay.h"
 
+using std::string;
 
 //------------------------------------------------------------------------------
-OneWay::OneWay(int x, int y, std::string symbol_letter) : Field(x, y)
+OneWay::OneWay(int x, int y, string symbol_letter) : Field(x, y)
 {
   field_symbol_ = symbol_letter;
   
@@ -43,7 +44,7 @@ OneWay::~OneWay() throw()
 
 
 //------------------------------------------------------------------------------
-int OneWay::enter(std::string enter_from_direction, int& bonus)
+int OneWay::enter(string enter_from_direction, int& bonus)
 {
   return 0;
 }
@@ -51,7 +52,7 @@ int OneWay::enter(std::string enter_from_direction, int& bonus)
 
 
 //------------------------------------------------------------------------------
-bool OneWay::isTurnOver(std::string &direction)
+bool OneWay::isTurnOver(string &direction) const
 {
   return true;
 }

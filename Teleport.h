@@ -16,6 +16,7 @@
 
 #include "Field.h"
 
+using std::string;
 
 //------------------------------------------------------------------------------
 // Class representing a Teleport field
@@ -52,7 +53,7 @@ class Teleport : public Field
     //        (coordinate origin is in the top left corner of the board)
     // @param symbol_letter the symbol of the one way field (a-j)
     //
-    Teleport(int x, int y, std::string symbol_letter);
+    Teleport(int x, int y, string symbol_letter);
     
     //--------------------------------------------------------------------------
     // Destructor
@@ -70,7 +71,7 @@ class Teleport : public Field
     //
     // @return int 1 for entered ice field, 0 for entered any other field
     //
-    int enter(std::string enter_from_direction, int& bonus);
+    int enter(string enter_from_direction, int& bonus);
     
     //--------------------------------------------------------------------------
     // Determines if the turn is over after entering this field. And returns
@@ -82,7 +83,7 @@ class Teleport : public Field
     //
     // @return bool returns if turn is over or not
     //
-    bool isTurnOver(std::string &portal_letter);
+    bool isTurnOver(string &portal_letter) const;
     
 };
 

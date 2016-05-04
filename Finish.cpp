@@ -12,6 +12,7 @@
 
 #include "Finish.h"
 
+using std::string;
 
 //------------------------------------------------------------------------------
 Finish::Finish(int x, int y) : Field(x, y)
@@ -27,7 +28,7 @@ Finish::~Finish() throw()
 
 
 //------------------------------------------------------------------------------
-int Finish::enter(std::string enter_from_direction, int& bonus)
+int Finish::enter(string enter_from_direction, int& bonus)
 {
   return 0;
 }
@@ -35,7 +36,7 @@ int Finish::enter(std::string enter_from_direction, int& bonus)
 
 
 //------------------------------------------------------------------------------
-bool Finish::isTurnOver(std::string &direction)
+bool Finish::isTurnOver(string &direction) const
 {
   return true;
 }

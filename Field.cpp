@@ -28,7 +28,7 @@ Field::~Field() throw()
 
 
 //------------------------------------------------------------------------------
-std::string Field::getFieldSymbol(FieldSymbolPurpose purpose)
+string Field::getFieldSymbol(FieldSymbolPurpose purpose) const
 {
   return field_symbol_;
 }
@@ -36,7 +36,7 @@ std::string Field::getFieldSymbol(FieldSymbolPurpose purpose)
 
 
 //------------------------------------------------------------------------------
-std::string Field::calculateEnteringDirection(Coordinates* coming_from)
+string Field::calculateEnteringDirection(Coordinates* coming_from) const
 {
   if ((x_var_ - coming_from->getX() == 1)
       && (y_var_ - coming_from->getY() == 0))
@@ -66,7 +66,7 @@ std::string Field::calculateEnteringDirection(Coordinates* coming_from)
 
 
 //------------------------------------------------------------------------------
-std::string Field::calculateLeavingDirection(Coordinates* leaving_to)
+string Field::calculateLeavingDirection(Coordinates* leaving_to) const
 {
   if ((x_var_ - leaving_to->getX() == 1)
       && (y_var_ - leaving_to->getY() == 0))
@@ -96,7 +96,7 @@ std::string Field::calculateLeavingDirection(Coordinates* leaving_to)
 
 
 //------------------------------------------------------------------------------
-bool Field::isAbleToEnter(Coordinates* coming_from, std::string &direction)
+bool Field::isAbleToEnter(Coordinates* coming_from, string &direction) const
 {
   bool can_enter;
   direction = calculateEnteringDirection(coming_from);
@@ -115,7 +115,7 @@ bool Field::isAbleToEnter(Coordinates* coming_from, std::string &direction)
 
 
 //------------------------------------------------------------------------------
-bool Field::isAbleToLeave(Coordinates* leaving_to)
+bool Field::isAbleToLeave(Coordinates* leaving_to) const
 {
   bool canLeave;
   string direction = calculateLeavingDirection(leaving_to);
@@ -135,7 +135,7 @@ bool Field::isAbleToLeave(Coordinates* leaving_to)
 
 
 //------------------------------------------------------------------------------
-int Field::enter(std::string enter_from_direction, int& bonus)
+int Field::enter(string enter_from_direction, int& bonus)
 {
   return 0;
 }
@@ -143,7 +143,7 @@ int Field::enter(std::string enter_from_direction, int& bonus)
 
 
 //------------------------------------------------------------------------------
-bool Field::isTurnOver(std::string &direction)
+bool Field::isTurnOver(string &direction) const
 {
   return true;
 }

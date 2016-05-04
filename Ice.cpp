@@ -12,6 +12,7 @@
 
 #include "Ice.h"
 
+using std::string;
 
 //------------------------------------------------------------------------------
 Ice::Ice(int x, int y) : Field(x, y)
@@ -26,7 +27,7 @@ Ice::~Ice() throw()
 
 
 //------------------------------------------------------------------------------
-int Ice::enter(std::string enter_from_direction, int& bonus)
+int Ice::enter(string enter_from_direction, int& bonus)
 {
   if(enter_from_direction=="l")
   {
@@ -54,7 +55,7 @@ int Ice::enter(std::string enter_from_direction, int& bonus)
 
 
 //------------------------------------------------------------------------------
-bool Ice::isTurnOver(std::string &leaveThisFieldTo)
+bool Ice::isTurnOver(string &leaveThisFieldTo) const
 {
   leaveThisFieldTo = slipping_to_;
   return false;

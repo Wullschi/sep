@@ -12,6 +12,7 @@
 
 #include "Path.h"
 
+using std::string;
 
 //------------------------------------------------------------------------------
 Path::Path(int x, int y) : Field(x, y)
@@ -26,7 +27,7 @@ Path::~Path() throw()
 
 
 //------------------------------------------------------------------------------
-int Path::enter(std::string enter_from_direction, int& bonus)
+int Path::enter(string enter_from_direction, int& bonus)
 {
   return 0;
 }
@@ -34,7 +35,7 @@ int Path::enter(std::string enter_from_direction, int& bonus)
 
 
 //------------------------------------------------------------------------------
-bool Path::isTurnOver(std::string &direction)
+bool Path::isTurnOver(string &direction) const
 {
   return true;
 }

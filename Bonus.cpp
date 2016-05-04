@@ -12,9 +12,10 @@
 
 #include "Bonus.h"
 
+using std::string;
 
 //------------------------------------------------------------------------------
-Bonus::Bonus(int x, int y, std::string symbol_letter) : Field(x, y),
+Bonus::Bonus(int x, int y, string symbol_letter) : Field(x, y),
     bonus_letter_(symbol_letter)
 {
   field_symbol_ = symbol_letter;
@@ -28,7 +29,7 @@ Bonus::~Bonus() throw()
 
 
 //------------------------------------------------------------------------------
-string Bonus::getFieldSymbol(FieldSymbolPurpose purpose)
+string Bonus::getFieldSymbol(FieldSymbolPurpose purpose) const
 {
   if (purpose == FOR_SAVING)// return bonus field for saving
   {
@@ -58,7 +59,7 @@ void Bonus::reset()
 
 
 //------------------------------------------------------------------------------
-int Bonus::enter(std::string enter_from_direction, int& bonus)
+int Bonus::enter(string enter_from_direction, int& bonus)
 {
   bonus = bonus + bonus_count_;
   
@@ -73,7 +74,7 @@ int Bonus::enter(std::string enter_from_direction, int& bonus)
 
 
 //------------------------------------------------------------------------------
-bool Bonus::isTurnOver(std::string &direction)
+bool Bonus::isTurnOver(string &direction) const
 {
   return true;
 }

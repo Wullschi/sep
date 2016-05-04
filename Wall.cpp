@@ -12,6 +12,7 @@
 
 #include "Wall.h"
 
+using std::string;
 
 //------------------------------------------------------------------------------
 Wall::Wall(int x, int y) : Field(x, y)
@@ -28,7 +29,7 @@ Wall::~Wall() throw()
 
 
 //------------------------------------------------------------------------------
-int Wall::enter(std::string enter_from_direction, int& bonus)
+int Wall::enter(string enter_from_direction, int& bonus)
 {
   return 0;
 }
@@ -36,7 +37,7 @@ int Wall::enter(std::string enter_from_direction, int& bonus)
 
 
 //------------------------------------------------------------------------------
-bool Wall::isTurnOver(std::string &direction)
+bool Wall::isTurnOver(string &direction) const
 {
   return true;
 }

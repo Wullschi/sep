@@ -12,6 +12,7 @@
 
 #include "Start.h"
 
+using std::string;
 
 //------------------------------------------------------------------------------
 Start::Start(int x, int y) : Field(x, y)
@@ -25,7 +26,7 @@ Start::~Start() throw()
 }
 
 //------------------------------------------------------------------------------
-int Start::enter(std::string enter_from_direction, int& bonus)
+int Start::enter(string enter_from_direction, int& bonus)
 {
   return 0;
 }
@@ -33,7 +34,7 @@ int Start::enter(std::string enter_from_direction, int& bonus)
 
 
 //------------------------------------------------------------------------------
-bool Start::isTurnOver(std::string &direction)
+bool Start::isTurnOver(string &direction) const
 {
   return true;
 }

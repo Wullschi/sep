@@ -16,6 +16,7 @@
 
 #include "Field.h"
 
+using std::string;
 
 //------------------------------------------------------------------------------
 // Class representing a Bonus field.
@@ -74,7 +75,7 @@ class Bonus : public Field
     //        (coordinate origin is in the top left corner of the board)
     // @param symbol_letter the symbol of the one way field (a-j)
     //
-    Bonus(int x, int y,  std::string symbolLetter);
+    Bonus(int x, int y,  string symbolLetter);
     
     //--------------------------------------------------------------------------
     // Destructor
@@ -92,7 +93,7 @@ class Bonus : public Field
     //
     // @return the symbol of the field
   
-    string getFieldSymbol(FieldSymbolPurpose purpose);
+    string getFieldSymbol(FieldSymbolPurpose purpose) const;
   
     //--------------------------------------------------------------------------
     // Performs any necessary action when a player enters a bonus field.
@@ -105,7 +106,7 @@ class Bonus : public Field
     //
     // @return int 1 for entered ice field, 0 for entered any other field
     //
-    int enter(std::string enter_from_direction, int& bonus);
+    int enter(string enter_from_direction, int& bonus);
     
     //--------------------------------------------------------------------------
     // Determines if the turn is over after entering this field. And returns
@@ -116,7 +117,7 @@ class Bonus : public Field
     //
     // @return bool returns if turn is over or not
     //
-    bool isTurnOver(std::string &direction);
+    bool isTurnOver(string &direction) const;
     
 };
 

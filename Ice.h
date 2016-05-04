@@ -16,6 +16,7 @@
 
 #include "Field.h"
 
+using std::string;
 
 //------------------------------------------------------------------------------
 // Class representing an Ice field
@@ -24,7 +25,7 @@ class Ice : public Field
 {
   private:
     
-    std::string slipping_to_;
+    string slipping_to_;
   
     //--------------------------------------------------------------------------
     // Private standard constructor
@@ -70,7 +71,7 @@ class Ice : public Field
     //
     // @return int returns 1 which means the player entered an ice field
     //
-    int enter(std::string enter_from_direction, int& bonus);
+    int enter(string enter_from_direction, int& bonus);
     
     //--------------------------------------------------------------------------
     // Determines if the turn is over after entering this field. And returns
@@ -81,7 +82,7 @@ class Ice : public Field
     //
     // @return bool returns if turn is over or not
     //
-    bool isTurnOver(std::string &direction);
+    bool isTurnOver(string &direction) const;
     
 };
 

@@ -16,6 +16,7 @@
 
 #include "Field.h"
 
+using std::string;
 
 //------------------------------------------------------------------------------
 // Class representing the start field
@@ -68,7 +69,7 @@ class Start : public Field
     //
     // @return int 1 for entered ice field, 0 for entered any other field
     //
-    int enter(std::string enter_from_direction, int& bonus);
+    int enter(string enter_from_direction, int& bonus);
     
     //--------------------------------------------------------------------------
     // Determines if the turn is over after entering this field. And returns
@@ -79,7 +80,7 @@ class Start : public Field
     //
     // @return bool returns if turn is over or not
     //
-    bool isTurnOver(std::string &direction);
+    bool isTurnOver(string &direction) const;
     
 };
 
