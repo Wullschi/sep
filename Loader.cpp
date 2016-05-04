@@ -31,7 +31,7 @@ using std::ifstream;
 
 //------------------------------------------------------------------------------
 Loader::Loader(const std::string filename) :
-    Filehandler(filename), loaded_board_(0)
+Filehandler(filename), loaded_board_(0)
 {
 }
 
@@ -60,126 +60,132 @@ Command::Status Loader::load(Game*& game)
   std::string turns_string = "";
   std::string total_turns_string = "";
   std::string fastmove_string = "";
-
-  unsigned int total_turns = 0;
-
-  loaded_board_ = new std::vector< std::vector< Field* > >;
   
-
-  if(cur_file.is_open())
+  unsigned int total_turns = 0;
+  
+  try
   {
-    /*Reading the file*/
-    std::vector<Field*> row;
+    loaded_board_ = new std::vector< std::vector< Field* > >;
+  }
+  catch (std::bad_alloc& exception)
+  {
+    deleteBoard(start_point);
+    return Command::OUT_OF_MEMORY_;
+  }
+  
+  
+  if (!cur_file.is_open())
+  {
+    deleteBoard(start_point);
+    return Command::FILE_NOT_OPENED_;
+  }
+  
+  
+  /*Reading the file*/
+  std::vector<Field*> row;
+  
+  // read fastmove string and check if it is valid
+  getline(cur_file, fastmove_string);
+  if ( (fastmove_string != "") &&
+      (fastmove_string.find_first_not_of(Fastmove::VALID_PARAMETERS_)
+       != std::string::npos) )
+  {
+    deleteBoard(start_point);
+    return Command::INVALID_FILE_;
+  }
+  
+  // read max amount of turns and check if it is a valid number
+  getline(cur_file, total_turns_string);
+  if ( (total_turns_string.find_first_not_of("0123456789")!=std::string::npos)
+      || (total_turns_string == "") )
+  {
+    deleteBoard(start_point);
+    return Command::INVALID_FILE_;
+  }
+  
+  std::istringstream total_turns_stream;
+  total_turns_stream.str(total_turns_string);
+  total_turns_stream >> total_turns;
+  
+  
+  // start reading the board if fastmove string and max turns are valid
+  while (!cur_file.eof())
+  {
+    if (cur_file.eof())
+    {
+      break;
+    }
     
-    // read fastmove string and check if it is valid
-    getline(cur_file, fastmove_string);
-    if ( (fastmove_string != "") &&
-        (fastmove_string.find_first_not_of(Fastmove::VALID_PARAMETERS_)
-        != std::string::npos) )
+    
+    Command::Status correct_row = readOneRow(cur_file, teleport_list,
+                                             found_start, found_end, row_count, start_point);
+    
+    
+    
+    if (correct_row == Command::INVALID_FILE_)
     {
       deleteBoard(start_point);
       return Command::INVALID_FILE_;
     }
-    
-    // read max amount of turns and check if it is a valid number
-    getline(cur_file, total_turns_string);
-    if(total_turns_string.find_first_not_of("0123456789")!=std::string::npos)
-    {
-      deleteBoard(start_point);
-      return Command::INVALID_FILE_;
-    }
-    
-    std::istringstream total_turns_stream;
-    total_turns_stream.str(total_turns_string);
-    total_turns_stream >> total_turns;
-    
-    
-    // start reading the board if fastmove string and max turns are valid
-    while (!cur_file.eof())
-    {
-      if (cur_file.eof())
-      {
-        break;
-      }
-     
-      
-      Command::Status correct_row = readOneRow(cur_file, teleport_list,
-          found_start, found_end, row_count, start_point);
-      
-
-      
-      if (correct_row == Command::INVALID_FILE_)
-      {
-        deleteBoard(start_point);
-        return Command::INVALID_FILE_;
-      }
-      else if (correct_row == Command::OUT_OF_MEMORY_)
-      {
-        deleteBoard(start_point);
-        return Command::OUT_OF_MEMORY_;
-      }
-
-      row.clear();
-      row_count = row_count + 1;
-    }
-    
-    cur_file.close();
-    
-
-    //a valid board has at least three rows (first and last rows are walls)
-    //and at least another row which contains the start and finish fields.
-    if (loaded_board_->size() < 3)
-    {
-      deleteBoard(start_point);
-      return Command::INVALID_FILE_;
-    }
-    
-    //check board validity
-    Command::Status shape = checkShape();
-    Command::Status start_and_finish =
-        checkStartAndFinish(found_start, found_end);
-    Command::Status wall = checkWall();
-    Command::Status teleport = checkTeleport(&teleport_list);
-    
-    // if any error has been detected, stop loading
-    if ((start_and_finish == Command::INVALID_FILE_) ||
-        (shape == Command::INVALID_FILE_) || (wall == Command::INVALID_FILE_)
-        || (teleport == Command::INVALID_FILE_))
-    {
-      deleteBoard(start_point);
-      return Command::INVALID_FILE_;
-    }
-    
-    try
-    {
-      game = new Game(loaded_board_, "", total_turns, start_point);
-    }
-    catch (std::bad_alloc& exception)
+    else if (correct_row == Command::OUT_OF_MEMORY_)
     {
       deleteBoard(start_point);
       return Command::OUT_OF_MEMORY_;
     }
     
-    if (fastmove_string != "")
-    {
-      Command::Status fastmove_status = game->fastMove(fastmove_string);
-      if (fastmove_status == Command::INVALID_MOVE_)
-      {
-        delete game;
-        //deleteBoard(start_point);
-        //delete start_point;
-        return Command::INVALID_PATH_;
-      }
-      return fastmove_status;
-    }
-    
+    row.clear();
+    row_count = row_count + 1;
   }
-  else
+  
+  cur_file.close();
+  
+  
+  //a valid board has at least three rows (first and last rows are walls)
+  //and at least another row which contains the start and finish fields.
+  if (loaded_board_->size() < 3)
   {
     deleteBoard(start_point);
-    return Command::FILE_NOT_OPENED_;
+    return Command::INVALID_FILE_;
   }
-
+  
+  //check board validity
+  Command::Status shape = checkShape();
+  Command::Status start_and_finish =
+  checkStartAndFinish(found_start, found_end);
+  Command::Status wall = checkWall();
+  Command::Status teleport = checkTeleport(&teleport_list);
+  
+  // if any error has been detected, stop loading
+  if ((start_and_finish == Command::INVALID_FILE_) ||
+      (shape == Command::INVALID_FILE_) || (wall == Command::INVALID_FILE_)
+      || (teleport == Command::INVALID_FILE_))
+  {
+    deleteBoard(start_point);
+    return Command::INVALID_FILE_;
+  }
+  
+  try
+  {
+    game = new Game(loaded_board_, "", total_turns, start_point);
+  }
+  catch (std::bad_alloc& exception)
+  {
+    deleteBoard(start_point);
+    return Command::OUT_OF_MEMORY_;
+  }
+  
+  if (fastmove_string != "")
+  {
+    Command::Status fastmove_status = game->fastMove(fastmove_string);
+    if (fastmove_status == Command::INVALID_MOVE_)
+    {
+      delete game;
+      return Command::INVALID_PATH_;
+    }
+    return fastmove_status;
+  }
+  
+  
   return Command::OK_;
 }
 
@@ -231,7 +237,7 @@ Command::Status Loader::checkWall()
   for (unsigned int k = 0; k < field_length; k++)
   {
     string field_symbol = loaded_board_->at(0).at(k)->
-        getFieldSymbol(Field::FOR_GAME);
+    getFieldSymbol(Field::FOR_GAME);
     if (field_symbol != "#")
     {
       return Command::INVALID_FILE_;
@@ -243,13 +249,13 @@ Command::Status Loader::checkWall()
   {
     Row = loaded_board_->at(k);
     string field_symbol = loaded_board_->at(k).front()->
-        getFieldSymbol(Field::FOR_GAME);
+    getFieldSymbol(Field::FOR_GAME);
     if(field_symbol != "#")
     {
       return Command::INVALID_FILE_;
     }
     field_symbol = loaded_board_->at(k).back()->
-        getFieldSymbol(Field::FOR_GAME);
+    getFieldSymbol(Field::FOR_GAME);
     if(field_symbol != "#")
     {
       return Command::INVALID_FILE_;
@@ -262,7 +268,7 @@ Command::Status Loader::checkWall()
   for (unsigned int k = 0; k < field_length; k++)
   {
     string field_symbol =
-      loaded_board_->at(last_row_index).at(k)->getFieldSymbol(Field::FOR_GAME);
+    loaded_board_->at(last_row_index).at(k)->getFieldSymbol(Field::FOR_GAME);
     if (field_symbol != "#")
     {
       return Command::INVALID_FILE_;
@@ -303,8 +309,8 @@ Command::Status Loader::checkTeleport(vector<char>* teleport_list)
 
 //------------------------------------------------------------------------------
 Command::Status Loader::readOneRow(ifstream& cur_file,
-    vector<char>& teleport_list, bool& found_start, bool& found_end,
-    int row_count, Coordinates*& start_point)
+                                   vector<char>& teleport_list, bool& found_start, bool& found_end,
+                                   int row_count, Coordinates*& start_point)
 {
   int y = row_count;
   vector<Field*> row;
