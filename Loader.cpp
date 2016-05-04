@@ -165,7 +165,9 @@ Command::Status Loader::load(Game*& game)
       Command::Status fastmove_status = game->fastMove(fastmove_string);
       if (fastmove_status == Command::INVALID_MOVE_)
       {
-        deleteBoard(start_point);
+        delete game;
+        //deleteBoard(start_point);
+        //delete start_point;
         return Command::INVALID_PATH_;
       }
       return fastmove_status;
