@@ -75,7 +75,7 @@ class Bonus : public Field
     //        (coordinate origin is in the top left corner of the board)
     // @param symbol_letter the symbol of the one way field (a-j)
     //
-    Bonus(int x, int y,  string symbolLetter);
+    Bonus(int x, int y,  string symbol_letter);
     
     //--------------------------------------------------------------------------
     // Destructor

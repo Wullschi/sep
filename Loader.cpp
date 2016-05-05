@@ -11,7 +11,6 @@
 
 
 #include "Loader.h"
-
 #include "Coordinates.h"
 #include "Bonus.h"
 #include "Teleport.h"
@@ -27,13 +26,15 @@
 using std::vector;
 using std::string;
 using std::ifstream;
+using std::string;
 
 
 //------------------------------------------------------------------------------
-Loader::Loader(const std::string filename) :
+Loader::Loader(const string filename) :
 Filehandler(filename), loaded_board_(0)
 {
 }
+
 
 
 
@@ -44,28 +45,38 @@ Loader::~Loader() throw()
 
 
 
+
 //------------------------------------------------------------------------------
 Command::Status Loader::load(Game*& game)
 {
   const char* LOADFILE = filename_.c_str();
   Coordinates* start_point = 0;
-  /*Initialisations*/
-  std::ifstream cur_file;
-  bool found_start = false;
-  bool found_end = false;
-  int row_count = 0;
-  cur_file.open(LOADFILE);
-  
-  std::vector<char> teleport_list;
-  std::string turns_string = "";
-  std::string total_turns_string = "";
-  std::string fastmove_string = "";
-  
+  ifstream cur_file;
+  string fastmove_string = "";
   unsigned int total_turns = 0;
   
+  
+  // Check if the requested file can be opened
+  cur_file.open(LOADFILE);
+  if (!cur_file.is_open())
+  {
+    return Command::FILE_NOT_OPENED_;
+  }
+  
+  
+  // Check if first two lines only contain valid characters (fastmove and turns)
+  Command::Status first_two_lines_validity =
+      checkFastmoveAndMaxTurns(cur_file, fastmove_string, total_turns);
+  if (first_two_lines_validity == Command::INVALID_FILE_)
+  {
+    return Command::INVALID_FILE_;
+  }
+  
+  
+  // try to allocate a new board for the fields we are about to load
   try
   {
-    loaded_board_ = new std::vector< std::vector< Field* > >;
+    loaded_board_ = new vector<vector< Field* > >;
   }
   catch (std::bad_alloc& exception)
   {
@@ -74,32 +85,66 @@ Command::Status Loader::load(Game*& game)
   }
   
   
-  if (!cur_file.is_open())
+  // read the board and check if it is valid
+  Command::Status board_validity =
+      readBoardAndCheckValidity(cur_file, start_point);
+  if ((board_validity == Command::INVALID_FILE_) ||
+      (board_validity == Command::OUT_OF_MEMORY_))
   {
-    deleteBoard(start_point);
-    return Command::FILE_NOT_OPENED_;
+    return board_validity;
   }
   
   
-  /*Reading the file*/
-  std::vector<Field*> row;
+  // try to instantiate new game object with loaded board
+  try
+  {
+    game = new Game(loaded_board_, "", total_turns, start_point);
+  }
+  catch (std::bad_alloc& exception)
+  {
+    deleteBoard(start_point);
+    return Command::OUT_OF_MEMORY_;
+  }
+  
+  
+  // Check if loaded fastmove string can be executed correctly
+  if (fastmove_string != "")
+  {
+    Command::Status fastmove_status = game->fastMove(fastmove_string);
+    if (fastmove_status == Command::INVALID_MOVE_)
+    {
+      delete game;
+      return Command::INVALID_PATH_;
+    }
+    return fastmove_status;
+  }
+  
+  return Command::OK_;
+}
+
+
+
+
+//------------------------------------------------------------------------------
+Command::Status Loader::checkFastmoveAndMaxTurns(ifstream& cur_file,
+    string& fastmove_string, unsigned int& total_turns)
+{
+  string total_turns_string = "";
   
   // read fastmove string and check if it is valid
   getline(cur_file, fastmove_string);
   if ( (fastmove_string != "") &&
       (fastmove_string.find_first_not_of(Fastmove::VALID_PARAMETERS_)
-       != std::string::npos) )
+       != string::npos) )
   {
-    deleteBoard(start_point);
     return Command::INVALID_FILE_;
   }
   
   // read max amount of turns and check if it is a valid number
   getline(cur_file, total_turns_string);
-  if ( (total_turns_string.find_first_not_of("0123456789")!=std::string::npos)
+  if ( (total_turns_string.find_first_not_of("0123456789")!=string::npos)
       || (total_turns_string == "") )
   {
-    deleteBoard(start_point);
     return Command::INVALID_FILE_;
   }
   
@@ -107,8 +152,22 @@ Command::Status Loader::load(Game*& game)
   total_turns_stream.str(total_turns_string);
   total_turns_stream >> total_turns;
   
+  return Command::OK_;
+}
+
+
+
+
+//------------------------------------------------------------------------------
+Command::Status Loader::readBoardAndCheckValidity(ifstream& cur_file,
+    Coordinates*& start_point)
+{
+  bool found_start = false;
+  bool found_end = false;
+  int row_count = 0;
+  vector<char> teleport_list;
+  vector<Field*> row;
   
-  // start reading the board if fastmove string and max turns are valid
   while (!cur_file.eof())
   {
     if (cur_file.eof())
@@ -118,7 +177,7 @@ Command::Status Loader::load(Game*& game)
     
     
     Command::Status correct_row = readOneRow(cur_file, teleport_list,
-                                             found_start, found_end, row_count, start_point);
+        found_start, found_end, row_count, start_point);
     
     
     
@@ -138,7 +197,6 @@ Command::Status Loader::load(Game*& game)
     row.clear();
     row_count = row_count + 1;
   }
-  
   cur_file.close();
   
   
@@ -166,30 +224,9 @@ Command::Status Loader::load(Game*& game)
     return Command::INVALID_FILE_;
   }
   
-  try
-  {
-    game = new Game(loaded_board_, "", total_turns, start_point);
-  }
-  catch (std::bad_alloc& exception)
-  {
-    deleteBoard(start_point);
-    return Command::OUT_OF_MEMORY_;
-  }
-  
-  if (fastmove_string != "")
-  {
-    Command::Status fastmove_status = game->fastMove(fastmove_string);
-    if (fastmove_status == Command::INVALID_MOVE_)
-    {
-      delete game;
-      return Command::INVALID_PATH_;
-    }
-    return fastmove_status;
-  }
-  
-  
   return Command::OK_;
 }
+
 
 
 
@@ -206,6 +243,7 @@ Command::Status Loader::checkStartAndFinish(bool start, bool finish)
     return Command::INVALID_FILE_;
   }
 }
+
 
 
 
@@ -227,10 +265,11 @@ Command::Status Loader::checkShape()
 
 
 
+
 //------------------------------------------------------------------------------
 Command::Status Loader::checkWall()
 {
-  std::vector<Field*> Row;
+  vector<Field*> Row;
   unsigned long int field_height = loaded_board_->size();
   unsigned long int field_length = loaded_board_->at(0).size();
   
@@ -282,6 +321,7 @@ Command::Status Loader::checkWall()
 
 
 
+
 //------------------------------------------------------------------------------
 Command::Status Loader::checkTeleport(vector<char>* teleport_list)
 {
@@ -309,10 +349,11 @@ Command::Status Loader::checkTeleport(vector<char>* teleport_list)
 
 
 
+
 //------------------------------------------------------------------------------
 Command::Status Loader::readOneRow(ifstream& cur_file,
-                                   vector<char>& teleport_list, bool& found_start, bool& found_end,
-                                   int row_count, Coordinates*& start_point)
+    vector<char>& teleport_list, bool& found_start, bool& found_end,
+    int row_count, Coordinates*& start_point)
 {
   int y = row_count;
   vector<Field*> row;
@@ -344,95 +385,29 @@ Command::Status Loader::readOneRow(ifstream& cur_file,
   }
   
   
-  
-  
   // now we can start reading the symbols in this row
   for (unsigned int x = 0; x < nr_of_fields; x++)
   {
-    bool valid_char = false;
     char symbol = row_string[x];
+    
+    // Check if the symbol is a valid field symbol or not
+    Command::Status symbol_validity = checkSymbolValidity(symbol);
+    if (symbol_validity == Command::INVALID_FILE_)
+    {
+      return Command::INVALID_FILE_;
+    }
     
     
     try
     {
-      /*Generating the Field*/
-      if (symbol == Wall::SYMBOL_)
-      {
-        row.push_back(new Wall(x, y));
-        valid_char = true;
-      }
-      
-      if (symbol == Path::SYMBOL_)
-      {
-        row.push_back(new Path(x,y));
-        valid_char = true;
-      }
-      
-      if ((symbol == Start::SYMBOL_) && (found_start == false))
-      {
-        row.push_back(new Start(x,y));
-        start_point = new Coordinates(x,y);
-        valid_char = true;
-        found_start = true;
-      }
-      
-      else if ((symbol == Start::SYMBOL_) && (found_start == true))
+      // add the symbol to the row and check if it has been added successfully
+      Command::Status added_to_row = addFieldsToRow(symbol, row, found_start,
+          found_end, teleport_list, start_point, x, y);
+      if (added_to_row == Command::INVALID_FILE_)
       {
         return Command::INVALID_FILE_;
       }
       
-      if (symbol == Ice::SYMBOL_)
-      {
-        row.push_back(new Ice(x,y));
-        valid_char = true;
-      }
-      
-      if ((symbol == Finish::SYMBOL_) && (found_end == false))
-      {
-        row.push_back(new Finish(x,y));
-        valid_char = true;
-        found_end = true;
-      }
-      
-      
-      else if ((symbol == Finish::SYMBOL_) && (found_end == true))
-      {
-        return Command::INVALID_FILE_;
-      }
-      
-      if ((symbol >= Teleport::SYMBOL_ ) && (symbol <= Teleport::SYMBOL2_))
-      {
-        string str;
-        str.push_back(symbol);
-        row.push_back(new Teleport(x, y, str));
-        teleport_list.push_back(symbol);
-        valid_char = true;
-        str.clear();
-      }
-      
-      if ((symbol == OneWay::SYMBOL_LEFT_) || (symbol == OneWay::SYMBOL_RIGHT_)
-          || (symbol == OneWay::SYMBOL_UP_) || (symbol == OneWay::SYMBOL_DOWN_))
-      {
-        string str;
-        str.push_back(symbol);
-        row.push_back(new OneWay(x,y,str));
-        valid_char = true;
-        str.clear();
-      }
-      
-      if ( (symbol >= Bonus::SYMBOL_) && (symbol <= Bonus::SYMBOL2_) )
-      {
-        string str;
-        str.push_back(symbol);
-        row.push_back(new Bonus(x, y, str));
-        valid_char = true;
-        str.clear();
-      }
-      
-      if(valid_char == false)
-      {
-        return Command::INVALID_FILE_;
-      }
     }
     catch(std::bad_alloc& exception)
     {
@@ -444,11 +419,115 @@ Command::Status Loader::readOneRow(ifstream& cur_file,
       
       return Command::OUT_OF_MEMORY_;
     }
+    
   }
   
   loaded_board_->push_back(row);
   return Command::OK_;
 }
+
+
+
+
+//------------------------------------------------------------------------------
+Command::Status Loader::checkSymbolValidity(char symbol)
+{
+  if ((symbol == Path::SYMBOL_) || (symbol == Wall::SYMBOL_))
+  {
+    return Command::OK_;
+  }
+  else if ((symbol == Start::SYMBOL_) || (symbol == Finish::SYMBOL_))
+  {
+    return Command::OK_;
+  }
+  else if (symbol == Ice::SYMBOL_)
+  {
+    return Command::OK_;
+  }
+  else if ((symbol >= Teleport::SYMBOL_ ) && (symbol <= Teleport::SYMBOL2_))
+  {
+    return Command::OK_;
+  }
+  else if ((symbol == OneWay::SYMBOL_LEFT_) || (symbol == OneWay::SYMBOL_RIGHT_)
+      || (symbol == OneWay::SYMBOL_UP_) || (symbol == OneWay::SYMBOL_DOWN_))
+  {
+    return Command::OK_;
+  }
+  else if ( (symbol >= Bonus::SYMBOL_) && (symbol <= Bonus::SYMBOL2_) )
+  {
+    return Command::OK_;
+  }
+  else
+  {
+    return Command::INVALID_FILE_;
+  }
+}
+
+
+
+
+//------------------------------------------------------------------------------
+Command::Status Loader::addFieldsToRow(char symbol, vector<Field*>& row,
+    bool& found_start, bool& found_end, vector<char>& teleport_list,
+    Coordinates*& start_point, int x, int y)
+{
+  if (symbol == Wall::SYMBOL_)
+  {
+    row.push_back(new Wall(x, y));
+  }
+  else if (symbol == Path::SYMBOL_)
+  {
+    row.push_back(new Path(x,y));
+  }
+  else if ((symbol == Start::SYMBOL_) && (found_start == false))
+  {
+    row.push_back(new Start(x,y));
+    start_point = new Coordinates(x,y);
+    found_start = true;
+  }
+  else if ((symbol == Start::SYMBOL_) && (found_start == true))
+  {
+    return Command::INVALID_FILE_;
+  }
+  else if (symbol == Ice::SYMBOL_)
+  {
+    row.push_back(new Ice(x,y));
+  }
+  else if ((symbol == Finish::SYMBOL_) && (found_end == false))
+  {
+    row.push_back(new Finish(x,y));
+    found_end = true;
+  }
+  else if ((symbol == Finish::SYMBOL_) && (found_end == true))
+  {
+    return Command::INVALID_FILE_;
+  }
+  else if ((symbol >= Teleport::SYMBOL_ ) && (symbol <= Teleport::SYMBOL2_))
+  {
+    string str;
+    str.push_back(symbol);
+    row.push_back(new Teleport(x, y, str));
+    teleport_list.push_back(symbol);
+    str.clear();
+  }
+  else if ((symbol == OneWay::SYMBOL_LEFT_) || (symbol == OneWay::SYMBOL_RIGHT_)
+      || (symbol == OneWay::SYMBOL_UP_) || (symbol == OneWay::SYMBOL_DOWN_))
+  {
+    string str;
+    str.push_back(symbol);
+    row.push_back(new OneWay(x,y,str));
+    str.clear();
+  }
+  else if ( (symbol >= Bonus::SYMBOL_) && (symbol <= Bonus::SYMBOL2_) )
+  {
+    string str;
+    str.push_back(symbol);
+    row.push_back(new Bonus(x, y, str));
+    str.clear();
+  }
+  return Command::OK_;
+}
+
 
 
 
