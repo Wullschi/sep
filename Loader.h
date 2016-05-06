@@ -172,7 +172,15 @@ class Loader : public Filehandler
     // @param start_point the start coordinates that must be deleted
     //
     void deleteBoard(Coordinates* start_point);
-    
+  
+    //--------------------------------------------------------------------------
+    // Deletes the board and the start coordinates in case of an invalid file.
+    //
+    // @param row the row vector that should be deleted
+    //
+  
+    void deleteVector(vector<Field*>& row);
+  
   public:
     
     //--------------------------------------------------------------------------

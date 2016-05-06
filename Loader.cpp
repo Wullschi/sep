@@ -166,7 +166,6 @@ Command::Status Loader::readBoardAndCheckValidity(ifstream& cur_file,
   bool found_end = false;
   int row_count = 0;
   vector<char> teleport_list;
-  vector<Field*> row;
   
   while (!cur_file.eof())
   {
@@ -175,10 +174,18 @@ Command::Status Loader::readBoardAndCheckValidity(ifstream& cur_file,
       break;
     }
     
-    
-    Command::Status correct_row = readOneRow(cur_file, teleport_list,
+    Command::Status correct_row;
+    try
+    {
+      correct_row = readOneRow(cur_file, teleport_list,
         found_start, found_end, row_count, start_point);
-    
+    }
+    catch (std::bad_alloc& exception)
+    {
+      cur_file.close();
+      deleteBoard(start_point);
+      return Command::OUT_OF_MEMORY_;
+    }
     
     
     if (correct_row == Command::INVALID_FILE_)
@@ -187,14 +194,7 @@ Command::Status Loader::readBoardAndCheckValidity(ifstream& cur_file,
       deleteBoard(start_point);
       return Command::INVALID_FILE_;
     }
-    else if (correct_row == Command::OUT_OF_MEMORY_)
-    {
-      cur_file.close();
-      deleteBoard(start_point);
-      return Command::OUT_OF_MEMORY_;
-    }
     
-    row.clear();
     row_count = row_count + 1;
   }
   cur_file.close();
@@ -411,18 +411,22 @@ Command::Status Loader::readOneRow(ifstream& cur_file,
     }
     catch(std::bad_alloc& exception)
     {
-      
-      for (unsigned int i = 0; i < row.size(); i++)
-      {
-        delete row.at(i);
-      }
-      
-      return Command::OUT_OF_MEMORY_;
+      deleteVector(row);
+      throw std::bad_alloc();
     }
     
   }
   
-  loaded_board_->push_back(row);
+  try
+  {
+    loaded_board_->push_back(row);
+  }
+  catch(std::bad_alloc& exception)
+  {
+    deleteVector(row);
+    throw std::bad_alloc();
+  }
+  
   return Command::OK_;
 }
 
@@ -547,4 +551,16 @@ void Loader::deleteBoard(Coordinates* start_point)
   start_point = 0;
   delete loaded_board_;
   loaded_board_ = 0;
+}
+
+
+
+
+//------------------------------------------------------------------------------
+void Loader::deleteVector(vector<Field*>& row)
+{
+  for (unsigned int i = 0; i < row.size(); i++)
+  {
+    delete row.at(i);
+  }
 }

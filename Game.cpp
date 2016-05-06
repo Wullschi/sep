@@ -157,7 +157,14 @@ Command::Status Game::move(string go_to_str)
   // convert "right" to "r" etc.
   longToShortMoveString(go_to_str);
   
-  move_validity = singleMove(tmp_pos, go_to, bonus_list, go_to_str, bonus);
+  try
+  {
+    move_validity = singleMove(tmp_pos, go_to, bonus_list, go_to_str, bonus);
+  }
+  catch (std::bad_alloc& exception)
+  {
+    return Command::OUT_OF_MEMORY_;
+  }
   
   // if the move is valid
   if (move_validity == 0)
@@ -214,7 +221,16 @@ Command::Status Game::fastMove(string all_turns_str)
   {
     bonus = 0;
     go_to_str = all_turns_str[char_iterator]; // read next turn
-    move_validity = singleMove(tmp_pos, go_to, bonus_list, go_to_str, bonus);
+    
+    try
+    {
+      move_validity = singleMove(tmp_pos, go_to, bonus_list, go_to_str, bonus);
+    }
+    catch (std::bad_alloc& exception)
+    {
+      return Command::OUT_OF_MEMORY_;
+    }
+    
     char_iterator = char_iterator + 1;
     remaining_turns_ = remaining_turns_ + bonus - 1;
     if (remaining_turns_ < 0)
