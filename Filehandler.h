@@ -46,12 +46,20 @@ class Filehandler
     //------------------------------------------------------------------------------
     // Constructor
     //
+    // @param filename The name of the file to load or to save in
+    //
     Filehandler(std::string filename);
     //------------------------------------------------------------------------------
     // Destructor
     //
     virtual ~Filehandler() throw();
     
+    //--------------------------------------------------------------------------
+    // Checks if the filename of the filehandler object is not too long
+    // and if it contains only valid characters.
+    //
+    // @return True if the filename is valid, false if not.
+    //
     const bool filenameIsValid() const;
     
 };

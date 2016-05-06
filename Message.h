@@ -54,8 +54,23 @@ class Message
     
   public:
     
+    //--------------------------------------------------------------------------
+    // Prints the message stored in WRONG_USAGE_ onto the screen.
+    //
     static void outputWrongUsage();
+    
+    //--------------------------------------------------------------------------
+    // Prints the message stored in UNKNOWN_COMMAND_ onto the screen.
+    //
     static void outputUnknownCommand();
+    
+    //--------------------------------------------------------------------------
+    // Prints an appropriate message onto the screen
+    // for the case specified by the parameter.
+    //
+    // @param return_status Constant of type Status (defined in class Command)
+    //        specifying the case for which to print a message
+    //
     static void outputByCode(Command::Status return_status);
     
 };

@@ -91,17 +91,24 @@ int UserInput::checkCommandLineOptions(int argc, const char* argv[],
   
   if (initial_load)
   {
+    
     Load initial("initial");
     Command::Status return_status = initial.execute(current_game,
         load_filenames);
+    
     if (return_status)
     {
       Message::outputByCode(return_status);
     }
     
+    if (return_status == Command::OUT_OF_MEMORY_)
+    {
+      return return_status;
+    }
+    
   }
   
-  return Command::OK_;
+  return OK_;
   
 }
 
@@ -247,6 +254,6 @@ int UserInput::commandLine(Game*& current_game)
   while ( (return_status != Command::QUIT_) &&
       (return_status != Command::OUT_OF_MEMORY_) );
   
-  return (return_status == Command::QUIT_) ? Command::OK_ : return_status;
+  return (return_status == Command::QUIT_) ? OK_ : return_status;
   
 }

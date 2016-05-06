@@ -56,7 +56,7 @@ class Loader : public Filehandler
     Loader& operator=(const Loader& original);
   
     //--------------------------------------------------------------------------
-    // Checks if the fastmove string and maximum turns string are contain only
+    // Checks if the fastmove string and maximum turns string contain only
     // valid characters.
     //
     // @param cur_file the input filestream that reads the file
@@ -173,13 +173,12 @@ class Loader : public Filehandler
     //
     void deleteBoard(Coordinates* start_point);
     
-    
   public:
     
     //--------------------------------------------------------------------------
     // This is the Constructor of the Loader class
     //
-    // @param filename the name of the file which should be loaded
+    // @param filename The name of the file which should be loaded
     //
     Loader(const string filename);
   
@@ -193,6 +192,9 @@ class Loader : public Filehandler
     //
     // @param game the game object which contains the loaded board after loading
     //         is complete
+    //
+    // @return Constant of type Status (defined in Class Command)
+    //         representing the success of the action
     //
     Command::Status load(Game*& game);
     

@@ -40,15 +40,20 @@ class Save : public Command
     //--------------------------------------------------------------------------
     // Constructor
     //
+    // @param name The name of the command
+    //
     Save(std::string name);
     //--------------------------------------------------------------------------
     // Destructor
+    //
     virtual ~Save() throw();
     
     //--------------------------------------------------------------------------
     // Executes the command.
+    //
     // @param board Pointer to the board where action should be performed on
     // @param params Possible parameters needed for the execution
+    //
     // @return Status constant representing the success of the action
     //
     virtual Command::Status execute(Game*& board,

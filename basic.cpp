@@ -26,16 +26,17 @@ int main(int argc, const char* argv[])
   
   int error_code = UserInput::checkCommandLineOptions(argc, argv, current_game);
   
-  if (error_code)
+  if (error_code == UserInput::WRONG_USAGE_RETURN_)
   {
     Message::outputWrongUsage();
-    return error_code;
   }
   
+  if (error_code == UserInput::OK_)
+  {
+    error_code = UserInput::commandLine(current_game);
+  }
   
-  error_code = UserInput::commandLine(current_game);
-  
-  if (error_code)
+  if (current_game)
   {
     delete current_game;
     current_game = 0;

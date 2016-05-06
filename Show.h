@@ -43,6 +43,8 @@ class Show : public Command
     //--------------------------------------------------------------------------
     // Constructor
     //
+    // @param name The name of the command
+    //
     Show(std::string name);
     //--------------------------------------------------------------------------
     // Destructor
@@ -51,8 +53,10 @@ class Show : public Command
     
     //--------------------------------------------------------------------------
     // Executes the command.
+    //
     // @param board Pointer to the board where action should be performed on
     // @param params Possible parameters needed for the execution
+    //
     // @return Status constant representing the success of the action
     //
     virtual Command::Status execute(Game*& board,

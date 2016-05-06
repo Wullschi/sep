@@ -42,7 +42,7 @@ class Fastmove : public Command
     //
     static const std::string VALID_PARAMETERS_;
     //--------------------------------------------------------------------------
-    // Constants for each of the possible parameters
+    // Constants for each of all possible parameters
     //
     static const std::string UP_;
     static const std::string DOWN_;
@@ -51,6 +51,8 @@ class Fastmove : public Command
     
     //--------------------------------------------------------------------------
     // Constructor
+    //
+    // @param name The name of the command
     //
     Fastmove(std::string name);
     //--------------------------------------------------------------------------
@@ -63,7 +65,9 @@ class Fastmove : public Command
     //
     // @param board Pointer to the board where action should be performed on
     // @param params Possible parameters needed for the execution
+    //
     // @return Status constant representing the success of the action
+    //
     virtual Command::Status execute(Game*& board,
         std::vector<std::string>& params);
     
