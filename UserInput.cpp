@@ -228,7 +228,7 @@ int UserInput::commandLine(Game*& current_game)
       return_status = show.execute(current_game, entered_arguments_);
     }
     
-    else if (entered_command_ == QUIT_)
+    else if ( (entered_command_ == QUIT_) || (std::cin.eof()) )
     {
       Quit quit("quit");
       return_status = quit.execute(current_game, entered_arguments_);
