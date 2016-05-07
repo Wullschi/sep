@@ -111,10 +111,11 @@ class UserInput
     // Performs the user interface:
     // It prints the prompt specified by PROMPT_,
     // takes the input text by the user, passes it to parseUserInput,
-    // and triggers the appropriate command. It terminates if the user
-    // enters the command specified by QUIT_ or if a bad_alloc exception is thrown.
+    // and triggers the appropriate command. It terminates if the user enters
+    // the command specified by QUIT_ or if a bad_alloc exception is thrown.
     //
-    // @param current_game When a game is loaded, this pointer stores its address.
+    // @param current_game When a game is loaded, this pointer stores its
+    //        address.
     //
     // @return Constant indicating why the method has been terminated:
     //         OK_ if by QUIT_ command,

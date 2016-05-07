@@ -66,7 +66,7 @@ int UserInput::checkCommandLineOptions(int argc, const char* argv[],
       if ( (initial_load == true)
           || (argv[argument_no + 1] == AUTOSAVE_OPTION_)
           || (argv[argument_no + 1] == LOAD_OPTION_) )
-      {
+    {
         return WRONG_USAGE_RETURN_;
       }
       initial_load = true;

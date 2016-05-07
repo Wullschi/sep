@@ -73,7 +73,7 @@ class Saver : public Filehandler
     //         representing the success of the action
     //
     Command::Status save(const Game& current_game);
-    
+  
     //--------------------------------------------------------------------------
     // Activates the autosave functionality by setting autosave_enabled_
     // to true and storing the parameter to autosave_filename_.
@@ -100,7 +100,7 @@ class Saver : public Filehandler
     //         (empty string if autosave is not activated)
     //
     static std::vector<std::string> getAutosaveParams();
-    
+  
 };
 
 

@@ -42,15 +42,15 @@ class Bonus : public Field
     
   public:
     
-    //------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
     // Constant for the first letter indicating a Bonus field
     //
     static const char SYMBOL_ = 'a';
-    //------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
     // Constant for the last letter indicating a Quicksand field
     //
     static const char SYMBOL2_ = 'j';
-    //------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
     // Constant for the first letter indicating a Quicksand field
     //
     static const char SYMBOL_FIRST_QUICKSAND_ = 'f';
