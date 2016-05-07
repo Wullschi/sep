@@ -80,7 +80,7 @@ Command::Status Loader::load(Game*& game)
   }
   catch (std::bad_alloc& exception)
   {
-    deleteBoard(start_point);
+    cur_file.close();
     return Command::OUT_OF_MEMORY_;
   }
   

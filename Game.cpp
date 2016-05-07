@@ -389,8 +389,8 @@ void Game::findTeleportLocation(const string teleport_letter,
       if (((x != player_x) || (y != player_y))
           && symbol == teleport_letter)
       {
-        portal_x = x;
-        portal_y = y;
+        portal_x = static_cast<int>(x);
+        portal_y = static_cast<int>(y);
       }
     }
   }
