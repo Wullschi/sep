@@ -23,6 +23,9 @@ using std::string;
 using std::vector;
 
 
+const string Game::REMAINING_STEPS_ = "Remaining Steps:";
+const string Game::MOVED_STEPS_ = "Moved Steps:";
+
 
 //------------------------------------------------------------------------------
 Game::Game(vector<vector<Field* > >* new_board, string turns_string,
@@ -406,8 +409,8 @@ void Game::show(bool more) const
 {
   if (more == true)
   {
-    std::cout << "Remaining Steps: " << remaining_turns_ << std::endl;
-    std::cout << "Moved Steps: " << finished_turns_ << std::endl;
+    std::cout << REMAINING_STEPS_ << " " << remaining_turns_ << std::endl;
+    std::cout << MOVED_STEPS_ << " " << finished_turns_ << std::endl;
   }
 
   for (unsigned int y = 0; y < board_->size(); y++)
