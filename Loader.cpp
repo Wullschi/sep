@@ -142,7 +142,7 @@ Command::Status Loader::checkFastmoveAndMaxTurns(ifstream& cur_file,
   
   // read max amount of turns and check if it is a valid number
   getline(cur_file, total_turns_string);
-  if ( (total_turns_string.find_first_not_of("0123456789")!=string::npos)
+  if ( (total_turns_string.find_first_not_of("123456789")!=string::npos)
       || (total_turns_string == "") )
   {
     return Command::INVALID_FILE_;
