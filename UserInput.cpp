@@ -188,14 +188,7 @@ int UserInput::commandLine(Game*& current_game)
     if (entered_command_ == LOAD_)
     {
       Load load("load");
-      try
-      {
-        return_status = load.execute(current_game, entered_arguments_);
-      }
-      catch (std::bad_alloc& exception)
-      {
-        return_status = Command::OUT_OF_MEMORY_;
-      }
+      return_status = load.execute(current_game, entered_arguments_);
     }
     
     else if (entered_command_ == SAVE_)
