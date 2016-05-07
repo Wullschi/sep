@@ -44,6 +44,9 @@ class Game
     string finished_turns_; //these turns have already been played
     bool finished_;
     
+    static const string REMAINING_STEPS_;
+    static const string MOVED_STEPS_;
+    
     //--------------------------------------------------------------------------
     // Private standard constructor
     //
