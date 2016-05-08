@@ -399,6 +399,7 @@ Command::Status Loader::readOneRow(ifstream& cur_file,
     Command::Status symbol_validity = checkSymbolValidity(symbol);
     if (symbol_validity == Command::INVALID_FILE_)
     {
+      deleteVector(row);
       return Command::INVALID_FILE_;
     }
     
