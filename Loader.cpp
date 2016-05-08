@@ -411,6 +411,7 @@ Command::Status Loader::readOneRow(ifstream& cur_file,
           found_end, teleport_list, start_point, x, y);
       if (added_to_row == Command::INVALID_FILE_)
       {
+        deleteVector(row);
         return Command::INVALID_FILE_;
       }
       
